@@ -28,7 +28,7 @@ export default function Carousel() {
     };
 
     return (
-        <div className="w-[60%] m-auto pt-10 overflow-hidden relative group ">
+        <div className="w-[60%] m-auto pt-10 overflow-hidden relative group">
             {/* Image for slider */}
             <div 
                 className="flex transition ease-out duration-700"

@@ -11,22 +11,24 @@ const NavigationBar = () => {
 
   return (
     <nav className='flex justify-between items-center h-18 mx-auto px-4 text-black bg-[#F8C70E]'>
-        <h1 className='text-3xl font-mono font-bold p-4 text-[#000000]'>Keebi3.</h1>
+        <h1 className='text-3xl font-mono font-bold p-4 text-[#000000]'>
+            <a href='#'>Keebi3.</a>
+        </h1>
 
         <div className='hidden md:flex'>
             <ul className='flex font-mono text-xl'>
-                <li className='p-4'>Home</li>
-                <li className='p-4'>About</li>
-                <li className='p-4'>Product</li>
-                <li className='p-4'>Contact</li>
+                <li className='p-4'><a href='#'>Home</a></li>
+                <li className='p-4'><a href='#'>About</a></li>
+                <li className='p-4'><a href='#'>Product</a></li>
+                <li className='p-4'><a href='#'>Contact</a></li>
             </ul>
         </div>
 
         <div className='hidden md:flex'>
             <ul className='flex text-2xl'>
-                <li className='p-2'><AiOutlineSearch /></li>
-                <li className='p-2'><AiOutlineUser /></li>
-                <li className='p-2'><AiOutlineShoppingCart /></li>
+                <li className='p-2'><a href='#'><AiOutlineSearch /></a></li>
+                <li className='p-2'><a href='#'><AiOutlineUser /></a></li>
+                <li className='p-2'><a href='#'><AiOutlineShoppingCart /></a></li>
             </ul>
         </div>
 
