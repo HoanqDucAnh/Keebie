@@ -21,6 +21,7 @@ const NavigationBar = () => {
                 <li className='p-4'><a href='#'>About</a></li>
                 <li className='p-4'><a href='#'>Product</a></li>
                 <li className='p-4'><a href='#'>Contact</a></li>
+                <li className='p-4'><a href='#'>Bid</a></li>
             </ul>
         </div>
 
@@ -43,6 +44,7 @@ const NavigationBar = () => {
                 <li className='p-4 border-b border-[#F2D15D]'>About</li>
                 <li className='p-4 border-b border-[#F2D15D]'>Product</li>
                 <li className='p-4 border-b border-[#F2D15D]'>Contact</li>
+                <li className='p-4 border-b border-[#F2D15D]'>Bid</li>
                 <li className='p-4 border-b border-[#F2D15D]'>Account</li>
                 <li className='p-4 border-b border-[#F2D15D]'>Cart</li>
             </ul>
