@@ -1,0 +1,12 @@
+SQLAlchemy==2.0.22
+fastapi==0.104.0
+PyMySQL==1.1.0
+SQLAlchemy-Utils==0.41.1
+uvicorn==0.23.2
+fastapi-login==1.9.1
+pydantic==2.4.2
+pydantic_core==2.10.1
+pydantic-settings==2.0.3
+PyMySQL==1.1.0
+mysql-connector-python==8.2.0
+python-multipart == 0.0.6
