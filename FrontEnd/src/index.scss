@@ -18,3 +18,9 @@ h2 {
 h3 {
 	@apply text-2xl;
 }
+
+.prod-img {
+	width: 13rem;
+	height: 12rem;
+	object-fit: cover;
+}
