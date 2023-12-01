@@ -5,7 +5,6 @@ import NavigationBar from "../components/shared/NavigationBar";
 export default function LoginScreen() {
 	return (
 		<>
-			<NavigationBar />
 			<LoginComponent />
 		</>
 	);

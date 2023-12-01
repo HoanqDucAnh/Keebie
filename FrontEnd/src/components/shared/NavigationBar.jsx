@@ -23,16 +23,16 @@ const NavigationBar = () => {
 			<div className="hidden md:flex">
 				<ul className="flex font-mono text-xl">
 					<li className="p-4">
-						<Link to="/">Home</Link>
+						<a href="/">Home</a>
 					</li>
 					<li className="p-4">
-						<Link to="/about">About</Link>
+						<a href="/login">About</a>
 					</li>
 					<li className="p-4">
-						<Link to="/">Product</Link>
+						<a href="/">Product</a>
 					</li>
 					<li className="p-4">
-						<Link to="/contact">Contact</Link>
+						<a href="/contact">Contact</a>
 					</li>
 					<li className="p-4">
 						<a href="#">Bid</a>

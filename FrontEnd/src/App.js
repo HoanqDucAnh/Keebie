@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import HomeScreen from "./screen/HomeScreen";
 import LoginScreen from "./screen/LoginScreen";
-import {
-	Route,
-	BrowserRouter as Router,
-	Switch,
-} from "react-router-dom/cjs/react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SignUpScreen from "./screen/SignUpScreen";
+import NavigationBar from "./components/shared/NavigationBar";
 
 function App() {
 	useEffect(() => {
@@ -13,16 +11,26 @@ function App() {
 	}, []);
 
 	return (
-		// <div>
-		// 	<HomeScreen />
-		// </div>
 		<Router>
+			<NavigationBar />
 			<Switch>
-				<Route path="/login">
+				{/* <Route path="/login">
 					<LoginScreen />
 				</Route>
-				<Route path="/">
+				<Route path="/home">
 					<HomeScreen />
+				</Route>
+				<Route path="/signup">
+					<SignUpScreen />
+				</Route> */}
+				<Route path={"/"} exact>
+					<HomeScreen />
+				</Route>
+				<Route path={"/login"} exact>
+					<LoginScreen />
+				</Route>
+				<Route path={"/signup"} exact>
+					<SignUpScreen />
 				</Route>
 			</Switch>
 		</Router>
