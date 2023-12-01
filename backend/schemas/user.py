@@ -12,6 +12,8 @@ class UserBase(BaseModel):
     profile_pic: str
     activated: bool
     phone_number: str
+    fullname: str
+    
 
 class UserCreate(UserBase):
     password: str
