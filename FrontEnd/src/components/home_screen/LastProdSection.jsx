@@ -23,13 +23,12 @@ const currentTabStyle = {
 	transition: "width 0.2s ease",
 };
 
-export default function InStockSection() {
-	const listGBTab = ["Bàn phím cơ", "Sản phẩm hot", "Sản phẩm mới"];
+export default function LastProdSection() {
+	const listGBTab = ["Keycap", "Switch", "Phụ kiện"];
 	const [currentTab, setCurrentTab] = useState("");
 
 	return (
 		<div className="my-5 text-center">
-			<h1>Instock - Hàng có sẵn</h1>
 			<div className="flex my-3 justify-center">
 				<Tab className="">
 					{listGBTab.map((tab, index) => (
