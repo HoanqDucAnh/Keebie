@@ -4,13 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 import { findInputError, isFormInvalid } from "../../../utils/validations";
 
-export const Input = ({ label, type, id, placeholder }) => {
+export const Input = ({ label, type, id, placeholder, validation, name }) => {
 	const {
 		register,
 		formState: { errors },
 	} = useFormContext();
 
-	const inputError = findInputError(errors, label);
+	const inputError = findInputError(errors, name);
 	const isInvalid = isFormInvalid(inputError);
 
 	return (
@@ -33,12 +33,7 @@ export const Input = ({ label, type, id, placeholder }) => {
 				id={id}
 				className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
 				placeholder={placeholder}
-				{...register(label, {
-					required: {
-						value: true,
-						message: `Không được để trống`,
-					},
-				})}
+				{...register(name, validation)}
 			/>
 		</div>
 	);

@@ -16,13 +16,27 @@ export default function LoginForm() {
 					type="name"
 					name="username"
 					label="Tên đăng nhập"
+					id="username"
 					placeholder="Hãy nhập tên đăng nhập ..."
+					validation={{
+						required: {
+							value: true,
+							message: "Không được để trống",
+						},
+					}}
 				/>
 				<Input
 					type="password"
 					name="password"
 					label="Mật khẩu"
+					id="password"
 					placeholder="Hãy nhập mật khẩu ..."
+					validation={{
+						required: {
+							value: true,
+							message: "Không được để trống",
+						},
+					}}
 				/>
 				<button
 					onClick={onSubmit}
