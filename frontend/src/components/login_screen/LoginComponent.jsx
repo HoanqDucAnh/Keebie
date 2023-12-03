@@ -1,73 +1,86 @@
-import React from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom";
+import React, { useState } from "react";
 
 export default function LoginScreen() {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+
+	const handleChange = (e) => {
+		if (e.target.name === "username") {
+			setUsername(e.target.value);
+		} else {
+			setPassword(e.target.value);
+		}
+		console.log(username, password);
+	};
+
 	return (
-		<div class="bg-gray-100 flex justify-center items-center h-screen">
-			<div class="w-1/2 h-screen hidden lg:block">
+		<div className="bg-gray-100 flex justify-center items-center h-screen">
+			<div className="w-1/2 h-screen hidden lg:block">
 				<img
 					src="https://keebsforall.com/cdn/shop/products/Zoom65_1.webp?v=1674710934&width=2048"
 					alt="Placeholder Image"
-					class="object-cover w-full h-full"
+					className="object-cover w-full h-full"
 				/>
 			</div>
 
-			<div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2 font-mono">
-				<h1 class="text-2xl font-semibold mb-4">Login</h1>
-				<form action="#" method="POST">
-					<div class="mb-4">
-						<label for="username" class="block text-gray-600">
+			<div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2 font-mono">
+				<h1 className="text-2xl font-semibold mb-4">Login</h1>
+				<form>
+					<div className="mb-4">
+						<label for="username" className="block text-gray-600">
 							Username
 						</label>
 						<input
 							type="text"
 							id="username"
 							name="username"
-							class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
+							className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
 							autocomplete="off"
+							onChange={handleChange}
 						/>
 					</div>
 
-					<div class="mb-4">
-						<label for="password" class="block text-gray-600">
+					<div className="mb-4">
+						<label for="password" className="block text-gray-600">
 							Password
 						</label>
 						<input
 							type="password"
 							id="password"
 							name="password"
-							class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
+							className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
 							autocomplete="off"
+							onChange={handleChange}
 						/>
 					</div>
 
-					<div class="mb-4 flex items-center">
+					<div className="mb-4 flex items-center">
 						<input
 							type="checkbox"
 							id="remember"
 							name="remember"
-							class="text-black"
+							className="text-black"
 						/>
-						<label for="remember" class="text-gray-600 ml-2">
+						<label for="remember" className="text-gray-600 ml-2">
 							Remember Me
 						</label>
 					</div>
 
-					<div class="mb-6 text-black">
-						<a href="#" class="hover:underline">
+					<div className="mb-6 text-black">
+						<a href="#" className="hover:underline">
 							Forgot Password?
 						</a>
 					</div>
 
 					<button
 						type="submit"
-						class="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
 					>
 						Login
 					</button>
 				</form>
-				<div class="mt-6 text-black-500 text-center">
-					<a href="/signup" class="hover:underline">
+				<div className="mt-6 text-black-500 text-center">
+					<a href="/signup" className="hover:underline">
 						Sign up Here
 					</a>
 				</div>

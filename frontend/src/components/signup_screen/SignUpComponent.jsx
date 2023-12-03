@@ -1,73 +1,100 @@
 import React from "react";
 
+const inputStyle =
+	"w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]";
+const buttonStyle =
+	"bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full";
+
 export default function SignUpComponent() {
 	return (
-		<div class="bg-gray-100 flex justify-center items-center h-screen">
-			<div class="w-1/2 h-screen hidden lg:block">
+		<div className="bg-gray-100 flex justify-center items-center h-screen">
+			<div className="w-1/2 hidden lg:block h-screen">
 				<img
 					src="https://keebsforall.com/cdn/shop/products/Zoom65_1.webp?v=1674710934&width=2048"
-					alt="Placeholder Image"
-					class="object-cover w-full h-full"
+					alt="Placeholder"
+					className="object-cover w-full h-full"
 				/>
 			</div>
 
-			<div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2 font-mono">
-				<h1 class="text-2xl font-semibold mb-4">SignUp here!</h1>
+			<div className="lg:px-36 md:px-52 sm:px-20 px-8 w-full lg:w-1/2 font-mono">
+				<h1 className="text-2xl font-semibold mb-4">Đăng ký người dùng mới</h1>
 				<form action="#" method="POST">
-					<div class="mb-4">
-						<label for="username" class="block text-gray-600">
-							Username
+					<div className="mb-4">
+						<label for="username" className="block text-gray-600">
+							Họ và Tên
 						</label>
 						<input
 							type="text"
-							id="username"
-							name="username"
-							class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
+							id="fullName"
+							name="fullname"
+							className={inputStyle}
 							autocomplete="off"
 						/>
 					</div>
 
-					<div class="mb-4">
-						<label for="password" class="block text-gray-600">
-							Password
+					<div className="mb-4">
+						<label for="password" className="block text-gray-600">
+							Số điện thoại
+						</label>
+						<input
+							type="number"
+							id="phoneNumber"
+							name="phonenumber"
+							className={inputStyle}
+							autocomplete="off"
+						/>
+					</div>
+
+					<div className="mb-4">
+						<label for="password" className="block text-gray-600">
+							Email
+						</label>
+						<input
+							type="email"
+							id="userEmail"
+							name="useremail"
+							className={inputStyle}
+							autocomplete="off"
+						/>
+					</div>
+
+					<div className="mb-4">
+						<label for="password" className="block text-gray-600">
+							Tên đăng nhập
+						</label>
+						<input
+							type="text"
+							id="userName"
+							name="username"
+							className={inputStyle}
+							autocomplete="off"
+						/>
+					</div>
+
+					<div className="mb-4">
+						<label for="password" className="block text-gray-600">
+							Mật khẩu
 						</label>
 						<input
 							type="password"
 							id="password"
 							name="password"
-							class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[#F8C70E]"
+							className={inputStyle}
 							autocomplete="off"
 						/>
 					</div>
 
-					<div class="mb-4 flex items-center">
-						<input
-							type="checkbox"
-							id="remember"
-							name="remember"
-							class="text-black"
-						/>
-						<label for="remember" class="text-gray-600 ml-2">
-							Remember Me
-						</label>
-					</div>
-
-					<div class="mb-6 text-black">
-						<a href="#" class="hover:underline">
-							Forgot Password?
-						</a>
-					</div>
-
 					<button
 						type="submit"
-						class="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
 					>
-						Login
+						Đăng ký
 					</button>
 				</form>
-				<div class="mt-6 text-black-500 text-center">
-					<a href="/signup" class="hover:underline">
-						Sign up Here
+				<div className="mb-6 text-center pt-5 text-black">
+					<a href="/login" className="hover:underline">
+						Đã có tài khoản?{" "}
+						<span className="font-semibold">Đăng nhập ngay!</span>
 					</a>
 				</div>
 			</div>
