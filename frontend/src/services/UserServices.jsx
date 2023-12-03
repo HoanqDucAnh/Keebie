@@ -6,7 +6,11 @@ const api = axios.create({
 
 export const loginAPI = async (username, password) => {
 	try {
-		const res = await api.post(`/api/auth/login`, { username, password });
+		const headers = {
+			"Content-Type": "application/x-www-form-urlencoded",
+		};
+
+		const res = await api.post(`/api/auth/login`, { username, password }, { headers });
 		return res.data;
 	} catch (error) {
 		console.log(error);
