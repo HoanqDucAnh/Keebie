@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUpScreen from "./screen/SignUpScreen";
 import NavigationBar from "./components/shared/NavigationBar";
 import MyToast from "./components/shared/MyToast";
+import Footer from "./components/shared/Footer";
 
 function App() {
 	useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
 					<SignUpScreen />
 				</Route>
 			</Switch>
+			<Footer />
 		</Router>
 	);
 }
