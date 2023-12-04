@@ -11,7 +11,6 @@ from models.order import Base as BaseOrder
 
 
 SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:4444@localhost:3306/keebie"
-# SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://fall2324w20g1:4444@10.110.77.167:3306/fall2324w20g1"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 if not database_exists(engine.url):
