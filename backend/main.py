@@ -40,4 +40,3 @@ if __name__ == "__main__":
 
     RELOAD = True if "--reload" in sys.argv else False
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=RELOAD)
-    # uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
