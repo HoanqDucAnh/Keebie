@@ -4,6 +4,7 @@ import LoginScreen from "./screen/LoginScreen";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUpScreen from "./screen/SignUpScreen";
 import NavigationBar from "./components/shared/NavigationBar";
+import MyToast from "./components/shared/MyToast";
 
 function App() {
 	useEffect(() => {
@@ -13,6 +14,7 @@ function App() {
 	return (
 		<Router>
 			<NavigationBar />
+			<MyToast />
 			<Switch>
 				{/* <Route path="/login">
 					<LoginScreen />
