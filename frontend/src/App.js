@@ -6,6 +6,7 @@ import SignUpScreen from "./screen/SignUpScreen";
 import NavigationBar from "./components/shared/NavigationBar";
 import MyToast from "./components/shared/MyToast";
 import Footer from "./components/shared/Footer";
+import Layout from "antd/es/layout/layout";
 
 function App() {
 	useEffect(() => {
@@ -13,19 +14,11 @@ function App() {
 	}, []);
 
 	return (
-		<Router>
+		<Layout>
+			<Router>
 			<NavigationBar />
 			<MyToast />
 			<Switch>
-				{/* <Route path="/login">
-					<LoginScreen />
-				</Route>
-				<Route path="/home">
-					<HomeScreen />
-				</Route>
-				<Route path="/signup">
-					<SignUpScreen />
-				</Route> */}
 				<Route path={"/"} exact>
 					<HomeScreen />
 				</Route>
@@ -36,8 +29,9 @@ function App() {
 					<SignUpScreen />
 				</Route>
 			</Switch>
+			</Router>
 			<Footer />
-		</Router>
+		</Layout>
 	);
 }
 
