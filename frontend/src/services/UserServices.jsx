@@ -21,3 +21,32 @@ export const loginAPI = async (username, password) => {
 		return error.response;
 	}
 };
+
+export const signupAPI = async (
+	password,
+	username,
+	email,
+	created_at,
+	updated_at,
+	profile_pic,
+	activated,
+	phone_number,
+	fullname
+) => {
+	try {
+		const res = await api.post(`/api/users`, {
+			password,
+			username,
+			email,
+			created_at,
+			updated_at,
+			profile_pic,
+			activated,
+			phone_number,
+			fullname,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};

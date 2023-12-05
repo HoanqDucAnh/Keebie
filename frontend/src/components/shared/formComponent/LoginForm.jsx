@@ -36,7 +36,7 @@ export default function LoginForm() {
 			if (respond.status == 200) {
 				localStorage.setItem("token", respond.data.access_token);
 				toast.success("Đăng nhập thành công");
-				history.push("/");
+				window.location.href = "/";
 			} else {
 				toast.error("Đăng nhập thất bại, sai tên đăng nhập hoặc mật khẩu");
 			}
