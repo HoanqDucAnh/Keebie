@@ -1,14 +1,15 @@
 # Pydantic model
 
 from pydantic import BaseModel
+from datetime import *
 
 class UserBase(BaseModel):
-    password: str
+    # password: str
     username: str
     email: str
     username: str
-    created_at: str
-    updated_at: str
+    # created_at: datetime
+    # updated_at: datetime
     profile_pic: str
     activated: bool
     phone_number: str

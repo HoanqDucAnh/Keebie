@@ -71,5 +71,9 @@ class UserCRUD:
         self.model = model
     def get_by_username(self, db: Session, username: str) -> Optional[UserType]:
         return db.query(self.model).filter(self.model.username == username).first()
+    def get_by_phone_number(self, db: Session, phone_number: str) -> Optional[UserType]:
+        return db.query(self.model).filter(self.model.phone_number == phone_number).first()
+    def get_by_email(self, db: Session, email: str) -> Optional[UserType]:
+        return db.query(self.model).filter(self.model.email == email).first()
     
     

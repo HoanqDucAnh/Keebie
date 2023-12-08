@@ -1,6 +1,7 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.sql import func
 
 # from .base import Base
 
@@ -13,10 +14,10 @@ class User(Base):
     username = Column(String(16), nullable=False, unique=True)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(32), nullable=False)
-    created_at = Column(String(45), nullable=False)
-    updated_at = Column(String(45), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
+    updated_at = Column(DateTime(timezone=True), default= None)
     profile_pic = Column(String(45), nullable=False)
-    activated = Column(Boolean, nullable=False)
+    activated = Column(Boolean, nullable=False, default=False)
     phone_number = Column(String(12), nullable=False, unique=True)
     fullname = Column(String(12), nullable=False, unique=False)
     # role = Column(String(12), nullable=False, unique=True, default="customer")
