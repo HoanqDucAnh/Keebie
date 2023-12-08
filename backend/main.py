@@ -26,13 +26,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    return JSONResponse(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
-    )
-
 
 app.include_router(api_router, prefix="/api")
 app.mount("/api", api_router, name="api")
