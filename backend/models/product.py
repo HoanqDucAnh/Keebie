@@ -1,11 +1,21 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Text, LargeBinary, Float
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Text, LargeBinary, Float, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
-
 # from .base import Base
 
 Base = declarative_base()
+
+class Category(Base):
+    __tablename__ = 'category'
+
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    cat_name = Column(String(255), nullable=False)
+    cat_detail = Column(String(255), default=None, nullable=True)
+
+    __table_args__ = (
+        UniqueConstraint('id', name='unique_id'),
+    )
 
 class Product(Base):
     __tablename__ = 'product'
@@ -15,8 +25,8 @@ class Product(Base):
     product_image = Column(String(225), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
     updated_at = Column(DateTime(timezone=True), default= None)
-    admin_id = Column(Integer, ForeignKey('admin.admin_id'), nullable=False, index=True)
-    category_id = Column(Integer, ForeignKey('category.cat_id'), nullable=False, index=True)
+    # admin_id = Column(Integer, ForeignKey('admin.admin_id'), nullable=False, index=True)
+    category_id = Column(Integer, ForeignKey('category.id'), nullable=False, index=True)
     content = Column(Text, default=None, nullable=True)
 
     # admin = relationship('Admin', back_populates='products')
@@ -32,7 +42,7 @@ class ProductDetail(Base):
     updated_at = Column(DateTime(timezone=True), default= None)
     pdetail_price = Column(Float, nullable=False)
     pdetail_instock = Column(Integer, nullable=False)
-    product_id = Column(Integer, ForeignKey('product.product_id'), nullable=False, index=True)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     is_public = Column(Boolean, nullable=False, default=0)
     published_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
 
