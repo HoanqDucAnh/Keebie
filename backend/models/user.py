@@ -16,7 +16,7 @@ class User(Base):
     password = Column(String(32), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
     updated_at = Column(DateTime(timezone=True), default= None)
-    profile_pic = Column(String(45), nullable=False)
+    profile_pic = Column(String(), nullable=False)
     activated = Column(Boolean, nullable=False, default=False)
     phone_number = Column(String(12), nullable=False, unique=True)
     fullname = Column(String(12), nullable=False, unique=False)
