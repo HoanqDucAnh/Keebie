@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
 	return (
-		<footer className="bg-[#F8C70E] text-center lg:text-left font-mono">
+		<footer className="bg-[#FFF5D6] text-center lg:text-left font-mono">
 			{/* Main container div: holds the entire content of the footer */}
 			<div className="mx-6 py-10 text-center md:text-left">
 				<div className="grid gap-18 md:grid-cols-1 lg:grid-cols-3">
