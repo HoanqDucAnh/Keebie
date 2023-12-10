@@ -8,27 +8,31 @@ const layout = {
     wrapperCol: {
       span: 16,
     },
-  };
+};
   
-  /* eslint-disable no-template-curly-in-string */
-  const validateMessages = {
-    required: 'Thông tin chưa được cung cấp',
-    types: {
-      email: '${label} không hợp lệ',
-      number: '${label} không hợp lệ',
-    },
-  };
-  
-  /* eslint-enable no-template-curly-in-string */
-  const onFinish = (values) => {
-    console.log(values);
-  };
+/* eslint-disable no-template-curly-in-string */
+const validateMessages = {
+  required: 'Thông tin chưa được cung cấp',
+  types: {
+    email: '${label} không hợp lệ',
+    number: '${label} không hợp lệ',
+  },
+};
+
+/* eslint-enable no-template-curly-in-string */
+const onFinish = (values) => {
+  console.log(values);
+};
+
+const onSubmit = (data) => {
+  console.log(data);
+};
 
 export default function ContactScreen() {
     return (
-        <div className="pl-10 pt-10 bg-white flex">
+        <div className="pl-10 pt-10 bg-white flex font-mono">
             <div>
-              <h1 className="pl-10 pb-5 text-3xl inset-5 font-mono">Keebi3 Keyboard Shop</h1>
+              <h1 className="pl-10 pb-5 text-3xl inset-5">Keebi3 Keyboard Shop</h1>
               {/* <!-- Contact section --> */}
               <div>
                   <p className="ml-10 mb-4 flex items-center justify-center md:justify-start">
@@ -135,9 +139,11 @@ export default function ContactScreen() {
                       <Input.TextArea rows={5} />
                     </Form.Item>
                     <Form.Item>
-                      <Button type="primary" htmlType="submit" className="w-[535px] ml-10 bg-[#F8C70E]">
+                      <button
+		                    onClick={onSubmit}
+					              className="w-[535px] ml-10 bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4">
                           Gửi thông tin
-                      </Button>
+				              </button>
                   </Form.Item>
                 </Form>
               </ConfigProvider>

@@ -122,13 +122,13 @@ const NavigationBar = () => {
 	return (
 		<nav className="sticky w-full top-0 z-10 flex justify-between items-center h-18 mx-auto px-4 text-black bg-[#F8C70E]">
 			<h1 className="text-3xl font-mono font-bold p-4 text-[#000000]">
-				<a href="/">Keebi3.</a>
+				<a className="hover:text-[#FFF5D6]" href="/">Keebi3.</a>
 			</h1>
 
 			<div className="hidden md:flex">
 				<ul className="flex font-mono text-xl">
 					<li className="p-4">
-						<a href="/">Trang chủ</a>
+						<a className="hover:text-[#FFF5D6]" href="/">Trang chủ</a>
 					</li>
 					<li className="p-4">
 						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
@@ -138,7 +138,7 @@ const NavigationBar = () => {
 								}}
 								placement="bottomLeft"
 							>
-								<a onClick={(e) => e.preventDefault()}>
+								<a className="hover:text-[#FFF5D6]" onClick={(e) => e.preventDefault()}>
 									<Space>
 										Group Buy <AiFillCaretDown />
 									</Space>
@@ -154,7 +154,7 @@ const NavigationBar = () => {
 								}}
 								placement="bottomLeft"
 							>
-								<a onClick={(e) => e.preventDefault()}>
+								<a className="hover:text-[#FFF5D6]" onClick={(e) => e.preventDefault()}>
 									<Space>
 										Sản phẩm <AiFillCaretDown />
 									</Space>
@@ -163,7 +163,7 @@ const NavigationBar = () => {
 						</ConfigProvider>
 					</li>
 					<li className="p-4">
-						<a href="/contact">Liên hệ</a>
+						<a className="hover:text-[#FFF5D6]" href="/contact">Liên hệ</a>
 					</li>
 				</ul>
 			</div>
@@ -171,19 +171,19 @@ const NavigationBar = () => {
 			<div className="hidden md:flex">
 				<ul className="flex text-2xl">
 					<li className="p-2">
-						<a href="/">
+						<a className="hover:text-[#FFF5D6]" href="/">
 							<AiOutlineSearch />
 						</a>
 					</li>
 					<li className="p-2">
-						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
+						<ConfigProvider theme={{ token: { fontFamily: "monospace", colorBgTextHover: "white" } }}>
 							<Dropdown
 								menu={{
 									items: isLogin ? userDropdownItems2 : userDropdownItems,
 								}}
 								placement="bottomRight"
 							>
-								<a onClick={(e) => e.preventDefault()}>
+								<a className="hover:text-[#FFF5D6]" onClick={(e) => e.preventDefault()}>
 									<Space>
 										<AiOutlineUser />
 									</Space>
@@ -192,7 +192,7 @@ const NavigationBar = () => {
 						</ConfigProvider>
 					</li>
 					<li className="p-2">
-						<a href="/">
+						<a className="hover:text-[#FFF5D6]" href="/">
 							<AiOutlineShoppingCart />
 						</a>
 					</li>
