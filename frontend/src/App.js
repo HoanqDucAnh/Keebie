@@ -8,6 +8,7 @@ import MyToast from "./components/shared/MyToast";
 import Footer from "./components/shared/Footer";
 import Layout from "antd/es/layout/layout";
 import NotFoundScreen from "./screen/NotFoundScreen";
+import ContactScreen from "./screen/ContactScreen";
 
 function App() {
 	useEffect(() => {
@@ -28,6 +29,9 @@ function App() {
 					</Route>
 					<Route path="/signup">
 						<SignUpScreen />
+					</Route>
+					<Route path="/contact">
+						<ContactScreen />
 					</Route>
 					<Route path="*">
 						<NotFoundScreen />
