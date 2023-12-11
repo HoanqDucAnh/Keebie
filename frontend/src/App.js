@@ -9,6 +9,7 @@ import Footer from "./components/shared/Footer";
 import Layout from "antd/es/layout/layout";
 import NotFoundScreen from "./screen/NotFoundScreen";
 import ContactScreen from "./screen/ContactScreen";
+import ProfileScreen from "./screen/ProfileScreen";
 
 function App() {
 	useEffect(() => {
@@ -32,6 +33,9 @@ function App() {
 					</Route>
 					<Route path="/contact">
 						<ContactScreen />
+					</Route>
+					<Route path="/profile">
+						<ProfileScreen />
 					</Route>
 					<Route path="*">
 						<NotFoundScreen />

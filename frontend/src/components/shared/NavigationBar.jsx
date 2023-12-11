@@ -183,7 +183,7 @@ const NavigationBar = () => {
 								}}
 								placement="bottomRight"
 							>
-								<a className="hover:text-[#FFF5D6]" onClick={(e) => e.preventDefault()}>
+								<a className="hover:text-[#FFF5D6]" href="/profile">
 									<Space>
 										<AiOutlineUser />
 									</Space>
