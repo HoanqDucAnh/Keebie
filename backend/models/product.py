@@ -4,9 +4,9 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 # from .base import Base
 
-Base = declarative_base()
+BaseProduct = declarative_base()
 
-class Category(Base):
+class Category(BaseProduct):
     __tablename__ = 'category'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -16,8 +16,9 @@ class Category(Base):
     __table_args__ = (
         UniqueConstraint('id', name='unique_id'),
     )
+    product = relationship("Product", back_populates="category")
 
-class Product(Base):
+class Product(BaseProduct):
     __tablename__ = 'product'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -30,14 +31,15 @@ class Product(Base):
     content = Column(Text, default=None, nullable=True)
 
     # admin = relationship('Admin', back_populates='products')
-    category = relationship('Category', back_populates='products')
+    category = relationship('Category', back_populates='product')
+    product_detail = relationship('ProductDetail', back_populates='product')
 
-class ProductDetail(Base):
+class ProductDetail(BaseProduct):
     __tablename__ = 'product_detail'
 
     pdetail_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     pdetail_name = Column(String(255), nullable=False)
-    pdetail_image = Column(LargeBinary, nullable=False)
+    pdetail_image = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
     updated_at = Column(DateTime(timezone=True), default= None)
     pdetail_price = Column(Float, nullable=False)

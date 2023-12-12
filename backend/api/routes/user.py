@@ -34,7 +34,7 @@ def create_user(user_in: UserCreate, db: Session = Depends(deps.get_db)):
             )
 
 
-@router.get("/{username}", response_model=UserLogin)
+@router.get("/by_name/{username}", response_model=UserLogin)
 def get_user_by_name(username: str, db: Session = Depends(deps.get_db)):
     user = crud.userInteract.get_by_username(db, username=username)
     if not user:
