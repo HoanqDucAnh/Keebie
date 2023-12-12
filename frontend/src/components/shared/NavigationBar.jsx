@@ -4,38 +4,166 @@ import {
 	AiOutlineSearch,
 	AiOutlineUser,
 	AiOutlineShoppingCart,
+	AiFillCaretDown,
 } from "react-icons/ai";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { ConfigProvider, Dropdown, Space } from "antd";
+import { toast } from "react-toastify";
 
 const NavigationBar = () => {
 	const [nav, setNav] = useState(true);
+	const isLogin = localStorage.getItem("token");
 
 	const handleNav = () => {
 		setNav(!nav);
 	};
 
+	const handleLogout = () => {
+		localStorage.removeItem("token");
+		toast.success("Đăng xuất thành công");
+		window.location.href = "/";
+	};
+
+	const userDropdownItems = [
+		{
+			key: "1",
+			label: (
+				<a rel="noopener noreferrer" href="/login">
+					Đăng nhập
+				</a>
+			),
+		},
+		{
+			key: "2",
+			label: (
+				<a rel="noopener noreferrer" href="/signup">
+					Đăng ký
+				</a>
+			),
+		},
+	];
+
+	const userDropdownItems2 = [
+		{
+			key: "3",
+			label: (
+				<a rel="noopener noreferrer" href="/profile">
+					Tài khoản
+				</a>
+			),
+		},
+		{
+			key: "4",
+			label: <button onClick={handleLogout}>Đăng xuất</button>,
+		},
+	];
+
+	const productDropdownItems = [
+		{
+			key: "1",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Bàn phím cơ
+				</a>
+			),
+		},
+		{
+			key: "2",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Bộ nút phím cơ
+				</a>
+			),
+		},
+		{
+			key: "3",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Công tắc bàn phím
+				</a>
+			),
+		},
+		{
+			key: "4",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Phụ kiện khác
+				</a>
+			),
+		},
+	];
+
+	const groupbuyDropdownItems = [
+		{
+			key: "1",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Đang diễn ra
+				</a>
+			),
+		},
+		{
+			key: "2",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Sắp diễn ra
+				</a>
+			),
+		},
+		{
+			key: "3",
+			label: (
+				<a target="_blank" rel="noopener noreferrer" href="/">
+					Đã kết thúc
+				</a>
+			),
+		},
+	];
+
 	return (
-		<nav className="flex justify-between items-center h-18 mx-auto px-4 text-black bg-[#F8C70E]">
+		<nav className="sticky w-full top-0 z-10 flex justify-between items-center h-18 mx-auto px-4 text-black bg-[#F8C70E]">
 			<h1 className="text-3xl font-mono font-bold p-4 text-[#000000]">
-				<a href="#">Keebi3.</a>
+				<a href="/">Keebi3.</a>
 			</h1>
 
 			<div className="hidden md:flex">
 				<ul className="flex font-mono text-xl">
 					<li className="p-4">
-						<a href="/">Home</a>
+						<a href="/">Trang chủ</a>
 					</li>
 					<li className="p-4">
-						<a href="/login">About</a>
+						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
+							<Dropdown
+								menu={{
+									items: groupbuyDropdownItems,
+								}}
+								placement="bottomLeft"
+							>
+								<a onClick={(e) => e.preventDefault()}>
+									<Space>
+										Group Buy <AiFillCaretDown />
+									</Space>
+								</a>
+							</Dropdown>
+						</ConfigProvider>
 					</li>
 					<li className="p-4">
-						<a href="/">Product</a>
+						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
+							<Dropdown
+								menu={{
+									items: productDropdownItems,
+								}}
+								placement="bottomLeft"
+							>
+								<a onClick={(e) => e.preventDefault()}>
+									<Space>
+										Sản phẩm <AiFillCaretDown />
+									</Space>
+								</a>
+							</Dropdown>
+						</ConfigProvider>
 					</li>
 					<li className="p-4">
-						<a href="/contact">Contact</a>
-					</li>
-					<li className="p-4">
-						<a href="#">Bid</a>
+						<a href="/contact">Liên hệ</a>
 					</li>
 				</ul>
 			</div>
@@ -43,17 +171,28 @@ const NavigationBar = () => {
 			<div className="hidden md:flex">
 				<ul className="flex text-2xl">
 					<li className="p-2">
-						<a href="#">
+						<a href="/">
 							<AiOutlineSearch />
 						</a>
 					</li>
 					<li className="p-2">
-						<a href="#">
-							<AiOutlineUser />
-						</a>
+						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
+							<Dropdown
+								menu={{
+									items: isLogin ? userDropdownItems2 : userDropdownItems,
+								}}
+								placement="bottomRight"
+							>
+								<a onClick={(e) => e.preventDefault()}>
+									<Space>
+										<AiOutlineUser />
+									</Space>
+								</a>
+							</Dropdown>
+						</ConfigProvider>
 					</li>
 					<li className="p-2">
-						<a href="#">
+						<a href="/">
 							<AiOutlineShoppingCart />
 						</a>
 					</li>

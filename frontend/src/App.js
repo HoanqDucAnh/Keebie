@@ -4,6 +4,10 @@ import LoginScreen from "./screen/LoginScreen";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignUpScreen from "./screen/SignUpScreen";
 import NavigationBar from "./components/shared/NavigationBar";
+import MyToast from "./components/shared/MyToast";
+import Footer from "./components/shared/Footer";
+import Layout from "antd/es/layout/layout";
+import NotFoundScreen from "./screen/NotFoundScreen";
 
 function App() {
 	useEffect(() => {
@@ -11,29 +15,27 @@ function App() {
 	}, []);
 
 	return (
-		<Router>
-			<NavigationBar />
-			<Switch>
-				{/* <Route path="/login">
-					<LoginScreen />
-				</Route>
-				<Route path="/home">
-					<HomeScreen />
-				</Route>
-				<Route path="/signup">
-					<SignUpScreen />
-				</Route> */}
-				<Route path={"/"} exact>
-					<HomeScreen />
-				</Route>
-				<Route path={"/login"} exact>
-					<LoginScreen />
-				</Route>
-				<Route path={"/signup"} exact>
-					<SignUpScreen />
-				</Route>
-			</Switch>
-		</Router>
+		<Layout>
+			<Router>
+				<NavigationBar />
+				<MyToast />
+				<Switch>
+					<Route exact path="/">
+						<HomeScreen />
+					</Route>
+					<Route path="/login">
+						<LoginScreen />
+					</Route>
+					<Route path="/signup">
+						<SignUpScreen />
+					</Route>
+					<Route path="*">
+						<NotFoundScreen />
+					</Route>
+				</Switch>
+			</Router>
+			<Footer />
+		</Layout>
 	);
 }
 

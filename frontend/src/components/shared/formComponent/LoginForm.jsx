@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Input } from "./Input";
 import { FormProvider, set, useForm } from "react-hook-form";
 import { loginAPI } from "../../../services/UserServices";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 export default function LoginForm() {
 	const methods = useForm();
@@ -9,6 +11,9 @@ export default function LoginForm() {
 		username: "",
 		password: "",
 	});
+	const [isLogging, setIsLogging] = useState(false);
+
+	const history = useHistory();
 
 	function cleanUp() {
 		setLoginField({
@@ -18,13 +23,24 @@ export default function LoginForm() {
 		methods.reset();
 	}
 
-	const onSubmit = methods.handleSubmit((data) => {
+	const onSubmit = methods.handleSubmit(async (data) => {
+		setIsLogging(true);
 		setLoginField(
 			(loginField.username = data.username),
 			(loginField.password = data.password)
 		);
-		let respond = loginAPI(loginField.username, loginField.password);
-		console.log(respond);
+		let respond = await loginAPI(loginField.username, loginField.password);
+		setIsLogging(false);
+
+		if (respond) {
+			if (respond.status == 200) {
+				localStorage.setItem("token", respond.data.access_token);
+				toast.success("Đăng nhập thành công");
+				window.location.href = "/";
+			} else {
+				toast.error("Đăng nhập thất bại, sai tên đăng nhập hoặc mật khẩu");
+			}
+		}
 
 		cleanUp();
 	});
@@ -58,12 +74,21 @@ export default function LoginForm() {
 						},
 					}}
 				/>
-				<button
-					onClick={onSubmit}
-					className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
-				>
-					Đăng nhập
-				</button>
+				{isLogging ? (
+					<button
+						disabled
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
+					>
+						Đang đăng nhập ...
+					</button>
+				) : (
+					<button
+						onClick={onSubmit}
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
+					>
+						Đăng nhập
+					</button>
+				)}
 			</form>
 		</FormProvider>
 	);
