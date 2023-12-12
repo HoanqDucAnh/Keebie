@@ -15,6 +15,6 @@ class CRUDCategory(CRUDBase[CategoryById, CategoryCreate, CategoryUpdate]):
 
 
 product = CRUDProduct(Product)
-productInteract = CRUDProduct_Type(ProductCRUD)
+productInteract = CRUDProduct_Type(Product)
 category = CRUDCategory(Category)
 categoryInteract = CRUDCategory(Category)
