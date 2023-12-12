@@ -31,13 +31,20 @@ def get_category_by_id(id: int, db: Session = Depends(deps.get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Category with ID {id} not found",
         )
-    return category
-
+    try:
+        return category
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
+    
 
 @router.delete("/{id}", response_model=int)
 def delete_category(id: int, db: Session = Depends(deps.get_db)):
     category = crud.category.get(db, id=id)
-    associated_products = crud.productInteract.get_by_category_id(db, category.id)
+    associated_products = crud.productInteract.list_by_category(db, category.id)
     if associated_products:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -48,7 +55,15 @@ def delete_category(id: int, db: Session = Depends(deps.get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Category with ID {id} not found",
         )
+    try:
+        return crud.category.remove(db, obj=category)
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
 
-    return crud.category.remove(db, obj=category)
+    
 
 

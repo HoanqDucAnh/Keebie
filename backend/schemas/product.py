@@ -16,7 +16,7 @@ class ProductDetailBase(BaseModel):
     pdetail_image: str
     pdetail_price: float
     pdetail_instock: int
-    # product_id: int
+    product_id: int
     is_public: bool
 
 class ProductById(ProductBase):
@@ -34,7 +34,7 @@ class ProductDetailsById(ProductDetailBase):
     class Config:
         from_attributes = True
 
-class ProductDetailsCreate(ProductBase):
+class ProductDetailsCreate(ProductDetailBase):
     pass
 
 class CategoryById(CategoryBase):
@@ -50,4 +50,7 @@ class CategoryUpdate:
     pass
 
 class ProductUpdate:
+    pass
+
+class ProductDetailsUpdate:
     pass

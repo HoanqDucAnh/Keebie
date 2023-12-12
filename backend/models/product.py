@@ -37,7 +37,7 @@ class Product(BaseProduct):
 class ProductDetail(BaseProduct):
     __tablename__ = 'product_detail'
 
-    pdetail_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     pdetail_name = Column(String(255), nullable=False)
     pdetail_image = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())

@@ -2,13 +2,14 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User, product, Product, Category
+from models import Base, User, product, Product, Category, ProductDetail
 import models
 from schemas import user
 
 ModelType = TypeVar("ModelType", bound=Base)
 UserType = TypeVar("UserType", bound=User)
 ProductType = TypeVar("ProductType", bound=Product)
+ProductDetailType = TypeVar("ProductDetailType", bound=ProductDetail)
 CategoryType = TypeVar("CategoryType", bound=Category)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
@@ -85,6 +86,13 @@ class ProductCRUD:
         return db.query(self.model).filter(self.model.product_name == product_name).first()
     def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
+    
+class ProductDetailCRUD:
+    def __init__(self, model: Type[ProductDetailType]):
+        self.model = model
+    def list_by_product(self, db: Session, product_id: int) -> List[ProductType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
+
     
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
