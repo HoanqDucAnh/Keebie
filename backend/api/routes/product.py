@@ -51,7 +51,7 @@ def update_product(id: int, product_in: ProductCreate, db: Session = Depends(dep
     
 @router.get("/by_category/{category_id}", response_model=List[ProductBase])
 def get_products_by_category(category_id: int, db: Session = Depends(deps.get_db)):
-    products = crud.productInteract.get_by_category_id(db, category_id=category_id)
+    products = crud.productInteract.list_by_category(db, category_id=category_id)
     if not products:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

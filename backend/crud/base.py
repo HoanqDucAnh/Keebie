@@ -83,8 +83,8 @@ class ProductCRUD:
         self.model = model
     def get_by_name(self, db: Session, product_name: str) -> Optional[ProductType]:
         return db.query(self.model).filter(self.model.product_name == product_name).first()
-    def get_by_category_id(self, db: Session, id: int) -> Optional[ProductType]:
-        return db.query(self.model).filter(self.model.category_id == id).first()
+    def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
+        return db.query(self.model).filter(self.model.category_id == category_id).all()
     
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
