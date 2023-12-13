@@ -74,3 +74,6 @@ def update_product_details(id: int, product_details_in: ProductDetailsCreate, db
             detail=error,
         )
 
+@router.get("/", response_model=List[ProductDetailsById])
+def get_all_product_details(db: Session = Depends(deps.get_db)):
+    return crud.product_details.get_all(db)
