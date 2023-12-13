@@ -89,7 +89,7 @@ export default function AddressComponent() {
             okType: "danger",
             onOk: () => {
                 setDataSource((pre) => {
-                return pre.filter((user) => user.id !== record.id);
+                return pre.filter((user) => user.address !== record.address);
                 });
                 toast.success("Xóa thông tin địa chỉ thành công!");
             },
