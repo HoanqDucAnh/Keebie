@@ -78,6 +78,8 @@ class UserCRUD:
         return db.query(self.model).filter(self.model.phone_number == phone_number).first()
     def get_by_email(self, db: Session, email: str) -> Optional[UserType]:
         return db.query(self.model).filter(self.model.email == email).first()
+    def list_all_user(self, db: Session) -> List[UserType]:
+        return db.query(self.model).all()
     
 class ProductCRUD:
     def __init__(self, model: Type[ProductType]):
@@ -86,12 +88,16 @@ class ProductCRUD:
         return db.query(self.model).filter(self.model.product_name == product_name).first()
     def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
+    def list_all_product(self, db: Session) -> List[ProductType]:
+        return db.query(self.model).all()
     
 class ProductDetailCRUD:
     def __init__(self, model: Type[ProductDetailType]):
         self.model = model
     def list_by_product(self, db: Session, product_id: int) -> List[ProductType]:
         return db.query(self.model).filter(self.model.product_id == product_id).all()
+    def list_all_product_detail(self, db: Session) -> List[ProductType]:
+        return db.query(self.model).all()
 
     
 class CategoryCRUD:
@@ -99,6 +105,8 @@ class CategoryCRUD:
         self.model = model
     def get_by_name(self, db: Session, cat_name: str) -> Optional[CategoryType]:
         return db.query(self.model).filter(self.model.cat_name == cat_name).first()
+    def list_all_category(self, db: Session) -> List[CategoryType]:
+        return db.query(self.model).all()
 
     
     
