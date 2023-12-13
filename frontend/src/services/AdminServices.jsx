@@ -8,6 +8,15 @@ const headers = {
 	"Content-Type": "application/x-www-form-urlencoded",
 };
 
+export const getAllProductsApi = async () => {
+	try {
+		const res = await api.get("/api/products");
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const createProductAPI = async (
 	product_name,
 	product_image,
@@ -71,6 +80,15 @@ export const getProductByNameAPI = async (product_name) => {
 	}
 };
 
+export const getAllCategoriesAPI = async () => {
+	try {
+		const res = await api.get("/api/categories");
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const createCategoryAPI = async (category_name, category_detaik) => {
 	try {
 		const res = await api.post(
@@ -102,6 +120,15 @@ export const deleteCategoryAPI = async (id) => {
 	}
 };
 
+export const getALlProductsDetailAPI = async () => {
+	try {
+		const res = await api.get("/api/product_details");
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const createProductDetailAPI = async (
 	pdetail_name,
 	pdetail_image,
@@ -123,6 +150,33 @@ export const createProductDetailAPI = async (
 			},
 			{ headers }
 		);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getProductDetailByIdAPI = async (id) => {
+	try {
+		const res = await api.get(`/api/product_details/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const deleteProductDetailAPI = async (id) => {
+	try {
+		const res = await api.delete(`/api/product_details/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const updateProductDetailAPI = async (id) => {
+	try {
+		const res = await api.put(`/api/product_details/${id}`);
 		return res;
 	} catch (error) {
 		return error.response;
