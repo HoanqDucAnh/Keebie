@@ -2,12 +2,15 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User
+from models import Base, User, product, Product, Category, ProductDetail
 import models
 from schemas import user
 
 ModelType = TypeVar("ModelType", bound=Base)
 UserType = TypeVar("UserType", bound=User)
+ProductType = TypeVar("ProductType", bound=Product)
+ProductDetailType = TypeVar("ProductDetailType", bound=ProductDetail)
+CategoryType = TypeVar("CategoryType", bound=Category)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
@@ -71,5 +74,31 @@ class UserCRUD:
         self.model = model
     def get_by_username(self, db: Session, username: str) -> Optional[UserType]:
         return db.query(self.model).filter(self.model.username == username).first()
+    def get_by_phone_number(self, db: Session, phone_number: str) -> Optional[UserType]:
+        return db.query(self.model).filter(self.model.phone_number == phone_number).first()
+    def get_by_email(self, db: Session, email: str) -> Optional[UserType]:
+        return db.query(self.model).filter(self.model.email == email).first()
+    
+class ProductCRUD:
+    def __init__(self, model: Type[ProductType]):
+        self.model = model
+    def get_by_name(self, db: Session, product_name: str) -> Optional[ProductType]:
+        return db.query(self.model).filter(self.model.product_name == product_name).first()
+    def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
+        return db.query(self.model).filter(self.model.category_id == category_id).all()
+    
+class ProductDetailCRUD:
+    def __init__(self, model: Type[ProductDetailType]):
+        self.model = model
+    def list_by_product(self, db: Session, product_id: int) -> List[ProductType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
+
+    
+class CategoryCRUD:
+    def __init__(self, model: Type[CategoryType]):
+        self.model = model
+    def get_by_name(self, db: Session, cat_name: str) -> Optional[CategoryType]:
+        return db.query(self.model).filter(self.model.cat_name == cat_name).first()
+
     
     
