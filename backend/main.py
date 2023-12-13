@@ -2,9 +2,13 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from api.base import api_router
+from fastapi.responses import JSONResponse
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.encoders import jsonable_encoder
 
+from fastapi.exceptions import RequestValidationError
 app = FastAPI()
 
 
@@ -22,8 +26,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 app.include_router(api_router, prefix="/api")
 app.mount("/api", api_router, name="api")
+
 
 if __name__ == "__main__":
     import uvicorn
