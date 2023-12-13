@@ -48,7 +48,7 @@ export default function UploadImage({ imageList, setImageList }) {
 			<div className=" ">
 				<div className="grid grid-cols-3 mb-3 gap-1">
 					{imageList.slice(0, 8).map((image) => (
-						<div className="col-span-1" key={image.uid}>
+						<div className="col-span-1 h-32" key={image.uid}>
 							<ProdImage
 								src={image.url}
 								alt={image.name}
@@ -59,9 +59,13 @@ export default function UploadImage({ imageList, setImageList }) {
 							/>
 						</div>
 					))}
-					<div className="col-span-1 max-w-[100%] rounded-md border-2 border-black my-1 justify-content-center ">
-						<p className="text-2xl font-mono ">+1</p>
-					</div>
+					{imageList.length > 8 && (
+						<div className="col-span-1 h-32 rounded-md border-2 border-black my-1 ">
+							<div className="flex flex-col justify-center items-center h-full">
+								<p className="text-2xl font-mono">+{imageList.length - 8}</p>
+							</div>
+						</div>
+					)}
 				</div>
 
 				<input

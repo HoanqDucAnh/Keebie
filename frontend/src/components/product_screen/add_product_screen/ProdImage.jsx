@@ -21,11 +21,16 @@ export default function ProdImage({
 
 	return (
 		<div
-			className="relative max-w-[100%] border-2 border-black rounded-md my-1"
+			className="relative h-32 border-2 border-black rounded-md my-1"
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
-			<img key={key} src={src} alt={alt} className="rounded-md border-2" />
+			<img
+				key={key}
+				src={src}
+				alt={alt}
+				className="rounded-md border-2 object-cover h-full w-full"
+			/>
 			{hover && (
 				<div className="flex flex-col absolute top-0 left-0 right-0 bottom-0 items-center justify-center">
 					<MyButton name={"Xóa ảnh"} onClick={() => handleDeleteImage(uid)} />
