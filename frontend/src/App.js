@@ -8,6 +8,8 @@ import MyToast from "./components/shared/MyToast";
 import Footer from "./components/shared/Footer";
 import Layout from "antd/es/layout/layout";
 import NotFoundScreen from "./screen/NotFoundScreen";
+import ContactScreen from "./screen/ContactScreen";
+import ProfileScreen from "./screen/ProfileScreen";
 import AdminScreen from "./screen/AdminScreen";
 
 function App() {
@@ -30,6 +32,12 @@ function App() {
 					<Route path="/signup">
 						<SignUpScreen />
 					</Route>
+					<Route path="/contact">
+						<ContactScreen />
+					</Route>
+					<Route path="/profile">
+						<ProfileScreen />
+          </Route>
 					<Route path="/admin">
 						<AdminScreen />
 					</Route>

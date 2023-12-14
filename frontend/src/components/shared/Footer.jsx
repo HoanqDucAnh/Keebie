@@ -24,22 +24,22 @@ const Footer = () => {
 							Hướng dẫn
 						</h6>
 						<p className="mb-4">
-							<a className="text-neutral-600" href="/">
+							<a className="text-neutral-600 hover:text-[#F8C70E]" href="/">
 								Chính sách mua hàng
 							</a>
 						</p>
 						<p className="mb-4">
-							<a className="text-neutral-600" href="/">
+							<a className="text-neutral-600 hover:text-[#F8C70E]" href="/">
 								Hướng dẫn mua hàng và thanh toán
 							</a>
 						</p>
 						<p className="mb-4">
-							<a className="text-neutral-600" href="/">
+							<a className="text-neutral-600 hover:text-[#F8C70E]" href="/">
 								Hướng dẫn sử dụng
 							</a>
 						</p>
 						<p className="mb-4">
-							<a className="text-neutral-600" href="/">
+							<a className="text-neutral-600 hover:text-[#F8C70E]" href="/">
 								Tra cứu đơn hàng
 							</a>
 						</p>
