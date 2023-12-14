@@ -2,7 +2,13 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User, product, Product, Category, ProductDetail
+from models import Base, User, Product, Category, ProductDetail
+from models.order import Order, OrderDetail, Status
+from models.sale import Sale, SaleDetail
+from models.voucher import Voucher, VoucherCustomer
+from models.cart import Cart
+from models.customer import Customer
+from models.review import Review
 import models
 from schemas import user
 
@@ -11,8 +17,21 @@ UserType = TypeVar("UserType", bound=User)
 ProductType = TypeVar("ProductType", bound=Product)
 ProductDetailType = TypeVar("ProductDetailType", bound=ProductDetail)
 CategoryType = TypeVar("CategoryType", bound=Category)
+OrderType = TypeVar("OrderType", bound=Order)
+OrderDetailType = TypeVar("OrderDetailType", bound=OrderDetail)
+StatusType = TypeVar("StatusType", bound=Status)
+SaleType = TypeVar("SaleType", bound=Sale)
+SaleDetailType = TypeVar("SaleDetailType", bound=SaleDetail)
+VoucherType = TypeVar("VoucherType", bound=Voucher)
+VoucherCustomerType = TypeVar("VoucherCustomerType", bound=VoucherCustomer)
+CartType = TypeVar("CartType", bound=Cart)
+CustomerType = TypeVar("CustomerType", bound=Customer)
+ReviewType = TypeVar("ReviewType", bound=Review)
+
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+
+
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
@@ -99,6 +118,86 @@ class CategoryCRUD:
         self.model = model
     def get_by_name(self, db: Session, cat_name: str) -> Optional[CategoryType]:
         return db.query(self.model).filter(self.model.cat_name == cat_name).first()
+    
+class OrderCRUD:
+    def __init__(self, model: Type[OrderType]):
+        self.model = model
+    def get_by_customer(self, db: Session, customer_id: int) -> List[OrderType]:
+        return db.query(self.model).filter(self.model.customer_id == customer_id).all()
+    def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
+        return db.query(self.model).filter(self.model.order_status_id == status_id).all()
+    
+class OrderDetailCRUD:
+    def __init__(self, model: Type[OrderDetailType]):
+        self.model = model
+    def get_by_order(self, db: Session, order_id: int) -> List[OrderDetailType]:
+        return db.query(self.model).filter(self.model.order_id == order_id).all()
+    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[OrderDetailType]:
+        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
+    
+    
+class StatusCRUD:
+    def __init__(self, model: Type[StatusType]):
+        self.model = model
+    def get_by_name(self, db: Session, status_name: str) -> Optional[StatusType]:
+        return db.query(self.model).filter(self.model.status_name == status_name).first()
+    
+class SaleCRUD:
+    def __init__(self, model: Type[SaleType]):
+        self.model = model
+    def get_by_admin(self, db: Session, admin_id: int) -> List[SaleType]:
+        return db.query(self.model).filter(self.model.admin_id == admin_id).all()
+    def get_by_name(self, db: Session, sale_name: str) -> Optional[SaleType]:
+        return db.query(self.model).filter(self.model.sale_name == sale_name).first()
+    
+class SaleDetailCRUD:
+    def __init__(self, model: Type[SaleDetailType]):
+        self.model = model
+    def get_by_sale(self, db: Session, sale_id: int) -> List[SaleDetailType]:
+        return db.query(self.model).filter(self.model.sale_id == sale_id).all()
+    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[SaleDetailType]:
+        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
+    def get_by_is_percent(self, db: Session, is_percent: bool) -> List[SaleDetailType]:
+        return db.query(self.model).filter(self.model.is_percentage == is_percent).all()
+    
+class VoucherCRUD:
+    def __init__(self, model: Type[VoucherType]):
+        self.model = model
+    def get_by_name(self, db: Session, voucher_name: str) -> Optional[VoucherType]:
+        return db.query(self.model).filter(self.model.voucher_name == voucher_name).first()
+    def get_by_code(self, db: Session, voucher_code: str) -> Optional[VoucherType]:
+        return db.query(self.model).filter(self.model.voucher_code == voucher_code).first()
+    
+class VoucherCustomerCRUD:
+    def __init__(self, model: Type[VoucherCustomerType]):
+        self.model = model
+    def get_by_customer(self, db: Session, customer_id: int) -> List[VoucherCustomerType]:
+        return db.query(self.model).filter(self.model.voucher_customer_id == customer_id).all()
+    def get_by_voucher(self, db: Session, voucher_id: int) -> List[VoucherCustomerType]:
+        return db.query(self.model).filter(self.model.voucher_id == voucher_id).all()
+    
+class CartCRUD:
+    def __init__(self, model: Type[CartType]):
+        self.model = model
+    def get_by_customer(self, db: Session, customer_id: int) -> List[CartType]:
+        return db.query(self.model).filter(self.model.customer_id == customer_id).all()
+    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[CartType]:
+        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
+    
+    def get_by_pdetail_and_customer(self, db: Session, product_detail_id: int, customer_id: int) -> Optional[CartType]:
+        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id, self.model.customer_id == customer_id).first()
+    
+class CustomerCRUD:
+    def __init__(self, model: Type[CustomerType]):
+        self.model = model
+    def get_by_user(self, db: Session, user_id: int) -> Optional[CustomerType]:
+        return db.query(self.model).filter(self.model.user_id == user_id).first()
+    
+class ReviewCRUD:
+    def __init__(self, model: Type[ReviewType]):
+        self.model = model
+    def get_by_customer(self, db: Session, customer_id: int) -> List[ReviewType]:
+        return db.query(self.model).filter(self.model.customer_id == customer_id).all()
+    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[ReviewType]:
+        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
 
-    
-    

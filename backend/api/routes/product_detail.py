@@ -73,4 +73,23 @@ def update_product_details(id: int, product_details_in: ProductDetailsCreate, db
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
         )
+        
+@router.get("/search/{name}", response_model=List[ProductDetailsById])
+def search_product_details_by_name(name: str, db: Session = Depends(deps.get_db)):
+    product_details = crud.product_details.get_by_name(db, name=name)
+    if not product_details:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product details with name {name} not found",
+        )
+    try:
+        return product_details
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        ) from e
+        
+
 
