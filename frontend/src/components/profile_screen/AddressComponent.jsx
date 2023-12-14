@@ -10,22 +10,26 @@ export default function AddressComponent() {
     const [isEditing, setIsEditing] = useState(false);
     const [editingInformation, setEditingInformation] = useState(null);
     const [dataSource, setDataSource] = useState([
-        {
+        {   
+            id: 1,
             name: 'Hoang Duc Anh',
             phone: '0123456789',
             address: '144 Xuan Thuy, Cau Giay, Ha Noi, Vietnam',
         },
-        {
+        {   
+            id: 2,
             name: "Hieu Ngu(yen)",
             phone: '0983294241',
             address: "aloalo, aloalo, alala, Vietnam",
         },
         {
+            id: 3,
             name: "Duc Le",
             phone: '0983294391',
             address: "Ducle, Ducle, Ducle, Vietnam",
         },
         {
+            id: 4,
             name: "uyenlex",
             phone: '0983294391',
             address: "uyenlex, uyenlex, uyenlex, Vietnam",
@@ -33,6 +37,14 @@ export default function AddressComponent() {
     ]);
 
     const columns = [
+        {
+            title: 'STT',
+            dataIndex: 'id',
+            key: 'id',
+            width: '50px',
+            render: (text, record, index) => index + 1,
+            align: 'center',
+        },
         {
             title: 'Tên người nhận',
             dataIndex: 'name',
@@ -89,7 +101,7 @@ export default function AddressComponent() {
             okType: "danger",
             onOk: () => {
                 setDataSource((pre) => {
-                return pre.filter((user) => user.address !== record.address);
+                return pre.filter((user) => user.id !== record.id);
                 });
                 toast.success("Xóa thông tin địa chỉ thành công!");
             },
@@ -165,7 +177,7 @@ export default function AddressComponent() {
                             className='mb-4 mr-2 text-base w-full bg-transparent border-[#FFF5D6]'
                             value={editingInformation?.address}
                             onChange={(e) => {
-                            editingInformation((pre) => {
+                            setEditingInformation((pre) => {
                                 return { ...pre, address: e.target.value };
                             });
                             }}

@@ -17,15 +17,6 @@ export default function UserComponent() {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState('Content of the modal');
 
-    const showModal = () => {
-        setOpen(true);
-    };
-
-    const handleCancel = () => {
-        console.log('Clicked cancel button');
-        setOpen(false);
-    };
-
     const onEditInformation = (record) => {
         setIsEditing(true);
         setEditingInformation({ ...record });
@@ -80,19 +71,18 @@ export default function UserComponent() {
                 />
             </div>
 
-            <button className="mt-5 bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4" onClick={showModal}>
-                Chỉnh sửa
+            <button className="mt-5 bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4" onClick={onEditInformation}>
+                Đổi mật khẩu
             </button>
 
             <ConfigProvider theme={{ token: { colorPrimary: '#F8C70E', fontFamily: 'monospace' } }}>
                 <Modal
-                    title="Chỉnh sửa thông tin"
+                    title="Đổi mật khẩu"
                     visible={isEditing}
-                    open={open}
                     okButtonProps={{ style: { backgroundColor: "#F8C70E" } }}
                     okText="Lưu"
                     confirmLoading={confirmLoading}
-                    onCancel={handleCancel}
+                    onCancel={() => { resetEditing(); }}
                     cancelText="Hủy"
                     onOk={() => {
                         setModalText('The modal will be closed after two seconds');
@@ -101,39 +91,33 @@ export default function UserComponent() {
                         setOpen(false);
                         setConfirmLoading(false);
                         }, 2000);
-                        toast.success("Chỉnh sửa thông tin thành công");
+                        toast.success("Đổi mật khẩu thành công");
                         setEditingInformation((pre) => {
-                            return { ...pre };
+                            return editingInformation; //error
                         });
                         resetEditing();
                         }}
                     >
                     <div>
-                        <p className="mt-2 mb-1 ml-2 text-xl font-semibold">Họ và tên</p>
-                        <Input
-                            className='mb-4 mr-2 text-base w-full bg-transparent border-[#FFF5D6]'
-                            value={editingInformation?.fullName}
-                            onChange={(e) => {
-                            setEditingInformation((pre) => {
-                                return { ...pre, fullName: e.target.value };
-                            });
-                            }}
-                        />
-                        <p className="mt-2 mb-1 ml-2 text-xl font-semibold">Số điện thoại</p>
-                        <Input
-                            className='mb-4 mr-2 text-base w-full bg-transparent border-[#FFF5D6]'
-                            value={editingInformation?.phoneNumber}
-                            onChange={(e) => {
-                            setEditingInformation((pre) => {
-                                return { ...pre, phoneNumber: e.target.value };
-                            });
-                            }}
-                        />
-                        <p className="mt-2 mb-1 text-xl font-semibold">Mật khẩu</p>
+                        <p className="mt-2 mb-1 ml-2 text-xl font-semibold">Nhập mật khẩu cũ</p>
                         <Input
                             className='mb-4 mr-2 text-base w-full bg-transparent border-[#FFF5D6]'
                             type="password"
-                            value={editingInformation?.password}
+                        />
+                        <p className="mt-2 mb-1 ml-2 text-xl font-semibold">Nhập mật khẩu mới</p>
+                        <Input
+                            className='mb-4 mr-2 text-base w-full bg-transparent border-[#FFF5D6]'
+                            type="password"
+                            onChange={(e) => {
+                            setEditingInformation((pre) => {
+                                return { ...pre, password: e.target.value };
+                            });
+                            }}
+                        />
+                        <p className="mt-2 mb-1 text-xl font-semibold">Nhập lại mật khẩu mới</p>
+                        <Input
+                            className='mb-4 mr-2 text-base w-full bg-transparent border-[#FFF5D6]'
+                            type="password"
                             onChange={(e) => {
                             setEditingInformation((pre) => {
                                 return { ...pre, password: e.target.value };
