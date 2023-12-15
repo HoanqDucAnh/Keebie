@@ -1,9 +1,12 @@
 from pydantic import BaseModel
+from typing import Optional, List
+from datetime import datetime
 
 class ProductBase(BaseModel):
     product_name: str
-    product_image: str
-    content: str
+    content: Optional[str]
+    price: float
+    stock: int
     category_id: int
 
 
@@ -11,13 +14,20 @@ class CategoryBase(BaseModel):
     cat_name: str
     cat_detail: str
 
-class ProductDetailBase(BaseModel):
-    pdetail_name: str
-    pdetail_image: str
-    pdetail_price: float
-    pdetail_instock: int
-    product_id: int
-    is_public: bool
+class ProductImageBase(BaseModel):
+    image: str
+
+class ProductImageById(ProductImageBase):
+    id: int
+    
+    class Config:
+        from_attributes = True
+
+class ProductImageUpdate:
+    pass
+
+class ProductImageCreate(ProductImageBase):
+    pass
 
 class ProductById(ProductBase):
     id: int
@@ -26,15 +36,6 @@ class ProductById(ProductBase):
         from_attributes = True
 
 class ProductCreate(ProductBase):
-    pass
-
-class ProductDetailsById(ProductDetailBase):
-    id: int
-    
-    class Config:
-        from_attributes = True
-
-class ProductDetailsCreate(ProductDetailBase):
     pass
 
 class CategoryById(CategoryBase):
@@ -50,7 +51,4 @@ class CategoryUpdate:
     pass
 
 class ProductUpdate:
-    pass
-
-class ProductDetailsUpdate:
     pass
