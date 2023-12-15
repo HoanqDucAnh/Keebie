@@ -106,5 +106,7 @@ class ProductImageCRUD:
         return db.query(self.model).filter(self.model.product_id == product_id).first()
     def list_all_product_image(self, db: Session) -> List[ProductImageType]:
         return db.query(self.model).all()
+    def list_by_product(self, db: Session, product_id: int) -> List[ProductImageType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
     
     

@@ -9,7 +9,6 @@ class ProductBase(BaseModel):
     stock: int
     category_id: int
 
-
 class CategoryBase(BaseModel):
     cat_name: str
     cat_detail: str
