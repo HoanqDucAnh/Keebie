@@ -2,17 +2,17 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User, product, Product, Category, ProductDetail
+from models import Base, User, Product, Category, ProductImage
 import models
 from schemas import user
 
 ModelType = TypeVar("ModelType", bound=Base)
 UserType = TypeVar("UserType", bound=User)
 ProductType = TypeVar("ProductType", bound=Product)
-ProductDetailType = TypeVar("ProductDetailType", bound=ProductDetail)
 CategoryType = TypeVar("CategoryType", bound=Category)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+ProductImageType = TypeVar("ProductImageType", bound=ProductImage)
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
@@ -91,15 +91,6 @@ class ProductCRUD:
     def list_all_product(self, db: Session) -> List[ProductType]:
         return db.query(self.model).all()
     
-class ProductDetailCRUD:
-    def __init__(self, model: Type[ProductDetailType]):
-        self.model = model
-    def list_by_product(self, db: Session, product_id: int) -> List[ProductType]:
-        return db.query(self.model).filter(self.model.product_id == product_id).all()
-    def list_all_product_detail(self, db: Session) -> List[ProductType]:
-        return db.query(self.model).all()
-
-    
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
         self.model = model
@@ -108,5 +99,14 @@ class CategoryCRUD:
     def list_all_category(self, db: Session) -> List[CategoryType]:
         return db.query(self.model).all()
 
+class ProductImageCRUD:
+    def __init__(self, model: Type[ProductImageType]):
+        self.model = model
+    def get_by_product_id(self, db: Session, product_id: int) -> Optional[ProductImageType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).first()
+    def list_all_product_image(self, db: Session) -> List[ProductImageType]:
+        return db.query(self.model).all()
+    def list_by_product(self, db: Session, product_id: int) -> List[ProductImageType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
     
     
