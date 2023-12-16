@@ -23,7 +23,6 @@ export default function ProductDetailScreen() {
 			setAmount(product.stock);
 		}
 	}
-
 	const setDecrease = () => {
 		if (amount > 1) {
 			setAmount(amount - 1);
@@ -31,6 +30,9 @@ export default function ProductDetailScreen() {
 			setAmount(1);
 		}
 	}
+	
+	const tagColor = product.stock > 0 ? 'green' : 'red';
+	const tagText = product.stock > 0 ? 'Còn hàng' : 'Hết hàng';
 
 	return (
 		<div className="m-5">
@@ -77,11 +79,11 @@ export default function ProductDetailScreen() {
 			<div className="ml-7 font-mono w-[600px]">
 			<ConfigProvider theme={{token: { colorPrimary: '#F8C70E', fontFamily: 'monospace' } }} >
 				<h2 className="mb-2">{product.name}</h2>
-				<p className="mb-1"><strong>Phân loại:</strong> {product.category}</p>
-				<p className="mb-1"><strong>Thương hiệu:</strong> {product.brand}</p>
-				<Tag className="text-large mb-5" color="green">Còn hàng</Tag>
+				<p className="mb-1 text-base"><strong>Phân loại:</strong> {product.category}</p>
+				<p className="mb-1 text-base"><strong>Thương hiệu:</strong> {product.brand}</p>
+				<Tag className="text-large mb-5" color={tagColor}>{tagText}</Tag>
 				<p className="mb-4 text-justify"><strong>Mô tả:</strong> {product.description}</p>
-				<Statistic className="mb-5" value={product.price} suffix="VNĐ" />
+				<Statistic className="mb-10" value={product.price} suffix="VNĐ" />
 				<div className="flex justify-center">
 					<Button 
 						icon={<MinusOutlined />}
@@ -90,7 +92,7 @@ export default function ProductDetailScreen() {
 					<Button
 						icon={<PlusOutlined />} 
 						onClick={() => setIncrease()} />
-					<Button className="ml-5 bg-[#F8C70E]" type="primary">Thêm vào giỏ hàng</Button>
+					<Button className="ml-5" type="default">Thêm vào giỏ hàng</Button>
 				</div>
 			</ConfigProvider>
 			</div>
