@@ -11,7 +11,8 @@ import NotFoundScreen from "./screen/NotFoundScreen";
 import ContactScreen from "./screen/ContactScreen";
 import ProfileScreen from "./screen/ProfileScreen";
 import AdminScreen from "./screen/AdminScreen";
-import ProductDetailScreen from "./screen/ProductDetailScreen";
+import ProductDetailScreen from "./components/shared/productComponent/ProductDetail";
+import ProductPageScreen from "./screen/ProductPageScreen";
 
 function App() {
 	useEffect(() => {
@@ -44,6 +45,9 @@ function App() {
 					</Route>
 					<Route path="/product">
 						<ProductDetailScreen />
+					</Route>
+					<Route path={"/product_page"}>
+						<ProductPageScreen />
 					</Route>
 					<Route path="*">
 						<NotFoundScreen />

@@ -61,7 +61,7 @@ const NavigationBar = () => {
 		{
 			key: "1",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Bàn phím cơ
 				</a>
 			),
@@ -69,7 +69,7 @@ const NavigationBar = () => {
 		{
 			key: "2",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Bộ nút phím cơ
 				</a>
 			),
@@ -77,7 +77,7 @@ const NavigationBar = () => {
 		{
 			key: "3",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Công tắc bàn phím
 				</a>
 			),
@@ -85,7 +85,7 @@ const NavigationBar = () => {
 		{
 			key: "4",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Phụ kiện khác
 				</a>
 			),
@@ -96,7 +96,7 @@ const NavigationBar = () => {
 		{
 			key: "1",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Đang diễn ra
 				</a>
 			),
@@ -104,7 +104,7 @@ const NavigationBar = () => {
 		{
 			key: "2",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Sắp diễn ra
 				</a>
 			),
@@ -112,7 +112,7 @@ const NavigationBar = () => {
 		{
 			key: "3",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/">
+				<a target="_blank" rel="noopener noreferrer" href="/product_page">
 					Đã kết thúc
 				</a>
 			),

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Carousel, Breadcrumb, Tag, ConfigProvider } from "antd";
 import { Button, Statistic } from "antd";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { toast } from "react-toastify";
 
 export default function ProductDetailScreen() {
 	const product = {
@@ -14,6 +15,12 @@ export default function ProductDetailScreen() {
 		price: 4000000,
 		stock: 10,
 	}
+	const productImages = [
+		'https://picsum.photos/200',
+		'https://picsum.photos/200',
+		'https://picsum.photos/200',
+		'https://picsum.photos/200',
+	]
 
 	const [amount, setAmount] = useState(1);
 	const setIncrease = () => {
@@ -54,26 +61,11 @@ export default function ProductDetailScreen() {
 					className="ml-[100px] w-[500px]"
 					autoplay
 					autoplaySpeed={3000}>
-				<div>
-					<img
-						className="h-[500px] w-[500px]"
-						src="https://picsum.photos/200" alt="product" />
-				</div>
-				<div>
-					<img
-						className="h-[500px] w-[500px]"
-						src="https://picsum.photos/200" alt="product" />
-				</div>
-				<div>
-					<img
-						className="h-[500px] w-[500px]"
-						src="https://picsum.photos/200" alt="product" />
-				</div>
-				<div>
-					<img
-						className="h-[500px] w-[500px]"
-						src="https://picsum.photos/200" alt="product" />
-				</div>
+				{productImages.map((image, index) => (
+					<div key={index}>
+						<img src={image} alt="product" className="w-full h-[500px] object-contain rounded-lg" />
+					</div>
+				))}
 			</Carousel>
 
 			<div className="ml-7 font-mono w-[600px]">
@@ -84,7 +76,8 @@ export default function ProductDetailScreen() {
 				<Tag className="text-large mb-5" color={tagColor}>{tagText}</Tag>
 				<p className="mb-4 text-justify"><strong>Mô tả:</strong> {product.description}</p>
 				<Statistic className="mb-10" value={product.price} suffix="VNĐ" />
-				<div className="flex justify-center">
+
+				<div className="flex">
 					<Button 
 						icon={<MinusOutlined />}
 						onClick={() => setDecrease()}/>
@@ -92,8 +85,17 @@ export default function ProductDetailScreen() {
 					<Button
 						icon={<PlusOutlined />} 
 						onClick={() => setIncrease()} />
-					<Button className="ml-5" type="default">Thêm vào giỏ hàng</Button>
+					<button 
+						className="ml-5 text-center bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer font-semibold rounded-md px-4"
+						type="default" 
+						onClick={() => {
+							toast.success('Thêm vào giỏ hàng thành công');
+						}}>
+						Thêm vào giỏ hàng
+					</button>
 				</div>
+			
+			<p className="mt-2">Còn: {product.stock} sản phẩm</p>
 			</ConfigProvider>
 			</div>
 		</div>
