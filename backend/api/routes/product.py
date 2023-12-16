@@ -10,7 +10,7 @@ from .auth import manager
 router = APIRouter()
 
 @router.post("/", response_model=ProductById)
-def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db), user = Depends(manager)):
+def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db)):
     try:
         return crud.product.create(db, obj_in=product_in)
     except SQLAlchemyError as e:
@@ -116,3 +116,4 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
 @router.get("/", response_model=List[ProductBase])
 def get_all_products(db: Session = Depends(deps.get_db)):
     return crud.product.get_all(db)
+
