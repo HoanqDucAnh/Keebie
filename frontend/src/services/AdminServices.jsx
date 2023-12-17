@@ -8,27 +8,9 @@ const headers = {
 	"Content-Type": "application/x-www-form-urlencoded",
 };
 
-export const getAllProductsApi = async () => {
+export const getAllProductsAPI = async () => {
 	try {
 		const res = await api.get("/api/products");
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const createProductAPI = async (
-	product_name,
-	product_image,
-	category_id,
-	content
-) => {
-	try {
-		const res = await api.post(
-			`/api/products`,
-			{ product_name, product_image, content, category_id },
-			{ headers }
-		);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -44,6 +26,27 @@ export const getProductByIdAPI = async (id) => {
 	}
 };
 
+export const createProductAPI = async (
+	product_name,
+	content,
+	category_id,
+	price,
+	instock
+) => {
+	try {
+		const res = await api.post("/api/products", {
+			product_name: product_name,
+			content: content,
+			price: price,
+			stock: instock,
+			category_id: category_id,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const deleteProductAPI = async (id) => {
 	try {
 		const res = await api.delete(`/api/products/${id}`);
@@ -53,27 +56,30 @@ export const deleteProductAPI = async (id) => {
 	}
 };
 
-export const updateProductAPI = async (id) => {
+export const updateProductAPI = async ({
+	product_name,
+	content,
+	category_id,
+	price,
+	instock,
+}) => {
 	try {
-		const res = await api.put(`/api/products/${id}`);
+		const res = await api.put("/api/products", {
+			product_name: product_name,
+			content: content,
+			price: price,
+			stock: instock,
+			category_id: category_id,
+		});
 		return res;
 	} catch (error) {
 		return error.response;
 	}
 };
 
-export const getProductByCategoryAPI = async (category_id) => {
+export const getAllProductsByCategoryAPI = async (catID) => {
 	try {
-		const res = await api.get(`/api/products/by_category/${category_id}`);
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const getProductByNameAPI = async (product_name) => {
-	try {
-		const res = await api.get(`/api/products/by_name/${product_name}`);
+		const res = await api.get(`/api/products/category/${catID}`);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -89,13 +95,12 @@ export const getAllCategoriesAPI = async () => {
 	}
 };
 
-export const createCategoryAPI = async (category_name, category_detaik) => {
+export const createCategoryAPI = async (cat_name, cat_detail) => {
 	try {
-		const res = await api.post(
-			`/api/categories`,
-			{ category_name, category_detaik },
-			{ headers }
-		);
+		const res = await api.post(`/api/categories`, {
+			cat_name: cat_name,
+			cat_detail: cat_detail,
+		});
 		return res;
 	} catch (error) {
 		return error.response;
@@ -120,63 +125,13 @@ export const deleteCategoryAPI = async (id) => {
 	}
 };
 
-export const getALlProductsDetailAPI = async () => {
+export const createProdImageAPI = async (prod_id, image) => {
+	console.log(prod_id, image);
 	try {
-		const res = await api.get("/api/product_details");
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const createProductDetailAPI = async (
-	pdetail_name,
-	pdetail_image,
-	pdetail_price,
-	pdetail_instock,
-	product_id,
-	is_public
-) => {
-	try {
-		const res = await api.post(
-			`/api/product_details`,
-			{
-				pdetail_name,
-				pdetail_image,
-				pdetail_price,
-				pdetail_instock,
-				product_id,
-				is_public,
-			},
-			{ headers }
-		);
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const getProductDetailByIdAPI = async (id) => {
-	try {
-		const res = await api.get(`/api/product_details/${id}`);
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const deleteProductDetailAPI = async (id) => {
-	try {
-		const res = await api.delete(`/api/product_details/${id}`);
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const updateProductDetailAPI = async (id) => {
-	try {
-		const res = await api.put(`/api/product_details/${id}`);
+		const res = await api.post(`/api/product_images/`, {
+			image: image,
+			product_id: prod_id,
+		});
 		return res;
 	} catch (error) {
 		return error.response;

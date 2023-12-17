@@ -1,7 +1,7 @@
 import React from "react";
 import { ConfigProvider, Table } from "antd";
 
-export default function HistoryComponent() {
+export default function AllOrdersComponent() {
 	const columns = [
 		{
 			title: "Tên đơn hàng",

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const api = axios.create({
 	baseURL: "http://127.0.0.1:8000",
@@ -26,8 +25,6 @@ export const signupAPI = async (
 	password,
 	username,
 	email,
-	created_at,
-	updated_at,
 	profile_pic,
 	activated,
 	phone_number,
@@ -35,15 +32,13 @@ export const signupAPI = async (
 ) => {
 	try {
 		const res = await api.post(`/api/users`, {
-			password,
-			username,
-			email,
-			created_at,
-			updated_at,
-			profile_pic,
-			activated,
-			phone_number,
-			fullname,
+			password: password,
+			username: username,
+			email: email,
+			profile_pic: profile_pic,
+			activated: activated,
+			phone_number: phone_number,
+			fullname: fullname,
 		});
 		return res;
 	} catch (error) {

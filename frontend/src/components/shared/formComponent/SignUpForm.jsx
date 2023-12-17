@@ -37,6 +37,8 @@ export default function SignUpForm() {
 			updated_at: "",
 			phone_number: "",
 			fullname: "",
+			profile_pic: "normal",
+			activated: true,
 		});
 		methods.reset();
 	}
@@ -54,22 +56,25 @@ export default function SignUpForm() {
 
 	const onSubmit = methods.handleSubmit(async (data) => {
 		if (!checkPasswordMatched()) return;
-		const date = new Date(Date.now());
 		setSignupField(
-			(signupField.password = data.password),
-			(signupField.username = data.username),
-			(signupField.email = data.email),
-			(signupField.created_at = date.toISOString()),
-			(signupField.updated_at = date.toISOString()),
-			(signupField.phone_number = data.phone),
-			(signupField.fullname = data.fullname)
+			Object.assign(signupField, {
+				password: data.password,
+				username: data.username,
+				email: data.email,
+				created_at: "",
+				updated_at: "",
+				profile_pic: "normal",
+				activated: true,
+				phone_number: data.phone,
+				fullname: data.fullname,
+			})
 		);
+		console.log(signupField);
+		console.log(data);
 		let respond = await signupAPI(
 			signupField.password,
 			signupField.username,
 			signupField.email,
-			signupField.created_at,
-			signupField.updated_at,
 			signupField.profile_pic,
 			signupField.activated,
 			signupField.phone_number,

@@ -1,69 +1,33 @@
 import React from "react";
 import { ConfigProvider, Table } from "antd";
 
-export default function HistoryComponent() {
+export default function AllUsersComponent() {
 	const columns = [
 		{
-			title: "Tên đơn hàng",
-			dataIndex: "name",
+			title: "Tên đăng nhập",
+			dataIndex: "username",
 			key: "name",
-			width: "230px",
+			width: "180px",
 		},
 		{
-			title: "Loại sản phẩm",
-			dataIndex: "type",
+			title: "Mật khẩu",
+			dataIndex: "password",
 			width: "140px",
-			filters: [
-				{
-					text: "Bàn phím",
-					value: "Bàn phím",
-				},
-				{
-					text: "Bộ nút bàn phím",
-					value: "Bộ nút bàn phím",
-				},
-				{
-					text: "Công tắc bàn phím",
-					value: "Công tắc bàn phím",
-				},
-				{
-					text: "Phụ kiện khác",
-					value: "Phụ kiện khác",
-				},
-			],
-			onFilter: (value, record) => record.type.startsWith(value),
 		},
 		{
-			title: "Ngày mua hàng",
-			dataIndex: "date",
-			width: "150px",
-			sorter: (a, b) => new Date(a.date) - new Date(b.date),
+			title: "Ngày tạo",
+			dataIndex: "createdDate",
+			width: "180px",
 		},
 		{
-			title: "Giá trị đơn hàng",
-			dataIndex: "price",
+			title: "Họ và tên",
+			dataIndex: "fullname",
 			width: "140px",
-			sorter: (a, b) => a.price - b.price,
 		},
 		{
-			title: "Trạng thái đơn hàng",
-			dataIndex: "status",
+			title: "ID tài khoản",
+			dataIndex: "id",
 			width: "160px",
-			filters: [
-				{
-					text: "Đã giao hàng",
-					value: "Đã giao hàng",
-				},
-				{
-					text: "Đang giao hàng",
-					value: "Đang giao hàng",
-				},
-				{
-					text: "Đã hủy",
-					value: "Đã hủy",
-				},
-			],
-			onFilter: (value, record) => record.status.startsWith(value),
 		},
 	];
 
@@ -124,7 +88,7 @@ export default function HistoryComponent() {
 
 	return (
 		<div className="m-5 font-mono">
-			<h1 className="mb-5 text-2xl font-bold">Lịch sử mua hàng</h1>
+			<h1 className="mb-5 text-2xl font-bold">Danh sách sản phẩm</h1>
 			<ConfigProvider
 				theme={{
 					token: { colorPrimary: "#F8C70E", fontFamily: "monospace" },
