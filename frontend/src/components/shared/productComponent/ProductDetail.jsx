@@ -16,10 +16,10 @@ export default function ProductDetailScreen() {
 		stock: 10,
 	}
 	const productImages = [
-		'https://picsum.photos/200',
-		'https://picsum.photos/200',
-		'https://picsum.photos/200',
-		'https://picsum.photos/200',
+		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/35.jpg?v=1687918895518',
+		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/36.jpg?v=1687918896521',
+		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/products/3-eeecca4e-cb20-4918-9144-fdf52701fc04.jpg?v=1687918809890',
+		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/pcb-67d34a02-fb2c-4545-b0b2-45c502e08752.jpg?v=1687841227874',
 	]
 
 	const [amount, setAmount] = useState(1);
