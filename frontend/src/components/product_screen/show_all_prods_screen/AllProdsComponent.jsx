@@ -1,13 +1,13 @@
 import React from "react";
 import { ConfigProvider, Table } from "antd";
 
-export default function HistoryComponent() {
+export default function AllProdsComponent() {
 	const columns = [
 		{
 			title: "Tên đơn hàng",
 			dataIndex: "name",
 			key: "name",
-			width: "230px",
+			width: "180px",
 		},
 		{
 			title: "Loại sản phẩm",
@@ -34,20 +34,20 @@ export default function HistoryComponent() {
 			onFilter: (value, record) => record.type.startsWith(value),
 		},
 		{
-			title: "Ngày mua hàng",
-			dataIndex: "date",
-			width: "150px",
+			title: "Số lượng sản phẩm còn lại",
+			dataIndex: "instock",
+			width: "180px",
 			sorter: (a, b) => new Date(a.date) - new Date(b.date),
 		},
 		{
-			title: "Giá trị đơn hàng",
+			title: "Giá trị sản phẩm",
 			dataIndex: "price",
 			width: "140px",
 			sorter: (a, b) => a.price - b.price,
 		},
 		{
-			title: "Trạng thái đơn hàng",
-			dataIndex: "status",
+			title: "ID sản phẩm",
+			dataIndex: "id",
 			width: "160px",
 			filters: [
 				{
@@ -124,7 +124,7 @@ export default function HistoryComponent() {
 
 	return (
 		<div className="m-5 font-mono">
-			<h1 className="mb-5 text-2xl font-bold">Lịch sử mua hàng</h1>
+			<h1 className="mb-5 text-2xl font-bold">Danh sách sản phẩm</h1>
 			<ConfigProvider
 				theme={{
 					token: { colorPrimary: "#F8C70E", fontFamily: "monospace" },

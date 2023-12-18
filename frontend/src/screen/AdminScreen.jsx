@@ -7,19 +7,22 @@ import {
 	PlusSquareOutlined,
 } from "@ant-design/icons";
 import AddProductComponent from "../components/product_screen/add_product_screen";
+import AllProdsComponent from "../components/product_screen/show_all_prods_screen/AllProdsComponent";
+import AllUsersComponent from "../components/admin_panel/AllUserComponent";
+import AllOrdersComponent from "../components/admin_panel/AllOrdersComponent";
 
 const { Content, Sider } = Layout;
 
 const componentsSwtich = (key) => {
 	switch (key) {
 		case "account-list":
-			return <div>hi1</div>;
+			return <AllUsersComponent />;
 		case "product-list":
-			return <div>hi2</div>;
+			return <AllProdsComponent />;
 		case "add-product":
 			return <AddProductComponent />;
 		case "order-list":
-			return <div>hi4</div>;
+			return <AllOrdersComponent />;
 		default:
 			break;
 	}

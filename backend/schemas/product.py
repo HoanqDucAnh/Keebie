@@ -14,7 +14,8 @@ class CategoryBase(BaseModel):
     cat_detail: str
 
 class ProductImageBase(BaseModel):
-    image: str
+    image: bytes
+    product_id: int
 
 class ProductImageById(ProductImageBase):
     id: int
