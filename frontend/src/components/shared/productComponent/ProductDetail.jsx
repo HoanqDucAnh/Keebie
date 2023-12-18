@@ -50,6 +50,10 @@ export default function ProductDetailScreen() {
 				href: '/',
 			},
 			{
+				title: 'Danh mục sản phẩm',
+				href: '/product_page',
+			},
+			{
 				title: 'Sản phẩm',
 				href: '/product',
 			},

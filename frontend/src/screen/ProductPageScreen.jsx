@@ -23,10 +23,10 @@ export default function ProductPageScreen() {
         />
         
         <Layout>
-            <Sider width={230} style={{ backgroundColor: 'white', borderRadius: '10px' }}>
+            <Sider width={240} style={{ backgroundColor: 'white', borderRadius: '10px' }}>
                 <Sidebar />
             </Sider>
-            <Content className='min-h-[500px] bg-white rounded-[10px] ml-5 mr-1'>
+            <Content className='min-h-[500px] bg-white rounded-[10px] ml-5 mr-1 p-4'>
                 <SortingFilter />
                 <ProductRow />
             </Content>

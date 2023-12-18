@@ -12,7 +12,7 @@ export default function StatusFilter() {
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: '#F8C70E', fontFamily: 'monospace' } }}>
-      <h1 className='mt-8 font-mono text-lg text-[#F8C70E]'>Tình trạng</h1>
+      <h1 className='mt-8 mb-1 font-mono text-lg text-[#F8C70E]'>Tình trạng</h1>
 
       <Radio.Group onChange={onChange} value={value}>
         <Space direction="vertical">

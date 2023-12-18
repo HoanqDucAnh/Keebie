@@ -12,7 +12,7 @@ export default function CategoryFilter() {
 
   return (
     <ConfigProvider theme={{ token: { colorPrimary: '#F8C70E', fontFamily: 'monospace' } }}>
-      <h1 className='mt-3 font-mono text-lg text-[#F8C70E]'>Phân loại</h1>
+      <h1 className='mt-3 mb-1 font-mono text-lg text-[#F8C70E]'>Phân loại</h1>
 
       <Radio.Group onChange={onChange} value={value}>
         <Space direction="vertical">
