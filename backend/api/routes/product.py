@@ -6,6 +6,7 @@ from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
 import crud
+from .auth import manager
 router = APIRouter()
 
 @router.post("/", response_model=ProductById)
@@ -112,3 +113,7 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
             detail=error,
         )
     
+@router.get("/", response_model=List[ProductBase])
+def get_all_products(db: Session = Depends(deps.get_db)):
+    return crud.product.get_all(db)
+

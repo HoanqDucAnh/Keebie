@@ -2,20 +2,20 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User, Product, Category, ProductDetail
+from models import Base, User, Product, Category
 from models.order import Order, OrderDetail, Status
 from models.sale import Sale, SaleDetail
 from models.voucher import Voucher, VoucherCustomer
 from models.cart import Cart
 from models.customer import Customer
 from models.review import Review
+from models import Base, User, Product, Category, ProductImage
 import models
 from schemas import user
 
 ModelType = TypeVar("ModelType", bound=Base)
 UserType = TypeVar("UserType", bound=User)
 ProductType = TypeVar("ProductType", bound=Product)
-ProductDetailType = TypeVar("ProductDetailType", bound=ProductDetail)
 CategoryType = TypeVar("CategoryType", bound=Category)
 OrderType = TypeVar("OrderType", bound=Order)
 OrderDetailType = TypeVar("OrderDetailType", bound=OrderDetail)
@@ -30,6 +30,7 @@ ReviewType = TypeVar("ReviewType", bound=Review)
 
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+ProductImageType = TypeVar("ProductImageType", bound=ProductImage)
 
 
 
@@ -97,6 +98,8 @@ class UserCRUD:
         return db.query(self.model).filter(self.model.phone_number == phone_number).first()
     def get_by_email(self, db: Session, email: str) -> Optional[UserType]:
         return db.query(self.model).filter(self.model.email == email).first()
+    def list_all_user(self, db: Session) -> List[UserType]:
+        return db.query(self.model).all()
     
 class ProductCRUD:
     def __init__(self, model: Type[ProductType]):
@@ -105,20 +108,26 @@ class ProductCRUD:
         return db.query(self.model).filter(self.model.product_name == product_name).first()
     def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
-    
-class ProductDetailCRUD:
-    def __init__(self, model: Type[ProductDetailType]):
-        self.model = model
-    def list_by_product(self, db: Session, product_id: int) -> List[ProductType]:
-        return db.query(self.model).filter(self.model.product_id == product_id).all()
-
+    def list_all_product(self, db: Session) -> List[ProductType]:
+        return db.query(self.model).all()
     
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
         self.model = model
     def get_by_name(self, db: Session, cat_name: str) -> Optional[CategoryType]:
         return db.query(self.model).filter(self.model.cat_name == cat_name).first()
-    
+    def list_all_category(self, db: Session) -> List[CategoryType]:
+        return db.query(self.model).all()
+
+class ProductImageCRUD:
+    def __init__(self, model: Type[ProductImageType]):
+        self.model = model
+    def get_by_product_id(self, db: Session, product_id: int) -> Optional[ProductImageType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).first()
+    def list_all_product_image(self, db: Session) -> List[ProductImageType]:
+        return db.query(self.model).all()
+    def list_by_product(self, db: Session, product_id: int) -> List[ProductImageType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
 class OrderCRUD:
     def __init__(self, model: Type[OrderType]):
         self.model = model

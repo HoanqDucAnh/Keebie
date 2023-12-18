@@ -7,6 +7,7 @@ from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
+from .auth import manager
 import logging
 import crud
 import sqlalchemy
@@ -35,7 +36,7 @@ def create_user(user_in: UserCreate, db: Session = Depends(deps.get_db)):
 
 
 @router.get("/by_name/{username}", response_model=UserLogin)
-def get_user_by_name(username: str, db: Session = Depends(deps.get_db)):
+def get_user_by_name(username: str, db: Session = Depends(deps.get_db), user = Depends(manager)):
     user = crud.userInteract.get_by_username(db, username=username)
     if not user:
         raise HTTPException(
@@ -53,6 +54,10 @@ def get_user_by_user_id(user_id: int, db: Session = Depends(deps.get_db)):
             detail="User with id {user_id} not found",
         )
     return user
+
+@router.get("/", response_model=List[UserById])
+def get_all_users(db: Session = Depends(deps.get_db)):
+    return crud.user.get_all(db)
 
 
 

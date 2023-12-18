@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "./Input";
-import { FormProvider, set, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { loginAPI } from "../../../services/UserServices";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
@@ -12,8 +12,6 @@ export default function LoginForm() {
 		password: "",
 	});
 	const [isLogging, setIsLogging] = useState(false);
-
-	const history = useHistory();
 
 	function cleanUp() {
 		setLoginField({
@@ -33,10 +31,12 @@ export default function LoginForm() {
 		setIsLogging(false);
 
 		if (respond) {
-			if (respond.status == 200) {
+			if (respond.status === 200) {
 				localStorage.setItem("token", respond.data.access_token);
 				toast.success("Đăng nhập thành công");
-				window.location.href = "/";
+				setTimeout(() => {
+					window.location.href = "/";
+				}, 1000);
 			} else {
 				toast.error("Đăng nhập thất bại, sai tên đăng nhập hoặc mật khẩu");
 			}
