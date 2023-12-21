@@ -20,7 +20,7 @@ async def create(file: UploadFile, db: Session = Depends(deps.get_db)):
     db.add(db_obj)  
     db.commit() 
     db.refresh(db_obj)
-    return file.filename
+    return db_obj.id
 
     
 @router.get("/{id}", response_model=ProductImageById)
