@@ -42,6 +42,24 @@ class ProductImage(BaseProduct):
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     product = relationship('Product', back_populates='product_image')
 
+class Option(BaseProduct):
+    __tablename__ = 'option'
+
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    category_id = Column(Integer, ForeignKey('category.id'), nullable=False, index=True)
+    category_type = Column(String(255), nullable=False)
+    option_name = Column(String(255), nullable=False)
+    
+class ProductOption(BaseProduct):
+    __tablename__ = 'product_option'
+
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
+    option_id = Column(Integer, ForeignKey('product_option.id'), nullable=False, index=True)
+    adđition_price = Column(Float, nullable=False)
+    
+    product = relationship('Product', back_populates='product_option')
+    option = relationship('Option', back_populates='product_option')
 
 
 
