@@ -40,6 +40,7 @@ class ProductImage(BaseProduct):
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     image = Column(LargeBinary(length=(2**32)-1), nullable=False)
+    product = relationship("Product", back_populates="product_image")
 
 
 
