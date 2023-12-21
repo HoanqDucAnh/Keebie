@@ -9,7 +9,7 @@ from models.voucher import Voucher, VoucherCustomer
 from models.cart import Cart
 from models.customer import Customer
 from models.review import Review
-from models import Base, User, Product, Category, ProductImage
+from models import Base, User, Product, Category, ProductImage, ProductOption, Option
 import models
 from schemas import user
 
@@ -27,6 +27,8 @@ VoucherCustomerType = TypeVar("VoucherCustomerType", bound=VoucherCustomer)
 CartType = TypeVar("CartType", bound=Cart)
 CustomerType = TypeVar("CustomerType", bound=Customer)
 ReviewType = TypeVar("ReviewType", bound=Review)
+OptionType = TypeVar("OptionType", bound=Option)
+ProductOptionType = TypeVar("ProductOptionType", bound=ProductOption)
 
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
@@ -209,4 +211,22 @@ class ReviewCRUD:
         return db.query(self.model).filter(self.model.customer_id == customer_id).all()
     def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[ReviewType]:
         return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
+    
+class OptionCRUD:
+    def __init__(self, model: Type[OptionType]):
+        self.model = model
+    def get_by_name(self, db: Session, option_name: str) -> Optional[OptionType]:
+        return db.query(self.model).filter(self.model.option_name == option_name).first()
+    
+class ProductOptionCRUD:
+    def __init__(self, model: Type[ProductOptionType]):
+        self.model = model
+    def get_by_product(self, db: Session, product_id: int) -> List[ProductOptionType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
+    def get_by_option(self, db: Session, option_id: int) -> List[ProductOptionType]:
+        return db.query(self.model).filter(self.model.option_id == option_id).all()
+    def get_by_product_and_option(self, db: Session, product_id: int, option_id: int) -> Optional[ProductOptionType]:
+        return db.query(self.model).filter(self.model.product_id == product_id, self.model.option_id == option_id).first()
+    
+    
 

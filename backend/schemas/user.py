@@ -36,6 +36,12 @@ class UserLogin(BaseModel):
     password: str
 
 class UserUpdate:
-    pass
+    email: str
+    profile_pic: str
+    phone_number: str
+    fullname: str
+    
+    class Config:
+        from_attributes = True
 
 

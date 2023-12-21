@@ -1,7 +1,7 @@
 from typing import Type
 from crud.base import CRUDBase, ProductCRUD, ProductImageCRUD
 from schemas import ProductById, ProductCreate, ProductUpdate, CategoryById, CategoryCreate, CategoryUpdate, ProductImageById, ProductImageCreate, ProductImageUpdate
-from models import Product, Category, ProductImage
+from models import Product, Category, ProductImage, ProductOption, Option
 
 
 class CRUDProduct(CRUDBase[ProductById, ProductCreate, ProductUpdate]):
@@ -18,6 +18,22 @@ class CRUDProductImage(CRUDBase[ProductImageById, ProductImageCreate, ProductUpd
 
 class CRUDProductImage_Type(ProductImageCRUD):
     pass
+
+class CRUDCategory_Type(ProductCRUD):
+    pass
+
+class CRUDProductOption(CRUDBase[ProductById, ProductCreate, ProductUpdate]):
+    pass
+
+class CRUDProductOption_Type(ProductCRUD):
+    pass
+
+class CRUDOption(CRUDBase[ProductById, ProductCreate, ProductUpdate]):
+    pass
+
+class CRUDOption_Type(ProductCRUD):
+    pass
+
 
 product = CRUDProduct(Product)
 productInteract = CRUDProduct_Type(Product)

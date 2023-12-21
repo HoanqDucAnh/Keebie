@@ -2,8 +2,8 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, L
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
+from .user import Base
 
-Base = declarative_base()
 
 class Voucher(Base):
     __tablename__ = "voucher"
@@ -19,7 +19,7 @@ class Voucher(Base):
     voucher_status = Column(Boolean, nullable=False)
     discount_limit = Column(Integer, nullable=False, unique=True)
     discount_left = Column(Integer, nullable=False, unique=True)
-    admin_id = Column(Integer, ForeignKey("admin.admin_id"), nullable=False)
+    admin_id = Column(Integer, ForeignKey("admin.id"), nullable=False)
     
 class VoucherCustomer(Base):
     __tablename__ = "voucher_customer"

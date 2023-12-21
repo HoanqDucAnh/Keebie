@@ -2,10 +2,9 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, L
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
+from .user import Base
 
-CustomerBase = declarative_base()
-
-class Customer(CustomerBase):
+class Customer(Base):
     __tablename__ = "customer"
     
     customer_id = Column(Integer, primary_key=True, autoincrement=True)
@@ -13,6 +12,6 @@ class Customer(CustomerBase):
     customer_last_name = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default= None)
-    user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     
     user = relationship("User", back_populates="customer")

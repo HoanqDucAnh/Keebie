@@ -11,3 +11,5 @@ from .sale import sale, saleInteract
 from .sale import sale_detail, sale_detailInteract
 from .voucher import voucher, voucherInteract, voucher_customerInteract, voucher_customer
 from .product import productImage, productImageInteract
+from .option import option, optionInteract
+from .option import product_option, product_optionInteract
