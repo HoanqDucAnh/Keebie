@@ -11,13 +11,17 @@ import {
 	Form,
 } from "antd";
 import { toast } from "react-toastify";
-import { createCategoryAPI } from "../../../services/AdminServices";
+import {
+	createCategoryAPI,
+	createProdImageAPI,
+	createProductAPI,
+} from "../../../services/AdminServices";
 
 const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 export default function AddProductComponent() {
-	const [imageList, setImageList] = useState([]);
+	const [uploadImg, setUploadImg] = useState([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	const [modalText, setModalText] = useState("Content of the modal");
@@ -27,12 +31,12 @@ export default function AddProductComponent() {
 	const [options, setOptions] = useState([]);
 	const [productFieldValue, setProductFieldValue] = useState({
 		product_name: "",
-		product_image: "",
+		product_image_id: "",
 		content: "",
 		category_id: "",
 		price: "",
 		instock: "",
-		isPublic: "",
+		brand: "",
 	});
 
 	const cateSubmit = {
@@ -69,8 +73,52 @@ export default function AddProductComponent() {
 		resetEditing();
 	};
 
-	const handleFinishAddingProduct = (values) => {
-		console.log(values);
+	const handleSubmitImage = async () => {
+		let image = uploadImg;
+		console.log(image);
+		let respond = await createProdImageAPI(image);
+		if (respond) {
+			if (respond.status == 200) {
+				toast.success("Thêm ảnh thành công");
+				return respond;
+			} else if (respond.status == 500) {
+				toast.error("Lỗi server, xin thử lại sau");
+			} else {
+				toast.error("Lỗi ảnh, xin thử lại sau");
+			}
+		}
+	};
+
+	const handleFinishAddingProduct = async (values) => {
+		let imageID = await handleSubmitImage();
+		console.log(imageID.data);
+		setProductFieldValue({
+			...productFieldValue,
+			product_name: values.product_name,
+			content: values.content,
+			category_id: values.category_id,
+			price: values.price,
+			instock: values.instock,
+			brand: values.brand,
+			product_image_id: imageID.data,
+		});
+		console.log(productFieldValue);
+		let respond = await createProductAPI(
+			productFieldValue.product_name,
+			productFieldValue.brand,
+			productFieldValue.price,
+			productFieldValue.instock,
+			productFieldValue.content,
+			productFieldValue.category_id,
+			productFieldValue.product_image_id
+		);
+		if (respond) {
+			if (respond.status === 200) {
+				toast.success("Thêm sản phẩm thành công");
+			} else {
+				toast.error(`Thêm sản phẩm thất bại, ${respond.data.message}`);
+			}
+		}
 	};
 
 	return (
@@ -187,7 +235,7 @@ export default function AddProductComponent() {
 			<div className="col-span-3 m-3 ">
 				<h1 className="text-2xl font-semibold mb-5">Ảnh sản phẩm</h1>
 				<p>Upload ảnh sản phẩm</p>
-				<UploadImage imageList={imageList} setImageList={setImageList} />
+				<UploadImage uploadImg={uploadImg} setUploadImg={setUploadImg} />
 			</div> */}
 			<ConfigProvider
 				theme={{ token: { colorPrimary: "#F8C70E", fontFamily: "monospace" } }}
@@ -298,6 +346,45 @@ export default function AddProductComponent() {
 							</Form.Item>
 						</div>
 					</div>
+					<div className="grid grid-cols-2 gap-3 mb-3">
+						<div className="col-span-1">
+							<Form.Item
+								name="brand"
+								label="Thương hiệu"
+								rules={[
+									{
+										required: true,
+										message: "Vui lòng nhập thương hiệu",
+									},
+								]}
+							>
+								<Input placeholder="Nhập thương hiệu" />
+							</Form.Item>
+						</div>
+						<div className="col-span-1">
+							<Form.Item
+								name="instock"
+								label="Số lượng sản phẩm"
+								rules={[
+									{
+										required: true,
+										message: "Vui lòng nhập số lượng sản phẩm",
+									},
+								]}
+								initialValue={1}
+							>
+								<InputNumber
+									style={{
+										width: "100%",
+									}}
+									formatter={(value) =>
+										` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+									}
+									parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+								/>
+							</Form.Item>
+						</div>
+					</div>
 					<Form.Item name="content" label="Mô tả sản phẩm">
 						<TextArea showCount maxLength={500} rows={4} />
 					</Form.Item>
@@ -325,27 +412,7 @@ export default function AddProductComponent() {
 							</Form.Item>
 						</div>
 					</div>
-					<Form.Item
-						name="instock"
-						label="Số lượng sản phẩm"
-						rules={[
-							{
-								required: true,
-								message: "Vui lòng nhập số lượng sản phẩm",
-							},
-						]}
-						initialValue={1}
-					>
-						<InputNumber
-							style={{
-								width: "100%",
-							}}
-							formatter={(value) =>
-								` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-							}
-							parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-						/>
-					</Form.Item>
+
 					<Form.Item>
 						<button
 							className="mt-4 text-center bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer font-semibold rounded-md py-2 px-4"
@@ -359,7 +426,7 @@ export default function AddProductComponent() {
 			<div className="col-span-3 m-3 ">
 				<h1 className="text-2xl font-semibold mb-5">Ảnh sản phẩm</h1>
 				<p>Upload ảnh sản phẩm</p>
-				<UploadImage imageList={imageList} setImageList={setImageList} />
+				<UploadImage uploadImg={uploadImg} setUploadImg={setUploadImg} />
 			</div>
 		</div>
 	);

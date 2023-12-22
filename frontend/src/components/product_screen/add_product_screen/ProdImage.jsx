@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import MyButton from "../../shared/MyButton";
 
-export default function ProdImage({
-	src,
-	alt,
-	uid,
-	key,
-	handleDeleteImage,
-	handleReplaceImage,
-}) {
+export default function ProdImage({ src, alt, handleDeleteImage }) {
 	const [hover, setHover] = useState(false);
 
 	const handleMouseEnter = () => {
@@ -20,22 +13,28 @@ export default function ProdImage({
 	};
 
 	return (
-		<div
-			className="relative h-32 border-2 border-black rounded-md my-1"
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}
-		>
-			<img
-				key={key}
-				src={src}
-				alt={alt}
-				className="rounded-md border-2 object-cover h-full w-full"
-			/>
-			{hover && (
-				<div className="flex flex-col absolute top-0 left-0 right-0 bottom-0 items-center justify-center">
-					<MyButton name={"Xóa ảnh"} onClick={() => handleDeleteImage(uid)} />
-					<MyButton name={"Đổi ảnh"} onClick={() => handleReplaceImage(uid)} />
+		<div>
+			{src.length > 0 ? (
+				<div
+					className="relative border-2 border-black rounded-md mb-5 "
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+				>
+					<div>
+						<img
+							className="w-full h-full object-cover rounded-md"
+							src={src}
+							alt={alt}
+						/>
+					</div>
+					{hover && (
+						<div className="flex flex-col absolute top-0 left-0 right-0 bottom-0 items-center justify-center">
+							<MyButton name={"Xóa ảnh"} onClick={() => handleDeleteImage()} />
+						</div>
+					)}
 				</div>
+			) : (
+				<div className="mb-5 "></div>
 			)}
 		</div>
 	);
