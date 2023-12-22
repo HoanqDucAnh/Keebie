@@ -8,6 +8,15 @@ const headers = {
 	"Content-Type": "application/x-www-form-urlencoded",
 };
 
+export const getAllUseresAPI = async () => {
+	try {
+		const res = await api.get("/api/users");
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const getAllProductsAPI = async () => {
 	try {
 		const res = await api.get("/api/products");
