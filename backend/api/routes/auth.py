@@ -2,17 +2,15 @@ from . import user
 from .user import *
 from schemas import Token
 from fastapi_login import LoginManager
+from db.action import get_user_by_name_manager
 import crud
 router = APIRouter()
 
-SECRET_KEY = "hieucute"
-
-manager = LoginManager(SECRET_KEY, token_url='api/auth/login')
 
 
 @router.post('/login', response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(deps.get_db)) -> Token:
-    user = crud.userInteract.get_by_username(db, username=form_data.username)
+    user = get_user_by_name_manager(form_data.username, db)
     if user is None:
         raise InvalidCredentialsException
 

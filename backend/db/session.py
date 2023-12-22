@@ -25,3 +25,10 @@ print(database_exists(engine.url))
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+

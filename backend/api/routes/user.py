@@ -7,7 +7,7 @@ from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
-from .auth import manager
+from security import manager
 import logging
 import crud
 import sqlalchemy
