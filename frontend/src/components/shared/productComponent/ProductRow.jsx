@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ProdCard from "./ProdCard";
+import useProdOnDisplayStore from "../../../stores/ProdOnDisplay";
 
 export default function ProductRow() {
-	const [products, setProducts] = useState([]);
+	const products = useProdOnDisplayStore((state) => state.displayProducts);
+	const setDisplayProducts = useProdOnDisplayStore(
+		(state) => state.updateAllDisplayProducts
+	);
 
 	const mockUpdata = [
 		{
@@ -57,26 +61,11 @@ export default function ProductRow() {
 	];
 
 	useEffect(() => {
-		setProducts(mockUpdata);
+		setDisplayProducts(mockUpdata);
 	}, []);
 
-	// return (
-	// 	<ProductRowContainer>
-	// 		{products.map((product) => (
-	// 			<ProdFrame
-	// 				key={product.id}
-	// 				title={product.title}
-	// 				description={product.description}
-	// 				price={product.price}
-	// 				imageHref={product.imageHref}
-	// 				id={product.id}
-	// 			/>
-	// 		))}
-	// 	</ProductRowContainer>
-	// );
-
 	return (
-		<div className="grid xl:grid-cols-5 lg:grid-cols-3 sm:grid-cols-2 gap-5 ">
+		<div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5 ">
 			{/* <div className="grid grid-rows-2 gap-5 overflow-y-auto"> */}
 			{products.map((product) => (
 				<div key={product.id} className="w-full sm:w-auto">

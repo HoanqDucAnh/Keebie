@@ -39,7 +39,7 @@ function App() {
 					</Route>
 					<Route path="/profile">
 						<ProfileScreen />
-          			</Route>
+					</Route>
 					<Route path="/admin">
 						<AdminScreen />
 					</Route>
