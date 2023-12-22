@@ -21,5 +21,6 @@ class User(Base):
     # role = Column(String(12), nullable=False, unique=True, default="customer")
     # admins = relationship('Admin', back_populates='user')
     customer = relationship('Customer', back_populates='user')
+    admin = relationship('Admin', back_populates='user')
 
 

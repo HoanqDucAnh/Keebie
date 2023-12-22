@@ -15,3 +15,6 @@ class Customer(Base):
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     
     user = relationship("User", back_populates="customer")
+    cart = relationship("Cart", back_populates="customer")
+    review = relationship("Review", back_populates="customer")
+    voucher_customer = relationship("VoucherCustomer", back_populates="customer")

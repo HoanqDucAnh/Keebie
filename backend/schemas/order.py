@@ -19,7 +19,6 @@ class OrderDetailBase(BaseModel):
     product_detail_id: int
     
 class StatusBase(BaseModel):
-    status_id: int
     status_name: str
     
 class OrderById(OrderBase):

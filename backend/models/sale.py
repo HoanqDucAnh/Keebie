@@ -16,6 +16,7 @@ class Sale(Base):
     ended_at = Column(DateTime(timezone=True), nullable=False)
     sale_limit = Column(Integer, nullable=False, unique=True)
     
+    sale_detail = relationship("SaleDetail", back_populates="sale")
     admin = relationship("Admin", back_populates="sale")
     
 class SaleDetail(Base):
@@ -23,9 +24,11 @@ class SaleDetail(Base):
     
     sale_detail_id = Column(Integer, primary_key=True, autoincrement=True)
     sale_id = Column(Integer, ForeignKey("sale.sale_id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default= None)
     is_percentage = Column(Boolean, nullable=False)
     discount_amount = Column(Integer, nullable=False, unique=True)
     
+    product = relationship("Product", back_populates="sale_detail")
     sale = relationship("Sale", back_populates="sale_detail")

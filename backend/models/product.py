@@ -35,8 +35,11 @@ class Product(Base):
     close_at = Column(DateTime(timezone=True), nullable=True)
     price = Column(Float, nullable=False)
     stock = Column(Integer, nullable=False)
+    
     category = relationship('Category', back_populates='product')
     product_image = relationship("ProductImage", back_populates="product")
+    sale_detail = relationship("SaleDetail", back_populates="product")
+    product_option = relationship("ProductOption", back_populates="product")
 
 class ProductImage(Base):
     __tablename__ = 'product_image'
@@ -45,6 +48,9 @@ class ProductImage(Base):
     image = Column(LargeBinary(length=(2**32)-1), nullable=False)
     
     product = relationship("Product", back_populates="product_image")
+    
+# class ProductItem(Base):
+    
 
 
 

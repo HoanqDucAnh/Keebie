@@ -14,13 +14,15 @@ class Option(Base):
     category_type = Column(String(255), nullable=False)
     option_name = Column(String(255), nullable=False)
     
+    product_option = relationship('ProductOption', back_populates='option')
+    
     
 class ProductOption(Base):
     __tablename__ = 'product_option'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
-    option_id = Column(Integer, ForeignKey('product_option.id'), nullable=False, index=True)
+    option_id = Column(Integer, ForeignKey('option.id'), nullable=False, index=True)
     addition_price = Column(Float, nullable=False)
     in_stock = Column(Integer, nullable=False)
     enable = Column(Boolean, nullable=False, default=True)
