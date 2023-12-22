@@ -8,6 +8,15 @@ const headers = {
 	"Content-Type": "application/x-www-form-urlencoded",
 };
 
+export const getAllUseresAPI = async () => {
+	try {
+		const res = await api.get("/api/users");
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const getAllProductsAPI = async () => {
 	try {
 		const res = await api.get("/api/products");
@@ -28,18 +37,22 @@ export const getProductByIdAPI = async (id) => {
 
 export const createProductAPI = async (
 	product_name,
+	brand,
+	price,
+	instock,
 	content,
 	category_id,
-	price,
-	instock
+	prod_img_id
 ) => {
 	try {
 		const res = await api.post("/api/products", {
 			product_name: product_name,
+			brand: brand,
 			content: content,
 			price: price,
 			stock: instock,
 			category_id: category_id,
+			product_image_id: prod_img_id,
 		});
 		return res;
 	} catch (error) {
@@ -125,13 +138,41 @@ export const deleteCategoryAPI = async (id) => {
 	}
 };
 
-export const createProdImageAPI = async (prod_id, image) => {
-	console.log(prod_id, image);
+export const createProdImageAPI = async (image) => {
+	const formData = new FormData();
+	formData.append("file", image);
+	const headers = { "Content-Type": image.type };
 	try {
-		const res = await api.post(`/api/product_images/`, {
-			image: image,
-			product_id: prod_id,
-		});
+		const res = await api.post(`/api/product_images/`, formData, headers);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getProdImgByIdAPI = async (id) => {
+	try {
+		const res = await api.get(`/api/product_images/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const deleteProdImgAPI = async (id) => {
+	try {
+		const res = await api.delete(`/api/product_images/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getProdImgByProdIdAPI = async (product_id) => {
+	try {
+		const res = await api.get(
+			`/api/product_images/by_product_id/${product_id}`
+		);
 		return res;
 	} catch (error) {
 		return error.response;

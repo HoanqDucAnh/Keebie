@@ -23,6 +23,7 @@
 		"styled-component": "^2.8.0",
 		"styled-components": "^6.1.1",
 		"tw-elements-react": "^1.0.0-alpha1",
+		"uuid": "^9.0.1",
 		"web-vitals": "^2.1.0",
 		"zustand": "^4.4.6"
 	},

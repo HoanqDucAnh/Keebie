@@ -1,13 +1,16 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 
+
 class ProductBase(BaseModel):
     product_name: str
+    brand: str
     content: Optional[str]
     price: float
     stock: int
     category_id: int
+    product_image_id: int
 
 class CategoryBase(BaseModel):
     cat_name: str
@@ -15,7 +18,6 @@ class CategoryBase(BaseModel):
 
 class ProductImageBase(BaseModel):
     image: bytes
-    product_id: int
 
 class ProductImageById(ProductImageBase):
     id: int

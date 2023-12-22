@@ -1,24 +1,27 @@
 from typing import List
-from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
+from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form, File, UploadFile
 from sqlalchemy.orm import Session
-from schemas import ProductImageCreate, ProductImageById, ProductImageBase
+from schemas.product import ProductImageCreate, ProductImageById, ProductImageBase
+from models.product import ProductImage
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
 import crud
+from typing import Annotated
+import base64
 from .auth import manager
 router = APIRouter()
 
-@router.post("/", response_model=ProductImageById)
-def create_product_image(product_image_in: ProductImageCreate, db: Session = Depends(deps.get_db)):
-    try:
-        return crud.productImage.create(db, obj_in=product_image_in)
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-        )
+@router.post("/")
+async def create(file: UploadFile, db: Session = Depends(deps.get_db)):
+    data = await file.read()  
+    data = base64.b64encode(data)  
+    db_obj = ProductImage(image=data) 
+    db.add(db_obj)  
+    db.commit() 
+    db.refresh(db_obj)
+    return db_obj.id
+
     
 @router.get("/{id}", response_model=ProductImageById)
 def get_product_image_by_id(id: int, db: Session = Depends(deps.get_db)):

@@ -1,17 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ConfigProvider, Table } from "antd";
+import {
+	getAllProductsAPI,
+	getAllCategoriesAPI,
+} from "../../../services/AdminServices";
 
 export default function AllProdsComponent() {
+	const [products, setProducts] = useState([]);
+	const [categories, setCategories] = useState({});
+
+	useEffect(() => {
+		const productsTemp = [];
+		const fetchData = async () => {
+			try {
+				//fetch categories
+				const allCategories = await getAllCategoriesAPI();
+				const transformedCategories = {};
+				allCategories.data.forEach((categories) => {
+					transformedCategories[categories.id] = categories.cat_name;
+				});
+				setCategories(transformedCategories);
+
+				//fetch products
+				const allProducts = await getAllProductsAPI();
+				allProducts.data.forEach((product) => {
+					var prodType = product.category_id;
+					productsTemp.push({
+						product_name: product.product_name,
+						category_type: transformedCategories[prodType],
+						stock: product.stock,
+						price: product.price,
+						id: product.id,
+						brand: product.brand,
+						content: product.content,
+					});
+				});
+
+				setProducts(productsTemp);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	const columns = [
 		{
-			title: "Tên đơn hàng",
-			dataIndex: "name",
+			title: "Tên sản phẩm",
+			dataIndex: "product_name",
 			key: "name",
 			width: "180px",
 		},
 		{
 			title: "Loại sản phẩm",
-			dataIndex: "type",
+			dataIndex: "category_type",
 			width: "140px",
 			filters: [
 				{
@@ -35,7 +78,7 @@ export default function AllProdsComponent() {
 		},
 		{
 			title: "Số lượng sản phẩm còn lại",
-			dataIndex: "instock",
+			dataIndex: "stock",
 			width: "180px",
 			sorter: (a, b) => new Date(a.date) - new Date(b.date),
 		},
@@ -67,57 +110,6 @@ export default function AllProdsComponent() {
 		},
 	];
 
-	const data = [
-		{
-			key: "item1",
-			name: "Bàn phím cơ AKKO 3084",
-			type: "Bàn phím",
-			date: "2021-10-10",
-			price: 32,
-			status: "Đã giao hàng",
-		},
-		{
-			key: "item2",
-			name: "Bàn phím cơ Cycle7",
-			type: "Bàn phím",
-			date: "2022-10-10",
-			price: 420,
-			status: "Đang giao hàng",
-		},
-		{
-			key: "item3",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item4",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item5",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item6",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-	];
-
 	const onChange = (pagination, filters, sorter, extra) => {
 		console.log("params", pagination, filters, sorter, extra);
 	};
@@ -133,7 +125,8 @@ export default function AllProdsComponent() {
 				<Table
 					pagination={{ pageSize: 5 }}
 					columns={columns}
-					dataSource={data}
+					key={products.id}
+					dataSource={products}
 					onChange={onChange}
 				/>
 			</ConfigProvider>
