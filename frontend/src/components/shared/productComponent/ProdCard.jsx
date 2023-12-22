@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "antd";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 function ProdCard({
@@ -13,13 +14,15 @@ function ProdCard({
 }) {
 	return (
 		<div className={className}>
-			<Card
-				hoverable
-				style={{ width: "100%" }}
-				cover={<img className="prod-img" alt="example" src={imageHref} />}
-			>
-				<Meta title={title} description={price} />
-			</Card>
+			<a href="/product">
+				<Card
+					hoverable
+					style={{ width: "100%" }}
+					cover={<img className="prod-img" alt="example" src={imageHref} />}
+				>
+					<Meta title={title} description={price} />
+				</Card>
+			</a>
 		</div>
 	);
 }
