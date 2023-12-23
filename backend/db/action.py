@@ -2,11 +2,13 @@ from typing import Callable, Iterator, Optional
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form, File, UploadFile
+from fastapi.requests import Request
 from security import manager
 from api import deps
 from models.user import User
 import crud
 from .session import get_session
+
 
 
 @manager.user_loader(session_provider= get_session)
@@ -24,5 +26,7 @@ def get_user_by_name_manager(
 
     user = db.query(User).where(User.username == name).first()
     return user
+
+
 
 

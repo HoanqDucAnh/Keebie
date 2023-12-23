@@ -34,7 +34,13 @@ def get_user_by_name(username: str, db: Session = Depends(deps.get_db), user = D
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User with name {username} not found",
         )
-    return user
+    if user.is_admin == True:
+        return user
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User is not admin",
+        )
 
 @router.get("/{user_id}")
 def get_user_by_user_id(user_id: int, db: Session = Depends(deps.get_db)):

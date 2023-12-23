@@ -13,14 +13,20 @@ from .auth import manager
 router = APIRouter()
 
 @router.post("/")
-async def create(file: UploadFile, db: Session = Depends(deps.get_db)):
-    data = await file.read()  
-    data = base64.b64encode(data)  
-    db_obj = ProductImage(image=data) 
-    db.add(db_obj)  
-    db.commit() 
-    db.refresh(db_obj)
-    return db_obj.id
+async def create(files: list[UploadFile], db: Session = Depends(deps.get_db)):
+    image_ids = []
+    for file in files:
+        data = await file.read()  
+        data = base64.b64encode(data)  
+        db_obj = ProductImage(image=data) 
+        db.add(db_obj)  
+        db.commit() 
+        db.refresh(db_obj)
+        image_ids.append(db_obj.id)
+
+    return image_ids
+    
+    
 
     
 @router.get("/{id}", response_model=ProductImageById)
