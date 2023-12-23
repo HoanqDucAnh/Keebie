@@ -98,7 +98,7 @@ def get_products_by_category(category_id: int, db: Session = Depends(deps.get_db
 
 @router.get("/by_name/{product_name}", response_model=ProductBase)
 def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
-    product = crud.productInteract.get_by_name(db, product_name=product_name)
+    product = crud.productInteract.list_by_name(db, product_name=product_name)
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

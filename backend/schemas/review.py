@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import *
 
 class ReviewBase(BaseModel):
-    review_id: int
     product_detail_id: int
     customer_id: int
     review_content: str

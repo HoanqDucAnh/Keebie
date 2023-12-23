@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import *
 
 class CustomerBase(BaseModel):
-    customer_id: int
     customer_first_name: str
     customer_last_name: str
     created_at: datetime

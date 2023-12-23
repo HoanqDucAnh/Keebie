@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import *
 
 class CartBase(BaseModel):
-    cart_id: int
     product_detail_id: int
     customer_id: int
     quantity: int

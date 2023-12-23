@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import *
 
 class VoucherBase(BaseModel):
-    voucher_id: int
     voucher_name: str
     voucher_code: str
     is_percentage: bool
@@ -16,7 +15,6 @@ class VoucherBase(BaseModel):
     admin_id: int
     
 class VoucherCustomerBase(BaseModel):
-    voucher_customer_id: int
     voucher_id: int
     customer_id: int
     used_at: datetime

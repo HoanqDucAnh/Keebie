@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import *
 
 class SaleBase(BaseModel):
-    sale_id: int
     admin_id: int
     created_at: datetime
     updated_at: datetime
@@ -12,7 +11,6 @@ class SaleBase(BaseModel):
     sale_limit: int
     
 class SaleDetailBase(BaseModel):
-    sale_detail_id: int
     sale_id: int
     product_detail_id: int
     created_at: datetime

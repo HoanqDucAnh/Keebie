@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import *
 
 class OrderBase(BaseModel):
-    order_id: int
     order_code: str
     order_status_id: int
     created_at: datetime
@@ -11,7 +10,6 @@ class OrderBase(BaseModel):
     customer_id: int
     
 class OrderDetailBase(BaseModel):
-    order_detail_id: int
     amount: int
     price: int
     order_detail_total: int

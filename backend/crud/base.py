@@ -106,12 +106,14 @@ class UserCRUD:
 class ProductCRUD:
     def __init__(self, model: Type[ProductType]):
         self.model = model
-    def get_by_name(self, db: Session, product_name: str) -> Optional[ProductType]:
-        return db.query(self.model).filter(self.model.product_name == product_name).first()
+    def list_by_name(self, db: Session, product_name: str) -> List[ProductType]:
+        return db.query(self.model).filter(self.model.product_name == product_name).all()
     def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
     def list_all_product(self, db: Session) -> List[ProductType]:
         return db.query(self.model).all()
+    def list_by_category_name(self, db: Session, category_name: str) -> List[ProductType]:
+        return db.query(self.model).join(Category).filter(Category.cat_name == category_name).all()
     
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):

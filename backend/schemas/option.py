@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 class OptionBase(BaseModel):
-    category_id: int
     category_type: str
     option_name: str
     in_stock: int
