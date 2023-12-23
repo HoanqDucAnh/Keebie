@@ -14,6 +14,7 @@ class UserBase(BaseModel):
     activated: bool
     phone_number: str
     fullname: str
+    address: str
     
 
 class UserCreate(UserBase):
@@ -43,5 +44,9 @@ class UserLogin(BaseModel):
 
 class UserUpdate:
     pass
+
+class UserByAddress(BaseModel):
+    username: str
+    address: str
 
 

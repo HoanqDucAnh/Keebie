@@ -10,12 +10,19 @@ from api import deps
 import logging
 import crud
 import sqlalchemy
+from security import manager
 router = APIRouter()
 
 @router.post("/", response_model=CategoryById)
-def create_category(category: CategoryCreate, db: Session = Depends(deps.get_db)):
+def create_category(category: CategoryCreate, db: Session = Depends(deps.get_db), user = Depends(manager)):
     try:
-        return crud.category.create(db, obj_in=category)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else :
+            return crud.category.create(db, obj_in=category)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -24,7 +31,7 @@ def create_category(category: CategoryCreate, db: Session = Depends(deps.get_db)
         )
     
 @router.get("/{id}", response_model=CategoryById)
-def get_category_by_id(id: int, db: Session = Depends(deps.get_db)):
+def get_category_by_id(id: int, db: Session = Depends(deps.get_db), user = Depends(manager)):
     category = crud.category.get(db, id=id)
     if not category:
         raise HTTPException(
@@ -32,7 +39,13 @@ def get_category_by_id(id: int, db: Session = Depends(deps.get_db)):
             detail=f"Category with ID {id} not found",
         )
     try:
-        return category
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else :
+            return category
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -65,8 +78,14 @@ def delete_category(id: int, db: Session = Depends(deps.get_db)):
         )
 
 @router.get("/", response_model=List[CategoryById])
-def get_all_categories(db: Session = Depends(deps.get_db)):
-    return crud.category.get_all(db)
+def get_all_categories(db: Session = Depends(deps.get_db), user = Depends(manager)):
+    if user.is_admin == False:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User is not admin",
+        )
+    else:
+        return crud.category.get_all(db)
     
 
 
