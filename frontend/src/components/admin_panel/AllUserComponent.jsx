@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ConfigProvider, Table } from "antd";
+import { getAllUseresAPI } from "../../services/AdminServices";
 
 export default function AllUsersComponent() {
+	const [users, setUsers] = useState([]);
+
+	useEffect(() => {
+		var allUsers = getAllUseresAPI();
+		allUsers.then((res) => {
+			setUsers(res.data);
+		});
+	}, []);
+
 	const columns = [
 		{
 			title: "Tên đăng nhập",
@@ -15,8 +25,8 @@ export default function AllUsersComponent() {
 			width: "140px",
 		},
 		{
-			title: "Ngày tạo",
-			dataIndex: "createdDate",
+			title: "Số điện thoại",
+			dataIndex: "phone_number",
 			width: "180px",
 		},
 		{
@@ -28,57 +38,6 @@ export default function AllUsersComponent() {
 			title: "ID tài khoản",
 			dataIndex: "id",
 			width: "160px",
-		},
-	];
-
-	const data = [
-		{
-			key: "item1",
-			name: "Bàn phím cơ AKKO 3084",
-			type: "Bàn phím",
-			date: "2021-10-10",
-			price: 32,
-			status: "Đã giao hàng",
-		},
-		{
-			key: "item2",
-			name: "Bàn phím cơ Cycle7",
-			type: "Bàn phím",
-			date: "2022-10-10",
-			price: 420,
-			status: "Đang giao hàng",
-		},
-		{
-			key: "item3",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item4",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item5",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item6",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
 		},
 	];
 
@@ -97,7 +56,8 @@ export default function AllUsersComponent() {
 				<Table
 					pagination={{ pageSize: 5 }}
 					columns={columns}
-					dataSource={data}
+					key={users.id}
+					dataSource={users}
 					onChange={onChange}
 				/>
 			</ConfigProvider>
