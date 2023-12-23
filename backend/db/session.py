@@ -19,9 +19,15 @@ if not database_exists(engine.url):
 BaseProduct.metadata.create_all(engine)
 Base.metadata.create_all(engine)
 
-
 print(database_exists(engine.url))
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
 
