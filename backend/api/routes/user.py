@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from schemas import UserCreate, UserById, UserBase, UserLogin, UserByRole
+from schemas import UserCreate, UserById, UserBase, UserLogin, UserByRole, UserByAddress
 from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 from sqlalchemy.exc import SQLAlchemyError
@@ -58,7 +58,7 @@ def get_user_by_user_id(user_id: int, db: Session = Depends(deps.get_db), user =
             detail="User is not admin",
         )
 
-@router.get("/", response_model=List[UserById])
+@router.get("/", response_model=List[UserByAddress])
 def get_all_users(db: Session = Depends(deps.get_db), user = Depends(manager)):
     if user.is_admin == False:
         raise HTTPException(
