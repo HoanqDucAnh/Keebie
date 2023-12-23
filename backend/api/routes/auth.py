@@ -19,11 +19,3 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
     token = manager.create_access_token(data={'sub': user.username})
     return Token(access_token=token, token_type='bearer')
-
-# def hash_password(plaintext: str):
-#     return manager.pwd_context.hash(plaintext)
-
-
-# def verify_password(plaintext: str, hashed: str):
-
-#     return manager.pwd_context.verify(plaintext, hashed)

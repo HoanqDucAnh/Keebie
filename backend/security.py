@@ -4,3 +4,4 @@ SECRET_KEY = "hieucute"
 
 manager = LoginManager(SECRET_KEY, token_url='api/auth/login')
 
+

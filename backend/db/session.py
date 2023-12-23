@@ -19,7 +19,6 @@ if not database_exists(engine.url):
 BaseProduct.metadata.create_all(engine)
 Base.metadata.create_all(engine)
 
-
 print(database_exists(engine.url))
 
 
