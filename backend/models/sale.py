@@ -7,7 +7,7 @@ from .user import Base
 class Sale(Base):
     __tablename__ = "sale"
     
-    sale_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     admin_id = Column(Integer, ForeignKey("admin.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default= None)
@@ -22,8 +22,8 @@ class Sale(Base):
 class SaleDetail(Base):
     __tablename__ = "sale_detail"
     
-    sale_detail_id = Column(Integer, primary_key=True, autoincrement=True)
-    sale_id = Column(Integer, ForeignKey("sale.sale_id"), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    sale_id = Column(Integer, ForeignKey("sale.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default= None)

@@ -7,8 +7,8 @@ from .user import Base
 class Review(Base):
     __tablename__ = "review"
     
-    review_id = Column(Integer, primary_key=True, autoincrement=True)
-    customer_id = Column(Integer, ForeignKey("customer.customer_id"), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)
     review_content = Column(String(255), nullable=False)
     review_rating = Column(Integer, nullable=False, unique=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)

@@ -8,7 +8,7 @@ from .user import Base
 class Voucher(Base):
     __tablename__ = "voucher"
     
-    voucher_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     voucher_name = Column(String(255), nullable=False, unique=True)
     voucher_code = Column(String(255), nullable=False, unique=True)
     is_percentage = Column(Boolean, nullable=False)
@@ -26,9 +26,9 @@ class Voucher(Base):
 class VoucherCustomer(Base):
     __tablename__ = "voucher_customer"
     
-    voucher_customer_id = Column(Integer, primary_key=True, autoincrement=True)
-    voucher_id = Column(Integer, ForeignKey("voucher.voucher_id"), nullable=False)
-    customer_id = Column(Integer, ForeignKey("customer.customer_id"), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    voucher_id = Column(Integer, ForeignKey("voucher.id"), nullable=False)
+    customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)
     used_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     
     voucher = relationship("Voucher", back_populates="voucher_customer")

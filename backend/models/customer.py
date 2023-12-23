@@ -7,7 +7,7 @@ from .user import Base
 class Customer(Base):
     __tablename__ = "customer"
     
-    customer_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     customer_first_name = Column(String(255), nullable=False)
     customer_last_name = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)

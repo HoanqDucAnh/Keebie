@@ -7,8 +7,8 @@ from .user import Base
 class Cart(Base):
     __tablename__ = "cart"
     
-    cart_id = Column(Integer, primary_key=True, autoincrement=True)
-    customer_id = Column(Integer, ForeignKey("customer.customer_id"), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)
     quantity = Column(Integer, nullable=False, unique=True)
     
     customer = relationship("Customer", back_populates="cart")

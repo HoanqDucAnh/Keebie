@@ -7,9 +7,9 @@ from .user import Base
 class Order(Base):
     __tablename__ = "order"
     
-    order_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     order_code = Column(String(255), nullable=False, unique=True)
-    order_status_id = Column(Integer, ForeignKey("status.status_id"), nullable=False)
+    order_status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     order_estimated_delivery = Column(String(45), nullable=False)
     address = Column(String(255), nullable=False, unique=True)
@@ -21,7 +21,7 @@ class Order(Base):
 class Status(Base):
     __tablename__ = "status"
     
-    status_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     status_name = Column(String(255), nullable=False)
     
     order = relationship("Order", back_populates="status")
@@ -33,7 +33,7 @@ class OrderDetail(Base):
     amount = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
     # order_detail_total = Column(Integer, nullable=False)
-    order_id = Column(Integer, ForeignKey("order.order_id"), nullable=False)
+    order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     
     order = relationship("Order", back_populates="order_detail")
     
