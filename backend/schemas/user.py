@@ -42,8 +42,15 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
-class UserUpdate:
-    pass
+class UserUpdate(BaseModel):
+    email: str
+    profile_pic: str
+    phone_number: str
+    fullname: str
+    address: str
+    
+    class Config:
+        from_attributes = True
 
 class UserByAddress(BaseModel):
     username: str

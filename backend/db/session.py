@@ -6,18 +6,18 @@ import mysql.connector
 import pymysql
 import models
 from models.user import User, Base
-from models.product import Product, BaseProduct
 
 
-SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:4444@localhost:3306/keebie"
+
+SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:QuanTnaq_4321@localhost:3307/keebie2"
 # SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://fall2324w20g1:4444@10.110.77.167:3306/fall2324w20g1"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 if not database_exists(engine.url):
     create_database(engine.url)
 
-BaseProduct.metadata.create_all(engine)
-Base.metadata.create_all(engine)
+Base.metadata.create_all(bind=engine)
+
 
 print(database_exists(engine.url))
 

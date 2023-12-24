@@ -52,5 +52,20 @@ class CategoryCreate(CategoryBase):
 class CategoryUpdate:
     pass
 
-class ProductUpdate:
-    pass
+class ProductUpdate(ProductBase):
+    product_name: str
+    brand: str
+    content: Optional[str]
+    price: float
+    stock: int
+    category_id: int
+    product_image_id: int
+    
+class ProductOpenClose(BaseModel):
+    open_at: datetime
+    close_at: datetime
+
+
+
+
+

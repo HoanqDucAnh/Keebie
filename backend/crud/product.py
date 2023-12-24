@@ -19,6 +19,22 @@ class CRUDProductImage(CRUDBase[ProductImageById, ProductImageCreate, ProductUpd
 class CRUDProductImage_Type(ProductImageCRUD):
     pass
 
+class CRUDCategory_Type(ProductCRUD):
+    pass
+
+class CRUDProductOption(CRUDBase[ProductById, ProductCreate, ProductUpdate]):
+    pass
+
+class CRUDProductOption_Type(ProductCRUD):
+    pass
+
+class CRUDOption(CRUDBase[ProductById, ProductCreate, ProductUpdate]):
+    pass
+
+class CRUDOption_Type(ProductCRUD):
+    pass
+
+
 product = CRUDProduct(Product)
 productInteract = CRUDProduct_Type(Product)
 category = CRUDCategory(Category)
