@@ -1,12 +1,17 @@
 import React from "react";
 import { Breadcrumb } from "antd";
-import ProdCart from "../components/shared/productComponent/ProdCart";
+import ProdCart from "../components/cart_screen/ProdCart";
+import useCartStore from "../stores/CartStore";
 
 export default function CartScreen() {
+	const CartItem = useCartStore((state) => state.cart);
+	const TotalPrice = useCartStore((state) => state.totalPrice);
 
-  return (
-    <div>
-      <Breadcrumb
+	const removeCartItem = useCartStore((state) => state.removeFromCart);
+
+	return (
+		<div>
+			<Breadcrumb
 				className="ml-5 mr-5 mt-5 mb-3 font-mono"
 				separator=">"
 				items={[
@@ -21,22 +26,26 @@ export default function CartScreen() {
 				]}
 			/>
 
-      <div className="bg-white p-10 font-mono">
-        <p className="text-xl">Giỏ hàng của bạn</p>
-        
-        <div className="flex justify-between">
-          <div className="">
-            <ProdCart />
-            <ProdCart />
-            <ProdCart />
-          </div>
-
-          <div className="">
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+			<div className="bg-white p-10 pt-2 font-mono">
+				<p className="text-xl">Giỏ hàng của bạn</p>
+				<div className="grid grid-cols-8 mt-4">
+					<div className="col-span-4 col-start-2">
+						<ProdCart />
+						<ProdCart />
+					</div>
+					<div className="col-span-2">
+						<div className="border-2 border-gray-200 rounded-lg p-5">
+							<div className="flex justify-between">
+								<p className="text-xl">Tổng tiền</p>
+								<p className="text-xl">{TotalPrice} VND</p>
+							</div>
+							<button className="bg-[#F8C70E] rounded-lg p-2 mt-2">
+								Thanh toán
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
-
