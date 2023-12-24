@@ -9,7 +9,7 @@ from models.user import User, Base
 
 
 
-SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:QuanTnaq_4321@localhost:3307/keebie2"
+SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:4444@localhost:3306/keebie"
 # SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://fall2324w20g1:4444@10.110.77.167:3306/fall2324w20g1"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
