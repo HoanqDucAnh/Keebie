@@ -3,6 +3,8 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 
+# from .base import Base
+
 Base = declarative_base()
 
 class User(Base):
@@ -22,7 +24,6 @@ class User(Base):
     # role = Column(String(12), nullable=False, unique=True, default="customer")
     is_admin = Column(Boolean, nullable=False, default=False)
     # admins = relationship('Admin', back_populates='user')
-    customer = relationship('Customer', back_populates='user')
-    admin = relationship('Admin', back_populates='user')
+    # customers = relationship('Customer', back_populates='user')
 
 
