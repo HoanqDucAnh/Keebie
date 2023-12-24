@@ -1,3 +1,4 @@
+import datetime
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
@@ -9,7 +10,7 @@ from models.voucher import Voucher, VoucherCustomer
 from models.cart import Cart
 from models.customer import Customer
 from models.review import Review
-from models import Base, User, Product, Category, ProductImage, ProductOption, Option
+from models import Base, User, Product, Category, ProductImage
 import models
 from schemas import user
 
@@ -27,8 +28,8 @@ VoucherCustomerType = TypeVar("VoucherCustomerType", bound=VoucherCustomer)
 CartType = TypeVar("CartType", bound=Cart)
 CustomerType = TypeVar("CustomerType", bound=Customer)
 ReviewType = TypeVar("ReviewType", bound=Review)
-OptionType = TypeVar("OptionType", bound=Option)
-ProductOptionType = TypeVar("ProductOptionType", bound=ProductOption)
+# OptionType = TypeVar("OptionType", bound=Option)
+# ProductOptionType = TypeVar("ProductOptionType", bound=ProductOption)
 
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
@@ -114,6 +115,20 @@ class ProductCRUD:
         return db.query(self.model).all()
     def list_by_category_name(self, db: Session, category_name: str) -> List[ProductType]:
         return db.query(self.model).join(Category).filter(Category.cat_name == category_name).all()
+    def update_open_close_date(self, db: Session, id: int, open_at: datetime, close_at: datetime) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.open_at = open_at
+        product.close_at = close_at
+        db.commit()
+        db.refresh(product)
+        return product
+    
+    def update_updated_at(self, db: Session, id: int) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.updated_at = datetime.datetime.now()
+        db.commit()
+        db.refresh(product)
+        return product
     
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
@@ -139,6 +154,8 @@ class OrderCRUD:
         return db.query(self.model).filter(self.model.customer_id == customer_id).all()
     def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
         return db.query(self.model).filter(self.model.order_status_id == status_id).all()
+    def get_by_status_name(self, db: Session, status_name: str) -> List[OrderType]:
+        return db.query(self.model).join(Status).filter(Status.status_name == status_name).all()
     
 class OrderDetailCRUD:
     def __init__(self, model: Type[OrderDetailType]):
@@ -214,21 +231,21 @@ class ReviewCRUD:
     def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[ReviewType]:
         return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
     
-class OptionCRUD:
-    def __init__(self, model: Type[OptionType]):
-        self.model = model
-    def get_by_name(self, db: Session, option_name: str) -> Optional[OptionType]:
-        return db.query(self.model).filter(self.model.option_name == option_name).first()
+# class OptionCRUD:
+#     def __init__(self, model: Type[OptionType]):
+#         self.model = model
+#     def get_by_name(self, db: Session, option_name: str) -> Optional[OptionType]:
+#         return db.query(self.model).filter(self.model.option_name == option_name).first()
     
-class ProductOptionCRUD:
-    def __init__(self, model: Type[ProductOptionType]):
-        self.model = model
-    def get_by_product(self, db: Session, product_id: int) -> List[ProductOptionType]:
-        return db.query(self.model).filter(self.model.product_id == product_id).all()
-    def get_by_option(self, db: Session, option_id: int) -> List[ProductOptionType]:
-        return db.query(self.model).filter(self.model.option_id == option_id).all()
-    def get_by_product_and_option(self, db: Session, product_id: int, option_id: int) -> Optional[ProductOptionType]:
-        return db.query(self.model).filter(self.model.product_id == product_id, self.model.option_id == option_id).first()
+# class ProductOptionCRUD:
+#     def __init__(self, model: Type[ProductOptionType]):
+#         self.model = model
+#     def get_by_product(self, db: Session, product_id: int) -> List[ProductOptionType]:
+#         return db.query(self.model).filter(self.model.product_id == product_id).all()
+#     def get_by_option(self, db: Session, option_id: int) -> List[ProductOptionType]:
+#         return db.query(self.model).filter(self.model.option_id == option_id).all()
+#     def get_by_product_and_option(self, db: Session, product_id: int, option_id: int) -> Optional[ProductOptionType]:
+#         return db.query(self.model).filter(self.model.product_id == product_id, self.model.option_id == option_id).first()
     
     
 

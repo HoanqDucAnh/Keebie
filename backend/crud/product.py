@@ -1,7 +1,7 @@
 from typing import Type
 from crud.base import CRUDBase, ProductCRUD, ProductImageCRUD
 from schemas import ProductById, ProductCreate, ProductUpdate, CategoryById, CategoryCreate, CategoryUpdate, ProductImageById, ProductImageCreate, ProductImageUpdate
-from models import Product, Category, ProductImage, ProductOption, Option
+from models import Product, Category, ProductImage
 
 
 class CRUDProduct(CRUDBase[ProductById, ProductCreate, ProductUpdate]):

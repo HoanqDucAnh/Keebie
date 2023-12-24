@@ -127,6 +127,23 @@ def get_all_orders(db: Session = Depends(deps.get_db)):
             detail=error,
         )
         
+@router.get("/by_status_name/{status_name}", response_model=List[OrderById])
+def get_order_by_status_name(status_name: str, db: Session = Depends(deps.get_db)):
+    order = crud.orderInteract.get_by_status_name(db, status_name=status_name)
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Order with status name {status_name} not found",
+        )
+    
+    try :
+        return order
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
 
 
     

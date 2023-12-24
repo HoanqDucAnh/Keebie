@@ -18,7 +18,6 @@ class Category(Base):
         UniqueConstraint('id', name='unique_id'),
     )
     product = relationship("Product", back_populates="category")
-    option = relationship("Option", back_populates="category")
 
 class Product(Base):
     __tablename__ = 'product'
@@ -28,7 +27,7 @@ class Product(Base):
     product_image_id = Column(Integer, ForeignKey('product_image.id'), nullable=True, index=True)
     brand = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
-    updated_at = Column(DateTime(timezone=True), default= None) 
+    updated_at = Column(DateTime(timezone=True), default= func.now()) 
     category_id = Column(Integer, ForeignKey('category.id'), nullable=False, index=True)
     content = Column(Text, default=None, nullable=True)
     open_at = Column(DateTime(timezone=True), nullable=True)
@@ -39,7 +38,7 @@ class Product(Base):
     category = relationship('Category', back_populates='product')
     product_image = relationship("ProductImage", back_populates="product")
     sale_detail = relationship("SaleDetail", back_populates="product")
-    product_option = relationship("ProductOption", back_populates="product")
+    review = relationship("Review", back_populates="product")
 
 class ProductImage(Base):
     __tablename__ = 'product_image'

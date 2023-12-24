@@ -10,8 +10,6 @@ from .routes import cart
 from .routes import sale, sale_detail
 from .routes import voucher
 from .routes import product_image
-from .routes import option
-from .routes import product_option
 
 
 
@@ -31,6 +29,5 @@ api_router.include_router(sale.router, prefix="/sale", tags=["sales"])
 api_router.include_router(sale_detail.router, prefix="/sale_detail", tags=["sale_details"])
 api_router.include_router(voucher.router, prefix="/voucher", tags=["vouchers"])
 api_router.include_router(product_image.router, prefix="/product_images", tags=["product_images"])
-api_router.include_router(option.router, prefix="/options", tags=["options"])
 
 

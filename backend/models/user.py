@@ -18,6 +18,7 @@ class User(Base):
     activated = Column(Boolean, nullable=False, default=False)
     phone_number = Column(String(12), nullable=False, unique=True)
     fullname = Column(String(12), nullable=False, unique=False)
+    address = Column(String(255), nullable=False, unique=False)
     # role = Column(String(12), nullable=False, unique=True, default="customer")
     # admins = relationship('Admin', back_populates='user')
     customer = relationship('Customer', back_populates='user')
