@@ -20,6 +20,7 @@ class User(Base):
     fullname = Column(String(12), nullable=False, unique=False)
     address = Column(String(255), nullable=False, unique=False)
     # role = Column(String(12), nullable=False, unique=True, default="customer")
+    is_admin = Column(Boolean, nullable=False, default=False)
     # admins = relationship('Admin', back_populates='user')
     customer = relationship('Customer', back_populates='user')
     admin = relationship('Admin', back_populates='user')

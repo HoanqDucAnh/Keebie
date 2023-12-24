@@ -2,18 +2,25 @@ import datetime
 from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
+from fastapi.requests import Request
 from schemas import ProductCreate, ProductById, ProductBase, ProductUpdate, ProductOpenClose
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
 import crud
-from .auth import manager
+from security import manager
 router = APIRouter()
 
 @router.post("/", response_model=ProductById)
-def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db)):
+def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db), user=Depends(manager)):
     try:
-        return crud.product.create(db, obj_in=product_in)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else :
+            return crud.product.create(db, obj_in=product_in)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -22,7 +29,7 @@ def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db)
         )
 
 @router.get("/{id}", response_model=ProductById)
-def get_product_by_id(id: int, db: Session = Depends(deps.get_db)):
+def get_product_by_id(id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
     if not product:
         raise HTTPException(
@@ -31,7 +38,13 @@ def get_product_by_id(id: int, db: Session = Depends(deps.get_db)):
         )
     
     try :
-        return product
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return product
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -41,7 +54,7 @@ def get_product_by_id(id: int, db: Session = Depends(deps.get_db)):
     
 
 @router.delete("/{id}", response_model=int)
-def delete_product(id: int, db: Session = Depends(deps.get_db)):
+def delete_product(id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
     if not product:
         raise HTTPException(
@@ -49,7 +62,13 @@ def delete_product(id: int, db: Session = Depends(deps.get_db)):
             detail=f"Product with ID {id} not found",
         )
     try :
-        return crud.product.remove(db, obj=product)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return crud.product.remove(db, obj=product)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -58,7 +77,7 @@ def delete_product(id: int, db: Session = Depends(deps.get_db)):
         )
         
 @router.put("/{id}", response_model=ProductById)
-def update_product(id: int, product_in: ProductUpdate, db: Session = Depends(deps.get_db)):
+def update_product(id: int, product_in: ProductCreate, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
     if not product:
         raise HTTPException(
@@ -66,9 +85,13 @@ def update_product(id: int, product_in: ProductUpdate, db: Session = Depends(dep
             detail=f"Product with ID {id} not found",
         )
     try :
-        # Update the field updated_at
-        crud.productInteract.update_updated_at(db, id=id)
-        return crud.product.update(db, db_obj=product, obj_in=product_in)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return crud.product.update(db, db_obj=product, obj_in=product_in)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -77,7 +100,7 @@ def update_product(id: int, product_in: ProductUpdate, db: Session = Depends(dep
         )
 
 @router.get("/by_category/{category_id}", response_model=List[ProductBase])
-def get_products_by_category(category_id: int, db: Session = Depends(deps.get_db)):
+def get_products_by_category(category_id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
     products = crud.productInteract.list_by_category(db, category_id=category_id)
     if not products:
         raise HTTPException(
@@ -85,7 +108,13 @@ def get_products_by_category(category_id: int, db: Session = Depends(deps.get_db
             detail=f"No products found for category with ID {category_id}",
         )
     try :
-        return products
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return products
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -111,8 +140,21 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
         )
     
 @router.get("/", response_model=List[ProductBase])
-def get_all_products(db: Session = Depends(deps.get_db)):
-    return crud.product.get_all(db)
+def get_all_products(db: Session = Depends(deps.get_db), user=Depends(manager)):
+    try :
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return crud.product.get_all(db)
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
 
 @router.post("/update_open_close_date/{id}", response_model=ProductById)
 def update_open_close_date(id: int, time_in: ProductOpenClose, db: Session = Depends(deps.get_db)):
