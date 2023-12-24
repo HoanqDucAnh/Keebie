@@ -26,14 +26,14 @@ export default function CartScreen() {
 				]}
 			/>
 
-			<div className="bg-white p-10 pt-2 font-mono">
+			<div className="bg-white p-10 pt-5 font-mono">
 				<p className="text-xl">Giỏ hàng của bạn</p>
-				<div className="grid grid-cols-8 mt-4">
+				<div className="grid grid-cols-9 mt-4">
 					<div className="col-span-4 col-start-2">
 						<ProdCart />
 						<ProdCart />
 					</div>
-					<div className="col-span-2">
+					<div className="col-span-3 ml-10">
 						<div className="border-2 border-gray-200 rounded-lg p-5">
 							<div className="flex justify-between">
 								<p className="text-xl">Tổng tiền</p>

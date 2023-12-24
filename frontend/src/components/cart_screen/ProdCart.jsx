@@ -1,5 +1,6 @@
 import React from "react";
 import { InputNumber } from "antd";
+import { ConfigProvider } from "antd";
 
 export default function ProdCart({
 	id,
@@ -10,6 +11,7 @@ export default function ProdCart({
 	image,
 }) {
 	return (
+		<ConfigProvider theme={{ token: { colorPrimary: '#F8C70E', fontFamily: 'monospace' } }}>
 		<div className="flex flex-row my-6 flex-wrap">
 			<img src="https://picsum.photos/200" alt="" className="w-24 h-24" />
 			<div className="ml-5 basis-2/5 m-auto">
@@ -24,5 +26,6 @@ export default function ProdCart({
 				</div>
 			</div>
 		</div>
+		</ConfigProvider>
 	);
 }
