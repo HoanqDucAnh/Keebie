@@ -86,25 +86,6 @@ def get_all_categories(db: Session = Depends(deps.get_db), user = Depends(manage
         )
     else:
         return crud.category.get_all(db)
-
-@router.put("/{id}", response_model=CategoryById)
-def update_category(id: int, category: CategoryBase, db: Session = Depends(deps.get_db)):
-    category_db = crud.category.get(db, id=id)
-    if not category_db:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Category with ID {id} not found",
-        )
-    try:
-        return crud.category.update(db, db_obj=category_db, obj_in=category)
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-        )
-        
-
     
 
 
