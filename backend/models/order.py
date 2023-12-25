@@ -1,8 +1,9 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, LargeBinary
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 from .user import Base
+from .product import BaseProduct
 
 
 class Order(Base):
@@ -12,7 +13,6 @@ class Order(Base):
     order_code = Column(String(255), nullable=False, unique=True)
     # order_status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
-    order_estimated_delivery = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     address = Column(String(255), nullable=False, unique=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     
@@ -31,11 +31,11 @@ class Status(Base):
 class OrderDetail(Base):
     __tablename__ = "order_detail"
     
-    order_detail_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     amount = Column(Integer, nullable=False)
-    price = Column(Integer, nullable=False)
-    # order_detail_total = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     
     order = relationship("Order", back_populates="order_detail")
     

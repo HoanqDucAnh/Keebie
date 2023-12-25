@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.post("/", response_model=OrderDetailById)
 def create_order_detail(order_detail_in: OrderDetailCreate, db: Session = Depends(deps.get_db)):
-    product_in_stock = crud.productInteract.get_stock_by_id(db, product_detail_id=order_detail_in.product_detail_id)
+    product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail_in.product_id)
     if (product_in_stock < order_detail_in.amount):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -19,7 +19,7 @@ def create_order_detail(order_detail_in: OrderDetailCreate, db: Session = Depend
         )
     else :
         try:
-            crud.productInteract.update_stock_by_id(db, product_detail_id=order_detail_in.product_detail_id, amount=product_in_stock - order_detail_in.amount)
+            crud.productInteract.update_stock_by_id(db, id=order_detail_in.product_id, stock=product_in_stock - order_detail_in.amount)
             return crud.order_detail.create(db, obj_in=order_detail_in)
         except SQLAlchemyError as e:
             error = str(e)

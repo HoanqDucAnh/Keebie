@@ -2,11 +2,11 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, T
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
-# from .base import Base
+from .user import Base
 
 BaseProduct = declarative_base()
 
-class Category(BaseProduct):
+class Category(Base):
     __tablename__ = 'category'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -18,7 +18,7 @@ class Category(BaseProduct):
     )
     product = relationship("Product", back_populates="category")
 
-class Product(BaseProduct):
+class Product(Base):
     __tablename__ = 'product'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -36,7 +36,7 @@ class Product(BaseProduct):
     category = relationship('Category', back_populates='product')
     product_image = relationship("ProductImage", back_populates="product")
 
-class ProductImage(BaseProduct):
+class ProductImage(Base):
     __tablename__ = 'product_image'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)

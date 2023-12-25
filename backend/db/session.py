@@ -6,7 +6,7 @@ import mysql.connector
 import pymysql
 import models
 from models.user import User, Base
-from models.product import Product, BaseProduct
+from models.product import Base as BaseProduct
 from models.order import Base as BaseOrder
 
 

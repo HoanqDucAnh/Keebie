@@ -5,14 +5,12 @@ class OrderBase(BaseModel):
     order_code: str
     address: str
     user_id: int
-    order_estimated_delivery: datetime
     
 class OrderDetailBase(BaseModel):
     amount: int
     price: int
-    order_detail_total: int
     order_id: int
-    product_detail_id: int
+    product_id: int
     
 class StatusBase(BaseModel):
     status_name: str
