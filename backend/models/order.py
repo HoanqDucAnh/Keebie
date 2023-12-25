@@ -15,8 +15,8 @@ class Order(Base):
     address = Column(String(255), nullable=False, unique=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     total_price = Column(Float, nullable=False)  
-    status = relationship("Status", back_populates="order")
-    order_detail = relationship("OrderDetail", back_populates="order")
+    status = relationship("Status", back_populates="order", cascade="all, delete-orphan")
+    order_detail = relationship("OrderDetail", back_populates="order", cascade="all, delete-orphan", single_parent=True)
     
 class Status(Base):
     __tablename__ = "status"
@@ -25,7 +25,7 @@ class Status(Base):
     status_name = Column(String(255), nullable=False, default="Pending")
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     
-    order = relationship("Order", back_populates="status")
+    order = relationship("Order", back_populates="status", cascade="all, delete-orphan", single_parent=True)
     
 class OrderDetail(Base):
     __tablename__ = "order_detail"
@@ -35,5 +35,5 @@ class OrderDetail(Base):
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     
-    order = relationship("Order", back_populates="order_detail")
+    order = relationship("Order", back_populates="order_detail", cascade="all, delete-orphan", single_parent=True)
     

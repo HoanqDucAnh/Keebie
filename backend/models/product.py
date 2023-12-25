@@ -33,7 +33,7 @@ class Product(Base):
     price = Column(Float, nullable=False)
     stock = Column(Integer, nullable=False)
     category = relationship('Category', back_populates='product')
-    product_image = relationship("ProductImage", back_populates="product")
+    product_image = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan", single_parent=True)
 
 class ProductImage(Base):
     __tablename__ = 'product_image'
@@ -41,7 +41,7 @@ class ProductImage(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     image = Column(LargeBinary(length=(2**32)-1), nullable=False)
     product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
-    product = relationship("Product", back_populates="product_image")
+    product = relationship("Product", back_populates="product_image", cascade="all, delete-orphan", single_parent=True)
 
 
 

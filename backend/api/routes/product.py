@@ -55,12 +55,6 @@ def get_product_by_id(id: int, db: Session = Depends(deps.get_db), user=Depends(
 @router.delete("/{id}", response_model=int)
 def delete_product(id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
-    associated_product_details = crud.product_details.list_by_product(db, product.id)
-    if associated_product_details:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"Cannot delete product with ID {id}. There are associated product details.",
-        )
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

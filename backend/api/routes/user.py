@@ -19,7 +19,7 @@ def create_user(user_in: UserCreate, db: Session = Depends(deps.get_db)):
     try:
         return crud.user.create(db, obj_in=user_in)
     except SQLAlchemyError as e:
-            error = str(e.__dict__['orig']),
+            error = str(e),
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=error,
