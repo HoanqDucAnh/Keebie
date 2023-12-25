@@ -5,10 +5,10 @@ class OrderBase(BaseModel):
     order_code: str
     address: str
     user_id: int
+    total_price: float
     
 class OrderDetailBase(BaseModel):
     amount: int
-    price: int
     order_id: int
     product_id: int
     

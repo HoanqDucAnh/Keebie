@@ -22,7 +22,7 @@ class User(Base):
     fullname = Column(String(12), nullable=False, unique=False)
     address = Column(String(255), nullable=False, unique=False)
     # role = Column(String(12), nullable=False, unique=True, default="customer")
-    is_admin = Column(Boolean, nullable=False, default=False)
+    is_admin = Column(Boolean, nullable=False, default=True)
     # admins = relationship('Admin', back_populates='user')
     # customers = relationship('Customer', back_populates='user')
 
