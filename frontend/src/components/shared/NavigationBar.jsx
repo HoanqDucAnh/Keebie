@@ -82,14 +82,6 @@ const NavigationBar = () => {
 				</a>
 			),
 		},
-		{
-			key: "4",
-			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
-					Phụ kiện khác
-				</a>
-			),
-		},
 	];
 
 	const groupbuyDropdownItems = [
@@ -192,7 +184,7 @@ const NavigationBar = () => {
 						</ConfigProvider>
 					</li>
 					<li className="p-2">
-						<a className="hover:text-[#FFF5D6]" href="/">
+						<a className="hover:text-[#FFF5D6]" href="/cart">
 							<AiOutlineShoppingCart />
 						</a>
 					</li>

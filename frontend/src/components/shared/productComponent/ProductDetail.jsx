@@ -42,8 +42,8 @@ export default function ProductDetailScreen() {
 	const tagText = product.stock > 0 ? 'Còn hàng' : 'Hết hàng';
 
 	return (
-		<div className="m-5">
-		<Breadcrumb className="mb-3 font-mono" separator=">"
+		<div>
+		<Breadcrumb className="mt-5 ml-5 mb-3 font-mono" separator=">"
 			items={[
 			{
 				title: 'Trang chủ',
@@ -59,7 +59,7 @@ export default function ProductDetailScreen() {
 			},
 			]}
 		/>
-		<div className="flex">
+		<div className="flex mt-5 mb-5 pt-5 pb-5 bg-white">
 			<Carousel 
 					dotPosition="left" 
 					className="ml-[100px] w-[500px]"

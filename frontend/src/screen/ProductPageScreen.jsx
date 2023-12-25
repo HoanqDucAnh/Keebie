@@ -25,11 +25,11 @@ export default function ProductPageScreen() {
 			/>
 
 			<Layout>
-				<Sider
+				<Sider 
+					width={240}
 					style={{
 						backgroundColor: "white",
 						borderRadius: "10px",
-						maxWidth: "240px",
 					}}
 				>
 					<Sidebar />
