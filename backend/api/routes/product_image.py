@@ -13,7 +13,7 @@ from .auth import manager
 router = APIRouter()
 
 @router.post("/")
-async def create(files: list[UploadFile], db: Session = Depends(deps.get_db), user=Depends(manager)):
+async def create(files: list[UploadFile], db: Session = Depends(deps.get_db), user=Depends(manager), product_id: int = Form(...)):
     if user.is_admin == False:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -25,11 +25,11 @@ async def create(files: list[UploadFile], db: Session = Depends(deps.get_db), us
             data = await file.read()  
             data = base64.b64encode(data)  
             db_obj = ProductImage(image=data) 
+            db_obj.product_id = product_id
             db.add(db_obj)  
             db.commit() 
             db.refresh(db_obj)
             image_ids.append(db_obj.id)
-
         return image_ids
     
     

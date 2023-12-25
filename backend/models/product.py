@@ -23,7 +23,6 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     product_name = Column(String(255), nullable=False)
-    product_image_id = Column(Integer, ForeignKey('product_image.id'), nullable=True, index=True)
     brand = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
     updated_at = Column(DateTime(timezone=True), default= None) 
@@ -41,6 +40,7 @@ class ProductImage(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     image = Column(LargeBinary(length=(2**32)-1), nullable=False)
+    product_id = Column(Integer, ForeignKey('product.id'), nullable=False, index=True)
     product = relationship("Product", back_populates="product_image")
 
 

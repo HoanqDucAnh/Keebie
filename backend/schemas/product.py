@@ -10,7 +10,7 @@ class ProductBase(BaseModel):
     price: float
     stock: int
     category_id: int
-    product_image_id: int
+
 
 class CategoryBase(BaseModel):
     cat_name: str
@@ -18,6 +18,7 @@ class CategoryBase(BaseModel):
 
 class ProductImageBase(BaseModel):
     image: bytes
+    product_id: int
 
 class ProductImageById(ProductImageBase):
     id: int
