@@ -3,11 +3,9 @@ from datetime import *
 
 class OrderBase(BaseModel):
     order_code: str
-    order_status_id: int
-    created_at: datetime
-    order_estimated_delivery: datetime
     address: str
     user_id: int
+    order_estimated_delivery: datetime
     
 class OrderDetailBase(BaseModel):
     amount: int
@@ -18,6 +16,7 @@ class OrderDetailBase(BaseModel):
     
 class StatusBase(BaseModel):
     status_name: str
+    order_id: int
     
 class OrderById(OrderBase):
     id: int
@@ -55,11 +54,5 @@ class OrderDetailUpdate:
 class StatusUpdate:
     pass
 
-class OrderByCustomerId(OrderBase):
-    customer_id: int
-    
-    class Config:
-        from_attributes = True
-        
 
         

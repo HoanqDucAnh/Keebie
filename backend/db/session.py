@@ -7,6 +7,8 @@ import pymysql
 import models
 from models.user import User, Base
 from models.product import Product, BaseProduct
+from models.order import Base as BaseOrder
+
 
 
 SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:4444@localhost:3306/keebie"
@@ -18,7 +20,7 @@ if not database_exists(engine.url):
 
 BaseProduct.metadata.create_all(engine)
 Base.metadata.create_all(engine)
-
+BaseOrder.metadata.create_all(engine)
 print(database_exists(engine.url))
 
 

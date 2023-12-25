@@ -4,14 +4,15 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 from .user import Base
 
+
 class Order(Base):
     __tablename__ = "order"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     order_code = Column(String(255), nullable=False, unique=True)
-    order_status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
+    # order_status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
-    order_estimated_delivery = Column(String(45), nullable=False)
+    order_estimated_delivery = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     address = Column(String(255), nullable=False, unique=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     
@@ -23,6 +24,7 @@ class Status(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     status_name = Column(String(255), nullable=False)
+    order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     
     order = relationship("Order", back_populates="status")
     
