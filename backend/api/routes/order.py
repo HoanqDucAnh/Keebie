@@ -144,6 +144,24 @@ def get_order_by_status_name(status_name: str, db: Session = Depends(deps.get_db
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
         )
+    
+@router.delete("/{id}", response_model=int)
+def delete_order(id: int, db: Session = Depends(deps.get_db)):
+    order = crud.order.get(db, id=id)
+    if not order:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Order with ID {id} not found",
+        )
+    
+    try:
+        return crud.order.remove(db, obj=order)
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
 
 
     
