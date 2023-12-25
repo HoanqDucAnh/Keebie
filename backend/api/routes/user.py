@@ -25,7 +25,6 @@ def create_user(user_in: UserCreate, db: Session = Depends(deps.get_db)):
                 detail=error,
             )
 
-
 @router.get("/by_name/{username}", response_model=UserLogin)
 def get_user_by_name(username: str, db: Session = Depends(deps.get_db), user = Depends(manager)):
     user = crud.userInteract.get_by_username(db, username=username)
@@ -77,18 +76,6 @@ def delete_user(user_id: int, db: Session = Depends(deps.get_db)):
             detail="User with id {user_id} not found",
         )
     return crud.user.remove(db, obj=user)
-
-@router.put("/{user_id}", response_model=UserById)
-def update_user(user_id: int, user_in: UserUpdate, db: Session = Depends(deps.get_db)):
-    if user := crud.user.get(db, id=user_id):
-        return crud.user.update(db, db_obj=user, obj_in=user_in)
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User with id {user_id} not found",
-        )
-
-
 
 @router.put("/{user_id}", response_model=UserByRole)
 def update_user(user_id: int, user_in: UserByRole, db: Session = Depends(deps.get_db)):

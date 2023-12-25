@@ -39,6 +39,7 @@ class Product(Base):
     product_image = relationship("ProductImage", back_populates="product")
     sale_detail = relationship("SaleDetail", back_populates="product")
     review = relationship("Review", back_populates="product")
+    order_detail = relationship("OrderDetail", back_populates="product")
 
 class ProductImage(Base):
     __tablename__ = 'product_image'

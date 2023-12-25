@@ -11,12 +11,13 @@ class Order(Base):
     order_code = Column(String(255), nullable=False, unique=True)
     order_status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
-    order_estimated_delivery = Column(String(45), nullable=False)
+    order_estimated_delivery = Column(DateTime(timezone=True), default=func.now(), nullable=False)
     address = Column(String(255), nullable=False, unique=True)
-    # customer_id = Column(Integer, ForeignKey("customer.customer_id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     
     status = relationship("Status", back_populates="order")
     order_detail = relationship("OrderDetail", back_populates="order")
+    user = relationship("User", back_populates="order")
     
 class Status(Base):
     __tablename__ = "status"
@@ -29,11 +30,12 @@ class Status(Base):
 class OrderDetail(Base):
     __tablename__ = "order_detail"
     
-    order_detail_id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     amount = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
-    # order_detail_total = Column(Integer, nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     
     order = relationship("Order", back_populates="order_detail")
+    product = relationship("Product", back_populates="order_detail")
     

@@ -150,8 +150,8 @@ class ProductImageCRUD:
 class OrderCRUD:
     def __init__(self, model: Type[OrderType]):
         self.model = model
-    def get_by_customer(self, db: Session, customer_id: int) -> List[OrderType]:
-        return db.query(self.model).filter(self.model.customer_id == customer_id).all()
+    def get_by_user(self, db: Session, user_id: int) -> List[OrderType]:
+        return db.query(self.model).filter(self.model.user_id == user_id).all()
     def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
         return db.query(self.model).filter(self.model.order_status_id == status_id).all()
     def get_by_status_name(self, db: Session, status_name: str) -> List[OrderType]:
@@ -162,9 +162,8 @@ class OrderDetailCRUD:
         self.model = model
     def get_by_order(self, db: Session, order_id: int) -> List[OrderDetailType]:
         return db.query(self.model).filter(self.model.order_id == order_id).all()
-    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[OrderDetailType]:
-        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
-    
+    def get_by_product(self, db: Session, product_id: int) -> List[OrderDetailType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
     
 class StatusCRUD:
     def __init__(self, model: Type[StatusType]):

@@ -24,5 +24,6 @@ class User(Base):
     # admins = relationship('Admin', back_populates='user')
     customer = relationship('Customer', back_populates='user')
     admin = relationship('Admin', back_populates='user')
+    order = relationship('Order', back_populates='user')
 
 

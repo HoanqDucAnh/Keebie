@@ -56,13 +56,13 @@ def get_order_detail_by_order(order_id: int, db: Session = Depends(deps.get_db))
             detail=error,
         )
         
-@router.get("/by_pdetail/{pdetail_id}", response_model=List[OrderDetailById])
-def get_order_detail_by_pdetail(pdetail_id: int, db: Session = Depends(deps.get_db)):
-    order_detail = crud.order_detailInteract.get_by_product_detail(db, pdetail_id=pdetail_id)
+@router.get("/by_product/{product_id}", response_model=List[OrderDetailById])
+def get_order_detail_by_product(product_id: int, db: Session = Depends(deps.get_db)):
+    order_detail = crud.order_detailInteract.get_by_product(db, product_id=product_id)
     if not order_detail:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order detail with product detail ID {pdetail_id} not found",
+            detail=f"Order detail with product ID {product_id} not found",
         )
     
     try :

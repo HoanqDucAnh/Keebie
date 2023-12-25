@@ -127,24 +127,6 @@ def delete_cart_by_customer(customer_id: int, db: Session = Depends(deps.get_db)
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
     )
-        
-@router.get("/by_customer/{customer_id}", response_model=List[CartById])
-def get_cart_by_customer(customer_id: int, db: Session = Depends(deps.get_db)):
-    cart = crud.cartInteract.get_by_customer(db, customer_id=customer_id)
-    if not cart:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Cart with customer ID {customer_id} not found",
-        )
-    
-    try :
-        return cart
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-    )
 
 @router.delete("/by_pdetail_and_customer/{product_detail_id}/{customer_id}", response_model=int)
 def delete_cart_by_pdetail_and_customer(product_detail_id: int, customer_id: int, db: Session = Depends(deps.get_db)):
