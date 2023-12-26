@@ -83,6 +83,12 @@ class UserCRUD:
         return db.query(self.model).filter(self.model.email == email).first()
     def list_all_user(self, db: Session) -> List[UserType]:
         return db.query(self.model).all()
+    def update_user_password(self, db: Session, id: int, password: str) -> UserType:
+        user = db.query(self.model).filter(self.model.id == id).first()
+        user.password = password
+        db.commit()
+        db.refresh(user)
+        return user
     
 class ProductCRUD:
     def __init__(self, model: Type[ProductType]):
