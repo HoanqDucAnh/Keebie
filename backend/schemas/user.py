@@ -32,7 +32,7 @@ class UserByName(UserBase):
     class Config:
         from_attributes = True
 
-class UserByRole(UserBase):
+class UserByRole(BaseModel):
     is_admin: bool
     
     class Config:
@@ -49,4 +49,6 @@ class UserByAddress(BaseModel):
     username: str
     address: str
 
+class UserPassword(BaseModel):
+    password: str
 
