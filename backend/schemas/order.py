@@ -5,6 +5,7 @@ class OrderBase(BaseModel):
     order_code: str
     address: str
     user_id: int
+    status_id: int
     total_price: float
     
 class OrderDetailBase(BaseModel):
@@ -14,7 +15,6 @@ class OrderDetailBase(BaseModel):
     
 class StatusBase(BaseModel):
     status_name: str
-    order_id: int
     
 class OrderById(OrderBase):
     id: int
