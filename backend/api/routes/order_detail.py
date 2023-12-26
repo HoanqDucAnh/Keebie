@@ -68,27 +68,11 @@ def get_order_detail_by_order(order_id: int, db: Session = Depends(deps.get_db))
             detail=error,
         )
         
-@router.get("/by_pdetail/{pdetail_id}", response_model=List[OrderDetailById])
-def get_order_detail_by_pdetail(pdetail_id: int, db: Session = Depends(deps.get_db)):
-    order_detail = crud.order_detailInteract.get_by_product_detail(db, pdetail_id=pdetail_id)
-    if not order_detail:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order detail with product detail ID {pdetail_id} not found",
-        )
-    
-    try :
-        return order_detail
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-        )
-        
 @router.delete("/{id}", response_model=int)
 def delete_order_detail(id: int, db: Session = Depends(deps.get_db)):
     order_detail = crud.order_detail.get(db, id=id)
+    order_detail_stock = order_detail.amount
+    product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail.product_id)
     if not order_detail:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -96,6 +80,7 @@ def delete_order_detail(id: int, db: Session = Depends(deps.get_db)):
         )
     
     try:
+        crud.productInteract.update_stock_by_id(db, id=order_detail.product_id, stock=order_detail_stock + product_in_stock)
         return crud.order_detail.remove(db, obj=order_detail)
     except SQLAlchemyError as e:
         error = str(e)
