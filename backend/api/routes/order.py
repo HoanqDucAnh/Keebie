@@ -73,24 +73,6 @@ def get_order_by_status(status_id: int, db: Session = Depends(deps.get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
         )
-        
-@router.delete("/{id}", response_model=int)
-def delete_order(id: int, db: Session = Depends(deps.get_db)):
-    order = crud.order.get(db, id=id)
-    if not order:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order with ID {id} not found",
-        )
-    
-    try:
-        return crud.order.remove(db, obj=order)
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-        )
 
 @router.put("/{id}", response_model=OrderById)
 def update_order(id: int, order_in: OrderCreate, db: Session = Depends(deps.get_db)):
@@ -153,8 +135,13 @@ def delete_order(id: int, db: Session = Depends(deps.get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Order with ID {id} not found",
         )
-    
+    order_details = crud.order_detailInteract.get_by_order(db, order_id=id)
     try:
+        for order_detail in order_details:
+            order_detail_stock = order_detail.amount
+            product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail.product_id)
+            crud.productInteract.update_stock_by_id(db, id=order_detail.product_id, stock=order_detail.amount + product_in_stock)
+            crud.order_detail.remove(db, obj=order_detail)
         return crud.order.remove(db, obj=order)
     except SQLAlchemyError as e:
         error = str(e)

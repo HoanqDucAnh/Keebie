@@ -35,5 +35,5 @@ class OrderDetail(Base):
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     
-    order = relationship("Order", back_populates="order_detail", cascade="all, delete-orphan")
+    order = relationship("Order", back_populates="order_detail")
     
