@@ -48,6 +48,9 @@ class UserUpdate:
 class UserByAddress(BaseModel):
     username: str
     address: str
+    phone_number: str
+    fullname: str
+    id: int
 
 class UserPassword(BaseModel):
     password: str
