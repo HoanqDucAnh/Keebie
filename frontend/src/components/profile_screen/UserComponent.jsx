@@ -60,7 +60,7 @@ export default function UserComponent() {
 				<input
 					className="mb-4 mr-2 text-base w-full bg-transparent"
 					type="number"
-					value={currUser.phone_numer}
+					value={currUser.phone_number}
 					disabled
 				/>
 			</div>
