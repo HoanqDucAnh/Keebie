@@ -127,7 +127,7 @@ class ProductImageCRUD:
         return db.query(self.model).all()
     def list_by_product(self, db: Session, product_id: int) -> List[ProductImageType]:
         return db.query(self.model).filter(self.model.product_id == product_id).all()
-    
+
 class OrderCRUD:
     def __init__(self, model: Type[OrderType]):
         self.model = model

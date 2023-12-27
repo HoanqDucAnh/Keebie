@@ -78,14 +78,8 @@ def delete_category(id: int, db: Session = Depends(deps.get_db)):
         )
 
 @router.get("/", response_model=List[CategoryById])
-def get_all_categories(db: Session = Depends(deps.get_db), user = Depends(manager)):
-    if user.is_admin == False:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User is not admin",
-        )
-    else:
-        return crud.category.get_all(db)
+def get_all_categories(db: Session = Depends(deps.get_db)):
+    return crud.category.get_all(db)
     
 
 
