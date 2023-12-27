@@ -1,6 +1,6 @@
 import React from "react";
 import { Input } from "./Input";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, set, useForm } from "react-hook-form";
 import {
 	fullNameValidation,
 	emailValidation,
@@ -8,6 +8,7 @@ import {
 	userNameValidation,
 	passwordValidation,
 	confirmPasswordValidation,
+	adddressValidation,
 } from "../../../utils/validations";
 import { signupAPI } from "../../../services/UserServices";
 import { toast } from "react-toastify";
@@ -24,6 +25,7 @@ export default function SignUpForm() {
 		updated_at: "",
 		profile_pic: "normal",
 		activated: true,
+		address: "",
 		phone_number: "",
 		fullname: "",
 	});
@@ -37,6 +39,7 @@ export default function SignUpForm() {
 			updated_at: "",
 			phone_number: "",
 			fullname: "",
+			address: "",
 			profile_pic: "normal",
 			activated: true,
 		});
@@ -66,6 +69,7 @@ export default function SignUpForm() {
 				profile_pic: "normal",
 				activated: true,
 				phone_number: data.phone,
+				address: data.address,
 				fullname: data.fullname,
 			})
 		);
@@ -77,13 +81,16 @@ export default function SignUpForm() {
 			signupField.email,
 			signupField.profile_pic,
 			signupField.activated,
+			signupField.address,
 			signupField.phone_number,
 			signupField.fullname
 		);
 		if (respond) {
 			if (respond.status == 200) {
 				toast.success("Đăng ký thành công");
-				window.location.href = "/login";
+				setTimeout(() => {
+					window.location.href = "/login";
+				}, 1000);
 			} else if (respond.status == 500) {
 				toast.error("Đăng ký thất bại, tên đăng nhập đã tồn tại");
 				console.log(respond);
@@ -98,8 +105,15 @@ export default function SignUpForm() {
 		<FormProvider {...methods}>
 			<form onSubmit={(e) => e.preventDefault()} noValidate>
 				<Input {...fullNameValidation} />
-				<Input {...emailValidation} />
-				<Input {...phoneValidation} />
+				<div className="grid grid-cols-2 gap-4">
+					<div className="col-span-1">
+						<Input {...emailValidation} />
+					</div>
+					<div className="col-span-1">
+						<Input {...phoneValidation} />
+					</div>
+				</div>
+				<Input {...adddressValidation} />
 				<Input {...userNameValidation} />
 				<Input {...passwordValidation} />
 				<Input {...confirmPasswordValidation} />

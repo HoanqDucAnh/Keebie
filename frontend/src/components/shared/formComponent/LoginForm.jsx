@@ -4,6 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { loginAPI } from "../../../services/UserServices";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import useCurrUserStore from "../../../stores/CurrUserStore";
 
 export default function LoginForm() {
 	const methods = useForm();
