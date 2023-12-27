@@ -53,6 +53,9 @@ function App() {
 					<Route path="/cart">
 						<CartScreen />
 					</Route>
+					<Route path="/404">
+						<NotFoundScreen />
+					</Route>
 					<Route path="*">
 						<NotFoundScreen />
 					</Route>

@@ -267,13 +267,13 @@ export default function () {
 							</svg>
 						</div>
 						<p class="text-sm md:text-base text-black-300 p-2 mt-2 mb-3 font-mono">
-							The stuff you were looking for doesn't exist
+							Thứ bạn tìm kiếm hiện tại không có hoặc bạn không đủ thẩm quyền
 						</p>
 						<a
 							href="/"
 							class="font-mono bg-transparent hover:bg-yellow-300 text-black-300  rounded shadow hover:shadow-lg py-2 px-4 border border-black-300 hover:border-transparent"
 						>
-							Go back
+							Quay lại
 						</a>
 					</div>
 				</div>

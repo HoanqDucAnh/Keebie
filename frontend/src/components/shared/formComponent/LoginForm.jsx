@@ -3,10 +3,11 @@ import { Input } from "./Input";
 import { FormProvider, useForm } from "react-hook-form";
 import { loginAPI } from "../../../services/UserServices";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import useCurrUserStore from "../../../stores/CurrUserStore";
 
 export default function LoginForm() {
+	const login = useCurrUserStore((state) => state.login);
+
 	const methods = useForm();
 	const [loginField, setLoginField] = useState({
 		username: "",
@@ -34,6 +35,10 @@ export default function LoginForm() {
 		if (respond) {
 			if (respond.status === 200) {
 				localStorage.setItem("token", respond.data.access_token);
+				const decodeToken = JSON.parse(
+					atob(respond.data.access_token.split(".")[1])
+				);
+				localStorage.setItem("isAdmin", decodeToken.is_admin);
 				toast.success("Đăng nhập thành công");
 				setTimeout(() => {
 					window.location.href = "/";

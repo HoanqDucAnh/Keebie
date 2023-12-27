@@ -12,7 +12,6 @@ const headers = {
 export const getAllUsersAPI = async () => {
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
-
 	try {
 		console.log(headers);
 		const res = await api.get("/api/users", { headers });
