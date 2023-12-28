@@ -1,5 +1,4 @@
 import axios from "axios";
-import useCurrUserStore from "../stores/CurrUserStore";
 
 const api = axios.create({
 	baseURL: "http://127.0.0.1:8000",
@@ -35,27 +34,6 @@ export const updateUserAPI = async (
 			fullname: fullname,
 			phone_number: phone,
 		});
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const getAllProductsAPI = async () => {
-	const token = localStorage.getItem("token");
-	const headers = { Authorization: `Bearer ${token}` };
-	try {
-		console.log(headers);
-		const res = await api.get("/api/products", { headers });
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const getProductByIdAPI = async (id) => {
-	try {
-		const res = await api.get(`/api/products/${id}`);
 		return res;
 	} catch (error) {
 		return error.response;

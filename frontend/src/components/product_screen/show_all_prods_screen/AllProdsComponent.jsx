@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ConfigProvider, Table } from "antd";
-import {
-	getAllProductsAPI,
-	getAllCategoriesAPI,
-} from "../../../services/AdminServices";
+import { getAllCategoriesAPI } from "../../../services/AdminServices";
+
+import { getAllProductsAPI } from "../../../services/SystemServices";
 
 export default function AllProdsComponent() {
 	const [products, setProducts] = useState([]);
