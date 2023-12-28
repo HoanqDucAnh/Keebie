@@ -6,7 +6,6 @@ import useCartStore from "../stores/CartStore";
 export default function CartScreen() {
 	const CartItem = useCartStore((state) => state.cart);
 	const TotalPrice = useCartStore((state) => state.totalPrice);
-
 	const removeCartItem = useCartStore((state) => state.removeFromCart);
 
 	return (
@@ -36,10 +35,10 @@ export default function CartScreen() {
 					<div className="col-span-3 ml-10">
 						<div className="border-2 border-gray-200 rounded-lg p-5">
 							<div className="flex justify-between">
-								<p className="text-xl">Tổng tiền</p>
+								<p className="text-xl">Tổng cộng</p>
 								<p className="text-xl">{TotalPrice} VND</p>
 							</div>
-							<button className="bg-[#F8C70E] rounded-lg p-2 mt-2">
+							<button className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg p-2 mt-2">
 								Thanh toán
 							</button>
 						</div>
