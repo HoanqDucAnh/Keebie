@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from fastapi.requests import Request
-from schemas import ProductCreate, ProductById, ProductBase
+from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage
 from models.product import Product
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
@@ -142,7 +142,7 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
             detail=error,
         )
     
-@router.get("/", response_model=List[ProductById])
+@router.get("/", response_model=List[ProductByHeaderImage])
 def get_all_products(db: Session = Depends(deps.get_db)):
     try :    
         return crud.product.get_all(db)
