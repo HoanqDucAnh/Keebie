@@ -44,7 +44,7 @@ export default function GroupBuySection() {
 					))}
 				</Tab>
 			</div>
-			<ProductRow />
+			<ProductRow sectionName={"GroupbuySection"} />
 		</div>
 	);
 }

@@ -44,7 +44,7 @@ export default function InStockSection() {
 					))}
 				</Tab>
 			</div>
-			<ProductRow />
+			<ProductRow sectionName={"InstockSection"} />
 		</div>
 	);
 }

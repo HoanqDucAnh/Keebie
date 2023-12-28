@@ -16,3 +16,12 @@ export const getAllProductsAPI = async () => {
 		return error.response;
 	}
 };
+
+export const getAllCategoriesAPI = async () => {
+	try {
+		const res = await api.get("/api/categories");
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
