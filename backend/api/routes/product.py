@@ -126,7 +126,7 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
             detail=error,
         )
     
-@router.get("/", response_model=List[ProductBase])
+@router.get("/", response_model=List[ProductById])
 def get_all_products(db: Session = Depends(deps.get_db)):
     try :    
         return crud.product.get_all(db)
