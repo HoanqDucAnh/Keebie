@@ -6,13 +6,22 @@ import {
 	AiOutlineShoppingCart,
 	AiFillCaretDown,
 } from "react-icons/ai";
-import { ConfigProvider, Dropdown, Space } from "antd";
+import { ConfigProvider, Dropdown, Space, Drawer } from "antd";
 import { toast } from "react-toastify";
+import SearchDrawer from "../home_screen/SearchDrawer";
 
 const NavigationBar = () => {
 	const [nav, setNav] = useState(true);
 	const [isAdmin, setIsAdmin] = useState(false);
+	const [open, setOpen] = useState(false);
 	const isLogin = localStorage.getItem("token");
+
+	const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
 	const handleNav = () => {
 		setNav(!nav);
@@ -193,9 +202,17 @@ const NavigationBar = () => {
 			<div className="hidden md:flex">
 				<ul className="flex text-2xl">
 					<li className="p-2">
-						<a className="hover:text-[#FFF5D6]" href="/">
+						<button className="hover:text-[#FFF5D6]" onClick={showDrawer}>
 							<AiOutlineSearch />
-						</a>
+						</button>
+						<Drawer
+							placement="top"
+							closable={false}
+							onClose={onClose}
+							open={open}
+							height={100} >
+								<SearchDrawer	/>
+						</Drawer>
 					</li>
 					<li className="p-2">
 						<ConfigProvider
