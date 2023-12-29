@@ -19,7 +19,7 @@ class User(Base):
     profile_pic = Column(String(255), nullable=False)
     activated = Column(Boolean, nullable=False, default=False)
     phone_number = Column(String(12), nullable=False, unique=True)
-    fullname = Column(String(12), nullable=False, unique=False)
+    fullname = Column(String(255), nullable=False, unique=False)
     address = Column(String(255), nullable=False, unique=False)
     # role = Column(String(12), nullable=False, unique=True, default="customer")
     is_admin = Column(Boolean, nullable=False, default=True)
