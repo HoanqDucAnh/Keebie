@@ -32,7 +32,7 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 					<div onClick={() => handleAddToCart(title, price, id, inStockValue)}>
 						<PlusOutlined key="addToCart" />
 					</div>,
-					<a href="/product">
+					<a href={`/product/${id}`}>
 						<EyeOutlined key="details" />,
 					</a>,
 				]}

@@ -46,7 +46,7 @@ function App() {
 					<Route path="/admin">
 						<AdminScreen />
 					</Route>
-					<Route path="/product">
+					<Route path="/product/:id">
 						<ProductDetailScreen />
 					</Route>
 					<Route path="/product_page">
