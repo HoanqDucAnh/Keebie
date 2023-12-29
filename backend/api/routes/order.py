@@ -3,16 +3,29 @@ from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from schemas.order import OrderCreate, OrderById, OrderBase
 from fastapi_login import LoginManager
+from models.order import Order
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
+import base64
 import crud
 
 router = APIRouter()
 
 @router.post("/", response_model=OrderById)
-def create_order(order_in: OrderCreate, db: Session = Depends(deps.get_db)):
+async def create_order(payment_image: UploadFile,
+                        address: str = Form(...), 
+                        user_id: int = Form(...), 
+                        status_id: int = Form(...), 
+                        total_price: float = Form(...), 
+                        db: Session = Depends(deps.get_db)):
     try:
-        return crud.order.create(db, obj_in=order_in)
+        data = await payment_image.read()  
+        data = base64.b64encode(data)  
+        db_obj = Order(address=address, user_id=user_id, status_id=status_id, total_price=total_price, payment_image=data) 
+        db.add(db_obj)  
+        db.commit() 
+        db.refresh(db_obj)
+        return OrderById(**db_obj.__dict__)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(

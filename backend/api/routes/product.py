@@ -14,14 +14,14 @@ router = APIRouter()
 
 @router.post("/", response_model=ProductById)
 async def create_product(file: UploadFile,
-                         db: Session = Depends(deps.get_db), 
-                         product_name: str = Form(...),
+                        db: Session = Depends(deps.get_db), 
+                        product_name: str = Form(...),
                         brand: str = Form(...),
                         content: str = Form(...),
                         price: float = Form(...),
                         stock: int = Form(...),
                         category_id: int = Form(...),
-                         user=Depends(manager)):
+                        user=Depends(manager)):
     try:
         if user.is_admin == False:
             raise HTTPException(
