@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -9,8 +11,15 @@ from models.user import User, Base
 from models.product import Base as BaseProduct
 from models.order import Base as BaseOrder
 
+load_dotenv()
 
-SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:4444@localhost:3306/keebie"
+username = os.getenv("MYSQL_USER")
+password = os.getenv("MYSQL_PASSWORD")
+host = os.getenv("MYSQL_SERVICE_HOST")
+port = os.getenv("MYSQL_SERVICE_PORT")
+database = os.getenv("MYSQL_DATABASE")
+
+SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{username}:{password}@{host}:{port}/{database}"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 if not database_exists(engine.url):
