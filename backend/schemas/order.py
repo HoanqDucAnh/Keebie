@@ -3,10 +3,16 @@ from datetime import *
 
 class OrderBase(BaseModel):
     address: str
+    phone_number: str
+    email: str
+    full_name: str
+    note: str
     user_id: int
     status_id: int
     total_price: float
-    payment_image: bytes
+    payment_method: str 
+    shipment_method: str
+    payment_image: str
     
 class OrderDetailBase(BaseModel):
     amount: int

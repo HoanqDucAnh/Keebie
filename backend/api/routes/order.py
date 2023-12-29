@@ -12,16 +12,20 @@ import crud
 router = APIRouter()
 
 @router.post("/", response_model=OrderById)
-async def create_order(payment_image: UploadFile,
+async def create_order(payment_image: str = Form(...),
                         address: str = Form(...), 
                         user_id: int = Form(...), 
                         status_id: int = Form(...), 
-                        total_price: float = Form(...), 
+                        total_price: float = Form(...),
+                        email: str = Form(...),
+                        phone_number: str = Form(...),
+                        full_name: str = Form(...), 
+                        note: str = Form(...),
+                        payment_method: str = Form(...),
+                        shipment_method: str = Form(...),
                         db: Session = Depends(deps.get_db)):
     try:
-        data = await payment_image.read()  
-        data = base64.b64encode(data)  
-        db_obj = Order(address=address, user_id=user_id, status_id=status_id, total_price=total_price, payment_image=data) 
+        db_obj = Order(address=address, user_id=user_id, status_id=status_id, total_price=total_price, payment_image=payment_image, email=email, phone_number=phone_number, full_name=full_name, note=note, payment_method=payment_method, shipment_method=shipment_method) 
         db.add(db_obj)  
         db.commit() 
         db.refresh(db_obj)
