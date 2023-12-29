@@ -13,7 +13,7 @@ from .auth import manager
 router = APIRouter()
 
 @router.post("/")
-async def create(files: list[UploadFile], db: Session = Depends(deps.get_db), user=Depends(manager)):
+async def create(files: list[UploadFile], db: Session = Depends(deps.get_db), user=Depends(manager), product_id: int = Form(...)):
     if user.is_admin == False:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -25,18 +25,18 @@ async def create(files: list[UploadFile], db: Session = Depends(deps.get_db), us
             data = await file.read()  
             data = base64.b64encode(data)  
             db_obj = ProductImage(image=data) 
+            db_obj.product_id = product_id
             db.add(db_obj)  
             db.commit() 
             db.refresh(db_obj)
             image_ids.append(db_obj.id)
-
         return image_ids
     
     
 
     
 @router.get("/{id}", response_model=ProductImageById)
-def get_product_image_by_id(id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
+def get_product_image_by_id(id: int, db: Session = Depends(deps.get_db)):
     product_image = crud.productImage.get(db, id=id)
     if not product_image:
         raise HTTPException(
@@ -45,13 +45,7 @@ def get_product_image_by_id(id: int, db: Session = Depends(deps.get_db), user=De
         )
     
     try :
-        if user.is_admin == False:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="User is not admin",
-            )
-        else:
-            return product_image
+        return product_image
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -83,8 +77,8 @@ def delete_product_image(id: int, db: Session = Depends(deps.get_db), user=Depen
         )
 
 @router.get("/by_product_id/{product_id}", response_model=List[ProductImageBase])
-def get_product_image_by_product_id(product_id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
-    product_image = crud.productImage.list_by_product(db, product_id=product_id)
+def get_product_image_by_product_id(product_id: int, db: Session = Depends(deps.get_db)):
+    product_image = crud.productImageInteract.list_by_product(db, product_id)
     if not product_image:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -92,13 +86,7 @@ def get_product_image_by_product_id(product_id: int, db: Session = Depends(deps.
         )
     
     try :
-        if user.is_admin == False:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="User is not admin",
-            )
-        else:
-            return product_image
+        return product_image
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(

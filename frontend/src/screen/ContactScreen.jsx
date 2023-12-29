@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, ConfigProvider } from 'antd';
+import { Breadcrumb } from 'antd';
 
 const layout = {
     labelCol: {
@@ -30,6 +31,21 @@ const onSubmit = (data) => {
 
 export default function ContactScreen() {
     return (
+        <>
+        <Breadcrumb
+          className="mt-5 ml-5 mb-2 font-mono"
+          separator=">"
+          items={[
+            {
+              title: "Trang chủ",
+              href: "/",
+            },
+            {
+              title: "Liên hệ",
+              href: "/contact",
+            },
+          ]}
+        />
         <div className="pl-10 pt-10 bg-white flex font-mono">
             <div>
               <h1 className="pl-10 pb-5 text-3xl inset-5">Keebi3 Keyboard Shop</h1>
@@ -156,5 +172,6 @@ export default function ContactScreen() {
               className="pl-10 pr-10 pb-6 w-full"  
               />
       </div>
+      </>
     );
 }

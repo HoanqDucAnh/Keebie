@@ -6,11 +6,14 @@ class OrderBase(BaseModel):
     order_status_id: int
     address: str
     user_id: int
+    status_id: int
+    total_price: float
     
 class OrderDetailBase(BaseModel):
     amount: int
     price: int
     order_id: int
+    product_id: int
     product_id: int
     
 class StatusBase(BaseModel):

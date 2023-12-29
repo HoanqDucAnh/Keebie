@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import {
 	AiOutlineSearch,
@@ -11,14 +11,25 @@ import { toast } from "react-toastify";
 
 const NavigationBar = () => {
 	const [nav, setNav] = useState(true);
+	const [isAdmin, setIsAdmin] = useState(false);
 	const isLogin = localStorage.getItem("token");
 
 	const handleNav = () => {
 		setNav(!nav);
 	};
 
+	useEffect(() => {
+		const isAdmin = localStorage.getItem("isAdmin");
+		if (isAdmin === "true") {
+			setIsAdmin(true);
+		} else {
+			setIsAdmin(false);
+		}
+	}, []);
+
 	const handleLogout = () => {
 		localStorage.removeItem("token");
+		localStorage.removeItem("isAdmin");
 		toast.success("Đăng xuất thành công");
 		window.location.href = "/";
 	};
@@ -82,14 +93,6 @@ const NavigationBar = () => {
 				</a>
 			),
 		},
-		{
-			key: "4",
-			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
-					Phụ kiện khác
-				</a>
-			),
-		},
 	];
 
 	const groupbuyDropdownItems = [
@@ -122,13 +125,17 @@ const NavigationBar = () => {
 	return (
 		<nav className="sticky w-full top-0 z-10 flex justify-between items-center h-18 mx-auto px-4 text-black bg-[#F8C70E]">
 			<h1 className="text-3xl font-mono font-bold p-4 text-[#000000]">
-				<a className="hover:text-[#FFF5D6]" href="/">Keebi3.</a>
+				<a className="hover:text-[#FFF5D6]" href="/">
+					Keebi3.
+				</a>
 			</h1>
 
 			<div className="hidden md:flex">
 				<ul className="flex font-mono text-xl">
 					<li className="p-4">
-						<a className="hover:text-[#FFF5D6]" href="/">Trang chủ</a>
+						<a className="hover:text-[#FFF5D6]" href="/">
+							Trang chủ
+						</a>
 					</li>
 					<li className="p-4">
 						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
@@ -138,7 +145,10 @@ const NavigationBar = () => {
 								}}
 								placement="bottomLeft"
 							>
-								<a className="hover:text-[#FFF5D6]" onClick={(e) => e.preventDefault()}>
+								<a
+									className="hover:text-[#FFF5D6]"
+									onClick={(e) => e.preventDefault()}
+								>
 									<Space>
 										Group Buy <AiFillCaretDown />
 									</Space>
@@ -154,7 +164,10 @@ const NavigationBar = () => {
 								}}
 								placement="bottomLeft"
 							>
-								<a className="hover:text-[#FFF5D6]" onClick={(e) => e.preventDefault()}>
+								<a
+									className="hover:text-[#FFF5D6]"
+									onClick={(e) => e.preventDefault()}
+								>
 									<Space>
 										Sản phẩm <AiFillCaretDown />
 									</Space>
@@ -163,8 +176,17 @@ const NavigationBar = () => {
 						</ConfigProvider>
 					</li>
 					<li className="p-4">
-						<a className="hover:text-[#FFF5D6]" href="/contact">Liên hệ</a>
+						<a className="hover:text-[#FFF5D6]" href="/contact">
+							Liên hệ
+						</a>
 					</li>
+					{isAdmin ? (
+						<li className="p-4">
+							<a className="hover:text-[#FFF5D6]" href="/admin">
+								Quản lý
+							</a>
+						</li>
+					) : null}
 				</ul>
 			</div>
 
@@ -176,7 +198,11 @@ const NavigationBar = () => {
 						</a>
 					</li>
 					<li className="p-2">
-						<ConfigProvider theme={{ token: { fontFamily: "monospace", colorBgTextHover: "white" } }}>
+						<ConfigProvider
+							theme={{
+								token: { fontFamily: "monospace", colorBgTextHover: "white" },
+							}}
+						>
 							<Dropdown
 								menu={{
 									items: isLogin ? userDropdownItems2 : userDropdownItems,
@@ -192,7 +218,7 @@ const NavigationBar = () => {
 						</ConfigProvider>
 					</li>
 					<li className="p-2">
-						<a className="hover:text-[#FFF5D6]" href="/">
+						<a className="hover:text-[#FFF5D6]" href="/cart">
 							<AiOutlineShoppingCart />
 						</a>
 					</li>

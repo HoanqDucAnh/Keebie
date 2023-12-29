@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ConfigProvider, Table } from "antd";
-import { getAllUseresAPI } from "../../services/AdminServices";
+import { getAllUsersAPI } from "../../services/AdminServices";
 
 export default function AllUsersComponent() {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		var allUsers = getAllUseresAPI();
+		var allUsers = getAllUsersAPI();
 		allUsers.then((res) => {
 			setUsers(res.data);
 		});
@@ -20,8 +20,8 @@ export default function AllUsersComponent() {
 			width: "180px",
 		},
 		{
-			title: "Mật khẩu",
-			dataIndex: "password",
+			title: "Địa chỉ",
+			dataIndex: "address",
 			width: "140px",
 		},
 		{

@@ -11,14 +11,26 @@ router = APIRouter()
 
 @router.post("/", response_model=OrderDetailById)
 def create_order_detail(order_detail_in: OrderDetailCreate, db: Session = Depends(deps.get_db)):
-    try:
-        return crud.order_detail.create(db, obj_in=order_detail_in)
-    except SQLAlchemyError as e:
-        error = str(e)
+    product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail_in.product_id)
+    if (product_in_stock < order_detail_in.amount):
         raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Product in stock is not enough",
+        )
+    else :
+        try:
+            crud.productInteract.update_stock_by_id(db, id=order_detail_in.product_id, stock=product_in_stock - order_detail_in.amount)
+            return crud.order_detail.create(db, obj_in=order_detail_in)
+        except SQLAlchemyError as e:
+            error = str(e)
+            raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
-        )
+            )
+
+
+
+    
         
 @router.get("/{id}", response_model=OrderDetailById)
 def get_order_detail_by_id(id: int, db: Session = Depends(deps.get_db)):
@@ -77,6 +89,8 @@ def get_order_detail_by_product(product_id: int, db: Session = Depends(deps.get_
 @router.delete("/{id}", response_model=int)
 def delete_order_detail(id: int, db: Session = Depends(deps.get_db)):
     order_detail = crud.order_detail.get(db, id=id)
+    order_detail_stock = order_detail.amount
+    product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail.product_id)
     if not order_detail:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -84,6 +98,7 @@ def delete_order_detail(id: int, db: Session = Depends(deps.get_db)):
         )
     
     try:
+        crud.productInteract.update_stock_by_id(db, id=order_detail.product_id, stock=order_detail_stock + product_in_stock)
         return crud.order_detail.remove(db, obj=order_detail)
     except SQLAlchemyError as e:
         error = str(e)
