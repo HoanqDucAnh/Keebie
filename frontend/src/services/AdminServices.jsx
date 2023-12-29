@@ -1,5 +1,4 @@
 import axios from "axios";
-import useCurrUserStore from "../stores/CurrUserStore";
 
 const api = axios.create({
 	baseURL: "http://127.0.0.1:8000",
@@ -13,7 +12,6 @@ export const getAllUsersAPI = async () => {
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
 	try {
-		console.log(headers);
 		const res = await api.get("/api/users", { headers });
 		return res;
 	} catch (error) {
@@ -41,50 +39,33 @@ export const updateUserAPI = async (
 	}
 };
 
-export const getAllProductsAPI = async () => {
-	const token = localStorage.getItem("token");
-	const headers = { Authorization: `Bearer ${token}` };
-	try {
-		console.log(headers);
-		const res = await api.get("/api/products", { headers });
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
-export const getProductByIdAPI = async (id) => {
-	try {
-		const res = await api.get(`/api/products/${id}`);
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
 export const createProductAPI = async (
 	product_name,
 	brand,
 	price,
 	instock,
 	content,
-	category_id
+	category_id,
+	headerImage
 ) => {
+	console.log(headerImage);
 	const token = localStorage.getItem("token");
-	const headers = { Authorization: `Bearer ${token}` };
+	const headers = {
+		"Content-Type": "multipart/form-data",
+		Authorization: `Bearer ${token}`,
+	};
+	const formData = new FormData();
+
+	formData.append("product_name", product_name);
+	formData.append("brand", brand);
+	formData.append("price", price);
+	formData.append("stock", instock);
+	formData.append("content", content);
+	formData.append("category_id", category_id);
+	formData.append("file", headerImage);
+
 	try {
-		const res = await api.post(
-			"/api/products",
-			{
-				product_name: product_name,
-				brand: brand,
-				content: content,
-				price: price,
-				stock: instock,
-				category_id: category_id,
-			},
-			{ headers: headers }
-		);
+		const res = await api.post("/api/products", formData, { headers: headers });
 		return res;
 	} catch (error) {
 		return error.response;

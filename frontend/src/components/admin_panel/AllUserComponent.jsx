@@ -6,10 +6,13 @@ export default function AllUsersComponent() {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		var allUsers = getAllUsersAPI();
-		allUsers.then((res) => {
-			setUsers(res.data);
-		});
+		const isAdmin = localStorage.getItem("isAdmin");
+		if (isAdmin === "true") {
+			var allUsers = getAllUsersAPI();
+			allUsers.then((res) => {
+				if (res.status === 200) setUsers(res.data);
+			});
+		}
 	}, []);
 
 	const columns = [

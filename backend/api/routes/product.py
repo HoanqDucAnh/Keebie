@@ -2,16 +2,26 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from fastapi.requests import Request
-from schemas import ProductCreate, ProductById, ProductBase
+from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage
+from models.product import Product
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
 import crud
+import base64
 from security import manager
 router = APIRouter()
 
 @router.post("/", response_model=ProductById)
-def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db), user=Depends(manager)):
+async def create_product(file: UploadFile,
+                         db: Session = Depends(deps.get_db), 
+                         product_name: str = Form(...),
+                        brand: str = Form(...),
+                        content: str = Form(...),
+                        price: float = Form(...),
+                        stock: int = Form(...),
+                        category_id: int = Form(...),
+                         user=Depends(manager)):
     try:
         if user.is_admin == False:
             raise HTTPException(
@@ -19,7 +29,13 @@ def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db)
                 detail="User is not admin",
             )
         else :
-            return crud.product.create(db, obj_in=product_in)
+            data = await file.read()  
+            data = base64.b64encode(data)  
+            db_obj = Product(header_image=data, product_name=product_name, brand=brand, content=content, price=price, stock=stock, category_id=category_id) 
+            db.add(db_obj)  
+            db.commit() 
+            db.refresh(db_obj)
+            return ProductById(**db_obj.__dict__)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -126,7 +142,7 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
             detail=error,
         )
     
-@router.get("/", response_model=List[ProductBase])
+@router.get("/", response_model=List[ProductByHeaderImage])
 def get_all_products(db: Session = Depends(deps.get_db)):
     try :    
         return crud.product.get_all(db)

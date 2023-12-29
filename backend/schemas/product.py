@@ -12,6 +12,7 @@ class ProductBase(BaseModel):
     category_id: int
 
 
+
 class CategoryBase(BaseModel):
     cat_name: str
     cat_detail: str
@@ -55,3 +56,9 @@ class CategoryUpdate:
 
 class ProductUpdate:
     pass
+
+class ProductByHeaderImage(ProductById):
+    header_image: bytes
+    
+    class Config:
+        from_attributes = True

@@ -43,7 +43,7 @@ export default function LastProdSection() {
 					))}
 				</Tab>
 			</div>
-			<ProductRow />
+			<ProductRow sectionName={"LastSection"} />
 		</div>
 	);
 }

@@ -11,6 +11,7 @@ import {
 	Modal,
 	Form,
 	message,
+	Upload,
 } from "antd";
 import { toast } from "react-toastify";
 import {
@@ -19,24 +20,28 @@ import {
 	createProductAPI,
 } from "../../../services/AdminServices";
 import { useImmer } from "use-immer";
+import UploadHeaderImage from "./UploadHeaderImage";
+import { set } from "react-hook-form";
 
 const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
 
 export default function AddProductComponent() {
 	const [uploadImgList, setUploadImgList] = useImmer([]);
+	const [uploadImgHeader, setUploadImgHeader] = useImmer([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [confirmLoading, setConfirmLoading] = useState(false);
 	const [modalText, setModalText] = useState("Content of the modal");
 	const [form] = Form.useForm();
-	const [productFieldValue, setProductFieldValue] = useState({
+	const productFieldValue = {
 		product_name: "",
 		content: "",
 		category_id: "",
 		price: "",
 		instock: "",
 		brand: "",
-	});
+		headerImage: "",
+	};
 
 	const cateSubmit = {
 		cat_name: "",
@@ -87,24 +92,30 @@ export default function AddProductComponent() {
 		}
 	};
 
+	const setProductFieldValue = (value, imgHeader) => {
+		productFieldValue.product_name = value.product_name;
+		productFieldValue.brand = value.brand;
+		productFieldValue.price = value.price;
+		productFieldValue.instock = value.instock;
+		productFieldValue.content = value.content;
+		productFieldValue.category_id = value.category_id;
+		productFieldValue.headerImage = imgHeader;
+	};
+
 	const handleFinishAddingProduct = async (values) => {
-		setProductFieldValue({
-			...productFieldValue,
-			product_name: values.product_name,
-			content: values.content,
-			category_id: values.category_id,
-			price: values.price,
-			instock: values.instock,
-			brand: values.brand,
-		});
+		let headerImage = uploadImgHeader.imgFile[0];
+		setProductFieldValue(values, headerImage);
+		console.log(productFieldValue);
 		let respond = await createProductAPI(
 			productFieldValue.product_name,
 			productFieldValue.brand,
 			productFieldValue.price,
 			productFieldValue.instock,
 			productFieldValue.content,
-			productFieldValue.category_id
+			productFieldValue.category_id,
+			productFieldValue.headerImage
 		);
+		console.log(productFieldValue);
 		if (respond) {
 			if (respond.status === 200) {
 				let respondImage = await handleSubmitImage(respond.data.id);
@@ -429,18 +440,15 @@ export default function AddProductComponent() {
 						>
 							Thêm thể loại
 						</button>
-						<button
-							className="mt-4 ml-3 text-center bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer font-semibold rounded-md py-2 px-4"
-							onClick={async () => await handleSubmitImage()}
-						>
-							Thêm Ảnh
-						</button>
 					</Form.Item>
 				</Form>
 			</div>
 			<div className="col-span-3 m-3 ">
-				<h1 className="text-2xl font-semibold mb-5">Ảnh sản phẩm</h1>
-				<p>Upload ảnh sản phẩm</p>
+				<h1 className="text-2xl font-semibold mb-3">Ảnh sản phẩm</h1>
+				<UploadHeaderImage
+					uploadImgHeader={uploadImgHeader}
+					setUploadImgHeader={setUploadImgHeader}
+				/>
 				<UploadImage
 					uploadImgList={uploadImgList}
 					setUploadImgList={setUploadImgList}

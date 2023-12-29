@@ -21,6 +21,7 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     product_name = Column(String(255), nullable=False)
+    header_image = Column(LargeBinary(length=(2**32)-1), nullable=False)
     brand = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now())
     updated_at = Column(DateTime(timezone=True), default= None) 

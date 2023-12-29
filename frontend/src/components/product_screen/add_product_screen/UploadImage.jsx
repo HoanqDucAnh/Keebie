@@ -29,10 +29,13 @@ export default function UploadImage({ uploadImgList, setUploadImgList }) {
 
 	return (
 		<div>
-			<p>Ảnh sản phẩm</p>
-			<div className="">
-				<div className="grid grid-cols-3 mb-3 gap-1">
-					{uploadImgList.slice(0, 8).map((image, index) => {
+			<p>Ảnh sản phẩm khác</p>
+			<div className=" ">
+				<div
+					className="grid grid-cols-3 mb-3 gap-1 "
+					style={{ height: "17rem" }}
+				>
+					{uploadImgList.slice(0, 5).map((image, index) => {
 						return (
 							<div className="grid col-span-1 h-32" key={index}>
 								<ProdImage
@@ -44,10 +47,10 @@ export default function UploadImage({ uploadImgList, setUploadImgList }) {
 							</div>
 						);
 					})}
-					{uploadImgList.length > 8 && (
+					{uploadImgList.length > 5 && (
 						<div className="grid col-span-1 h-32 rounded-md border-2 border-black">
 							<div className="flex text-2xl flex-col justify-center items-center h-full">
-								<p className="text-center">+{uploadImgList.length - 8} ảnh</p>
+								<p className="text-center">+{uploadImgList.length - 5} ảnh</p>
 							</div>
 						</div>
 					)}
