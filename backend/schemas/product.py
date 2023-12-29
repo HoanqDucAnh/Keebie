@@ -11,11 +11,7 @@ class ProductBase(BaseModel):
     stock: int
     category_id: int
 
-class ProductByHeaderImage(ProductBase):
-    header_image: bytes
-    
-    class Config:
-        from_attributes = True
+
 
 class CategoryBase(BaseModel):
     cat_name: str
@@ -60,3 +56,9 @@ class CategoryUpdate:
 
 class ProductUpdate:
     pass
+
+class ProductByHeaderImage(ProductById):
+    header_image: bytes
+    
+    class Config:
+        from_attributes = True
