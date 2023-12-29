@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 from .user import Base
-from .product import BaseProduct
 
 
 class Order(Base):

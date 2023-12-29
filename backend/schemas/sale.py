@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import *
 
 class SaleBase(BaseModel):
-    admin_id: int
+    user_id: int
     created_at: datetime
     updated_at: datetime
     sale_name: str
@@ -11,8 +11,8 @@ class SaleBase(BaseModel):
     sale_limit: int
     
 class SaleDetailBase(BaseModel):
-    sale_id: int
-    product_detail_id: int
+    user_id: int
+    product_id: int
     created_at: datetime
     updated_at: datetime
     is_percentage: bool
@@ -42,8 +42,8 @@ class SaleUpdate:
 class SaleDetailUpdate:
     pass
 
-class SaleByAdminId(SaleBase):
-    admin_id: int
+class SaleByUserId(SaleBase):
+    user_id: int
     
     class Config:
         from_attributes = True
@@ -60,8 +60,8 @@ class SaleDetailBySaleId(SaleDetailBase):
     class Config:
         from_attributes = True
         
-class SaleDetailByProductDetailId(SaleDetailBase):
-    product_detail_id: int
+class SaleDetailByProductId(SaleDetailBase):
+    product_id: int
     
     class Config:
         from_attributes = True
@@ -71,18 +71,5 @@ class SaleDetailByIsPercentage(SaleDetailBase):
     
     class Config:
         from_attributes = True
-
-# sale = SaleBase()
-# sale_create = SaleCreate()
-# sale_update = SaleUpdate()
-# sale_detail = SaleDetailBase()
-# sale_detail_create = SaleDetailCreate()
-# sale_detail_update = SaleDetailUpdate()
-# sale_by_id = SaleById()
-# sale_detail_by_id = SaleDetailById()
-# sale_by_admin_id = SaleByAdminId()
-# sale_by_sale_name = SaleBySaleName()
-# sale_detail_by_sale_id = SaleDetailBySaleId()
-# sale_detail_by_product_detail_id = SaleDetailByProductDetailId()
-# sale_detail_by_is_percentage = SaleDetailByIsPercentage()
+        
 

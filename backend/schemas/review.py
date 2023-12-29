@@ -2,8 +2,8 @@ from pydantic import BaseModel
 from datetime import *
 
 class ReviewBase(BaseModel):
-    product_detail_id: int
-    customer_id: int
+    product_id: int
+    user_id: int
     review_content: str
     review_rating: int
     created_at: datetime
@@ -23,14 +23,14 @@ class ReviewUpdate:
 class ReviewDelete:
     pass
 
-class ReviewByCustomerId(ReviewBase):
-    customer_id: int
+class ReviewByUserId(ReviewBase):
+    user_id: int
     
     class Config:
         from_attributes = True
 
-class ReviewByProductDetailId(ReviewBase):
-    product_detail_id: int
+class ReviewByProductId(ReviewBase):
+    product_id: int
     
     class Config:
         from_attributes = True

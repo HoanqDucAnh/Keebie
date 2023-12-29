@@ -38,13 +38,13 @@ def get_sale_by_id(id: int, db: Session = Depends(deps.get_db)):
             detail=error,
         )
         
-@router.get("/by_admin/{admin_id}", response_model=List[SaleById])
-def get_sale_by_admin(admin_id: int, db: Session = Depends(deps.get_db)):
-    sale = crud.saleInteract.get_by_admin(db, admin_id=admin_id)
+@router.get("/by_user/{user_id}", response_model=List[SaleById])
+def get_sale_by_user(user_id: int, db: Session = Depends(deps.get_db)):
+    sale = crud.saleInteract.get_by_user(db, user_id=user_id)
     if not sale:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Sale with admin ID {admin_id} not found",
+            detail=f"Sale with user ID {user_id} not found",
         )
     
     try :

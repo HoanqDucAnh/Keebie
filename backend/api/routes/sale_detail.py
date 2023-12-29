@@ -110,13 +110,13 @@ def get_all_sale_detail(db: Session = Depends(deps.get_db)):
             detail=error,
         )
         
-@router.get("/by_pdetail/{pdetail_id}", response_model=List[SaleDetailById])
-def get_sale_detail_by_pdetail(pdetail_id: int, db: Session = Depends(deps.get_db)):
-    sale_detail = crud.sale_detailInteract.get_by_product_detail(db, pdetail_id=pdetail_id)
+@router.get("/by_product/{product_id}", response_model=List[SaleDetailById])
+def get_sale_detail_by_pdetail(product_id: int, db: Session = Depends(deps.get_db)):
+    sale_detail = crud.sale_detailInteract.get_by_product(db, product_id=product_id)
     if not sale_detail:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Sale detail with pdetail ID {pdetail_id} not found",
+            detail=f"Sale detail with pdetail ID {product_id} not found",
         )
     
     try :

@@ -4,8 +4,6 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 from .user import Base
 
-BaseProduct = declarative_base()
-
 class Category(Base):
     __tablename__ = 'category'
 

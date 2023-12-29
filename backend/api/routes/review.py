@@ -39,12 +39,12 @@ def get_review_by_id(id: int, db: Session = Depends(deps.get_db)):
         )
         
 @router.get("/by_pdetail/{pdetail_id}", response_model=List[ReviewById])
-def get_review_by_pdetail(pdetail_id: int, db: Session = Depends(deps.get_db)):
-    review = crud.reviewInteract.get_by_product_detail(db, pdetail_id=pdetail_id)
+def get_review_by_product(product_id: int, db: Session = Depends(deps.get_db)):
+    review = crud.reviewInteract.get_by_product(db, product_id=product_id)
     if not review:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Review with product detail ID {pdetail_id} not found",
+            detail=f"Review with product detail ID {product_id} not found",
         )
     
     try :

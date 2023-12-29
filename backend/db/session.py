@@ -17,9 +17,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 if not database_exists(engine.url):
     create_database(engine.url)
 
-BaseProduct.metadata.create_all(engine)
 Base.metadata.create_all(engine)
-BaseOrder.metadata.create_all(engine)
 print(database_exists(engine.url))
 
 

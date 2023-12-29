@@ -1,6 +1,6 @@
 from typing import Type
 from crud.base import CRUDBase, VoucherCRUD, VoucherCustomerCRUD
-from schemas.voucher import VoucherById, VoucherCreate, VoucherUpdate, VoucherCustomerCreate, VoucherCustomerUpdate, VoucherCustomerById, VoucherCustomerByCustomerId, VoucherCustomerByVoucherId
+from schemas.voucher import VoucherById, VoucherCreate, VoucherUpdate, VoucherCustomerCreate, VoucherCustomerUpdate, VoucherCustomerById, VoucherCustomerByUserId, VoucherCustomerByVoucherId
 from models.voucher import Voucher, VoucherCustomer
 
 class CRUDVoucher(CRUDBase[VoucherById, VoucherCreate, VoucherUpdate]):

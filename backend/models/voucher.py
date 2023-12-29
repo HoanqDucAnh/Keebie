@@ -19,17 +19,18 @@ class Voucher(Base):
     voucher_status = Column(Boolean, nullable=False)
     discount_limit = Column(Integer, nullable=False, unique=True)
     discount_left = Column(Integer, nullable=False, unique=True)
-    admin_id = Column(Integer, ForeignKey("admin.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     
     voucher_customer = relationship("VoucherCustomer", back_populates="voucher")
+    user = relationship("User", back_populates="voucher")
     
 class VoucherCustomer(Base):
     __tablename__ = "voucher_customer"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     voucher_id = Column(Integer, ForeignKey("voucher.id"), nullable=False)
-    customer_id = Column(Integer, ForeignKey("customer.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     used_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
     
     voucher = relationship("Voucher", back_populates="voucher_customer")
-    customer = relationship("Customer", back_populates="voucher_customer")
+    user = relationship("User", back_populates="voucher_customer")

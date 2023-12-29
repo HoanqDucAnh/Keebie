@@ -23,8 +23,14 @@ class User(Base):
     address = Column(String(255), nullable=False, unique=False)
     # role = Column(String(12), nullable=False, unique=True, default="customer")
     is_admin = Column(Boolean, nullable=False, default=True)
-    # admins = relationship('Admin', back_populates='user')
-    # customers = relationship('Customer', back_populates='user')
+    
     order = relationship('Order', back_populates='user')
+    sale = relationship('Sale', back_populates='user')
+    sale_detail = relationship('SaleDetail', back_populates='user')
+    verify = relationship('Verify', back_populates='user')
+    review = relationship('Review', back_populates='user')
+    voucher_customer = relationship('VoucherCustomer', back_populates='user')
+    
+    
 
 
