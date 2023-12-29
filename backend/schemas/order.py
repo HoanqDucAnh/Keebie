@@ -2,11 +2,11 @@ from pydantic import BaseModel
 from datetime import *
 
 class OrderBase(BaseModel):
-    order_code: str
     address: str
     user_id: int
     status_id: int
     total_price: float
+    payment_image: bytes
     
 class OrderDetailBase(BaseModel):
     amount: int
