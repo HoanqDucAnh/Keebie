@@ -38,7 +38,11 @@ export default function CartScreen() {
 								<p className="text-xl">Tổng cộng</p>
 								<p className="text-xl">{TotalPrice} VND</p>
 							</div>
-							<button className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg p-2 mt-2">
+							<button 
+									className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg p-2 mt-2"
+									onClick={() => {
+										window.location.href = "/payment";
+									}}>
 								Thanh toán
 							</button>
 						</div>
