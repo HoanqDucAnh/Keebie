@@ -3,6 +3,7 @@ import { Breadcrumb, Layout } from "antd";
 import Sidebar from "../components/product_screen/product_page_screen/Sidebar";
 import ProductRow from "../components/shared/productComponent/ProductRow";
 import SortingFilter from "../components/product_screen/product_page_screen/SortingFilter";
+import ProductDisplayFilter from "../components/shared/productComponent/ProductDisplayFilter";
 
 const { Content, Sider } = Layout;
 
@@ -25,7 +26,7 @@ export default function ProductPageScreen() {
 			/>
 
 			<Layout>
-				<Sider 
+				<Sider
 					width={240}
 					style={{
 						backgroundColor: "white",
@@ -36,7 +37,7 @@ export default function ProductPageScreen() {
 				</Sider>
 				<Content className="min-h-[500px] bg-white rounded-[10px] ml-5 mr-1 p-4">
 					<SortingFilter />
-					<ProductRow />
+					<ProductDisplayFilter />
 				</Content>
 			</Layout>
 		</div>

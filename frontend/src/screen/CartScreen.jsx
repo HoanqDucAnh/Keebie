@@ -7,7 +7,6 @@ import { useImmer } from "use-immer";
 export default function CartScreen() {
 	const cart = useCartStore((state) => state.cart);
 	const [price, setPrice] = useImmer(0);
-
 	const [displayCartProducts, setDisplayCartProducts] = useImmer([]);
 
 	useEffect(() => {
@@ -57,12 +56,6 @@ export default function CartScreen() {
 								quantity={displayCartProduct.quantity}
 							/>
 						))}
-						{/* <ProdCart
-							id={displayCartProducts.id}
-							name={displayCartProducts.title}
-							price={displayCartProducts.price}
-						/> */}
-						{/* <ProdCart /> */}
 					</div>
 					<div className="col-span-3 ml-10">
 						<div className="border-2 border-gray-200 rounded-lg p-5">

@@ -30,11 +30,10 @@ export default function ProductRow({ sectionName }) {
 
 	const filterInstockProds = (prods, categories) => {
 		var prodTemp = prods;
-		const catGbId = categories.find((cat) => cat.cat_name === "Group-buy")?.id;
 		const catOrdId = categories.find((cat) => cat.cat_name === "Order")?.id;
-		if (catGbId === null || catOrdId === null) return prodTemp;
+		if (catOrdId === null) return prodTemp;
 		prodTemp = prodTemp.filter((prod) => {
-			return prod.category_id === catGbId || prod.category_id === catOrdId;
+			return prod.category_id != catOrdId;
 		});
 		return prodTemp;
 	};
@@ -55,13 +54,20 @@ export default function ProductRow({ sectionName }) {
 					break;
 				case "GroupbuySection":
 					setScreenProds(
-						filterProds(products, "Group-buy", screenCategories.current)
+						filterProds(products, "Order", screenCategories.current)
 					);
 					break;
 				case "InstockSection":
 					setScreenProds(
 						filterInstockProds(products, screenCategories.current)
 					);
+					break;
+				case "FilterSection":
+					var tempProds = products;
+					if (tempProds.length > 8) {
+						tempProds = tempProds.slice(0, 8);
+					}
+					setScreenProds(tempProds);
 					break;
 				default:
 					var tempProds = products;

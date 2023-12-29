@@ -115,7 +115,6 @@ export default function AddProductComponent() {
 			productFieldValue.category_id,
 			productFieldValue.headerImage
 		);
-		console.log(productFieldValue);
 		if (respond) {
 			if (respond.status === 200) {
 				let respondImage = await handleSubmitImage(respond.data.id);
@@ -123,6 +122,7 @@ export default function AddProductComponent() {
 					toast.success("Thêm sản phẩm thành công");
 					form.resetFields();
 					setUploadImgList([]);
+					setUploadImgHeader([]);
 				}
 			} else {
 				toast.error(`Thêm sản phẩm thất bại, ${respond.data.message}`);
@@ -132,120 +132,6 @@ export default function AddProductComponent() {
 
 	return (
 		<div className="grid grid-cols-5 gap-5 font-mono mx-5 ">
-			{/* <div className="col-span-2 m-3">
-				<h1 className="text-2xl font-semibold mb-5">Thông tin cơ bản</h1>
-				<div className="mb-3">
-					<p className="mb-2">Tên sản phẩm</p>
-					<div className="flex flex-row">
-						<Input
-							placeholder="Nhập tên sản phẩm"
-							className="mr-2"
-							onChange={(e) => {
-								setProductFieldValue({
-									...productFieldValue,
-									product_name: e.target.value,
-								});
-							}}
-						/>
-						<MyButton name={"+"} onClick={onEditInformation}></MyButton>
-					</div>
-				</div>
-				<div className="grid grid-cols-2 gap-3 mb-3">
-					<div className="col-span-1">
-						<div className="inline-block">
-							<p className="mb-2">Giá thành</p>
-							<InputNumber
-								style={{
-									width: "100%",
-								}}
-								addonBefore="+"
-								addonAfter="VND"
-								formatter={(value) =>
-									` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-								}
-								parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-								onChange={(e) => {
-									setProductFieldValue({ ...productFieldValue, price: e });
-								}}
-							/>
-						</div>
-					</div>
-					<div className="col-span-1">
-						<p className="mb-2">Thể loại </p>
-						<TagSection onChange={onChangeTagInput} />
-					</div>
-				</div>
-				<div className="mb-3">
-					<p className="mb-2">Mô tả sản phẩm</p>
-					<TextArea
-						showCount
-						maxLength={500}
-						rows={4}
-						onChange={(e) => {
-							setProductFieldValue({
-								...productFieldValue,
-								content: e.target.value,
-							});
-						}}
-						onPaste={(e) => {
-							const pastedValue = e.clipboardData.getData("text");
-							setProductFieldValue({
-								...productFieldValue,
-								content: pastedValue,
-							});
-						}}
-					/>
-				</div>
-				<div className="grid grid-cols-2 gap-5 mb-3">
-					<div className="col-span-1">
-						<p className="mb-2">Ngày mở</p>
-						<DatePicker
-							style={{
-								width: "100%",
-							}}
-							defaultValue={dayjs(dateNow, dateFormatList[0])}
-							format={dateFormatList}
-						/>
-					</div>
-					<div className="col-span-1">
-						<p className="mb-2">Ngày đóng</p>
-						<DatePicker
-							style={{
-								width: "100%",
-							}}
-							defaultValue={dayjs(dateNow, dateFormatList[0])}
-							format={dateFormatList}
-						/>
-					</div>
-				</div>
-				<div className="mb-3">
-					<p className="mb-2">Số lượng sản phẩm</p>
-					<InputNumber
-						style={{
-							width: "100%",
-						}}
-						defaultValue={1}
-						formatter={(value) =>
-							` ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-						}
-						parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-						onChange={(e) => {
-							setProductFieldValue({ ...productFieldValue, instock: e });
-						}}
-					/>
-				</div>
-				<div className="mt-7">
-					<MyButton
-						name={"Thêm sản phẩm"}
-						onClick={handleOnAddingProducts()}
-					></MyButton>
-				</div>
-			</div>
-			<div className="col-span-3 m-3 ">
-				<h1 className="text-2xl font-semibold mb-5">Ảnh sản phẩm</h1>
-				<p>Upload ảnh sản phẩm</p>
-				<UploadImage uploadImg={uploadImg} setUploadImg={setUploadImg} />
-			</div> */}
 			<ConfigProvider
 				theme={{ token: { colorPrimary: "#F8C70E", fontFamily: "monospace" } }}
 			>

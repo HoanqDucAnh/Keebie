@@ -8,7 +8,7 @@ export default function ProdCart({ key, id, name, price, instock, quantity }) {
 	const updateProdQuantity = useCartStore((state) => state.updateProdQuantity);
 	const cartItems = useCartStore((state) => state.cart);
 	const disbledField = useRef(false);
-	const headerImg = useRef({});
+	const [headerImg, setHeaderImg] = useState({});
 
 	useEffect(() => {
 		localStorage.setItem("cart", JSON.stringify(cartItems));
@@ -22,7 +22,7 @@ export default function ProdCart({ key, id, name, price, instock, quantity }) {
 		const response = await getHeaderImgByProdIdAPI(id);
 		if (response.status === 200) {
 			console.log(response.data[0]);
-			headerImg.current = response.data[0];
+			setHeaderImg(response.data[0]);
 		}
 	};
 
@@ -49,7 +49,7 @@ export default function ProdCart({ key, id, name, price, instock, quantity }) {
 		>
 			<div className="flex flex-row my-6 flex-wrap" key={key}>
 				<img
-					src={`data:image/png;base64, ${headerImg.current.header_image}`}
+					src={`data:image/png;base64, ${headerImg.header_image}`}
 					alt=""
 					className="w-24 h-24"
 				/>
@@ -58,7 +58,7 @@ export default function ProdCart({ key, id, name, price, instock, quantity }) {
 					<p className="text-lg">Giá: {price} VND</p>
 					<p className="">Còn lại: {instock} sản phẩm</p>
 				</div>
-				<div className="mr-5 flex basis-2/5 justify-end m-auto">
+				<div className="mr-5 flex basis-1/5 justify-end m-auto">
 					<div>
 						<p className="text-xl text-center">Số lượng</p>
 						<InputNumber
