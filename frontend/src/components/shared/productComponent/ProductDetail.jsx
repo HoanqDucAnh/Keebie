@@ -1,26 +1,61 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Carousel, Breadcrumb, Tag, ConfigProvider } from "antd";
 import { Button, Statistic } from "antd";
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { toast } from "react-toastify";
+import { getProductByIdAPI } from "../../../services/SystemServices";
+import { getProductImgByIdAPI } from "../../../services/SystemServices";
+import { getCategoryByIdAPI } from "../../../services/SystemServices";
 
 export default function ProductDetailScreen() {
-	const product = {
-		id: 1,
-		name: 'Cycle7',
-		category: 'Bàn phím',
-		brand: 'Wuque Studio',
-		description: 'this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard',
-		price: 4000000,
-		stock: 10,
-	}
-	const productImages = [
-		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/35.jpg?v=1687918895518',
-		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/36.jpg?v=1687918896521',
-		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/products/3-eeecca4e-cb20-4918-9144-fdf52701fc04.jpg?v=1687918809890',
-		'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/pcb-67d34a02-fb2c-4545-b0b2-45c502e08752.jpg?v=1687841227874',
-	]
+	const productId  = useParams();	
+	const [product, setProduct] = useState({});
+	const [productImages, setProductImages] = useState([]);
+
+	useEffect(() => {
+		console.log(productId.id);
+		const getProductById = async () => {
+			const res = await getProductByIdAPI(productId.id);
+			if (res.status === 200) {
+				setProduct(res.data);
+			}
+		}
+		getProductById();
+
+		const getProductImgById = async () => {
+			const res = await getProductImgByIdAPI(productId.id);
+			if (res.status === 200) {
+				setProductImages(res.data);
+			}
+		}
+		getProductImgById();
+
+		// const getCategoryById = async () => {
+		// 	const res = await getCategoryByIdAPI(productId.id);
+		// 	if (res.status === 200) {
+		// 		setProduct({...product, category: res.data.name});
+		// 	}
+		// }
+		// getCategoryById();
+	}, []);
+
+	// const product = {
+	// 	id: 1,
+	// 	name: 'Cycle7',
+	// 	category: 'Bàn phím',
+	// 	brand: 'Wuque Studio',
+	// 	description: 'this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard this is a keyboard',
+	// 	price: 4000000,
+	// 	stock: 10,
+	// }
+	// const productImages = [
+	// 	'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/35.jpg?v=1687918895518',
+	// 	'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/36.jpg?v=1687918896521',
+	// 	'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/products/3-eeecca4e-cb20-4918-9144-fdf52701fc04.jpg?v=1687918809890',
+	// 	'https://bizweb.dktcdn.net/thumb/1024x1024/100/438/322/files/pcb-67d34a02-fb2c-4545-b0b2-45c502e08752.jpg?v=1687841227874',
+	// ]
 
 	const [amount, setAmount] = useState(1);
 	const setIncrease = () => {
@@ -67,7 +102,7 @@ export default function ProductDetailScreen() {
 					autoplaySpeed={3000}>
 				{productImages.map((image, index) => (
 					<div key={index}>
-						<img src={image} alt="product" className="w-full h-[500px] object-contain rounded-lg" />
+						<img src={`data:image/png;base64, ${image.image}`} alt="product" className="w-full h-[500px] object-contain rounded-lg" />
 					</div>
 				))}
 			</Carousel>
@@ -78,7 +113,7 @@ export default function ProductDetailScreen() {
 				<p className="mb-1 text-base"><strong>Phân loại:</strong> {product.category}</p>
 				<p className="mb-1 text-base"><strong>Thương hiệu:</strong> {product.brand}</p>
 				<Tag className="text-large mb-5" color={tagColor}>{tagText}</Tag>
-				<p className="mb-4 text-justify"><strong>Mô tả:</strong> {product.description}</p>
+				<p className="mb-4 text-justify"><strong>Mô tả:</strong> {product.content}</p>
 				<Statistic className="mb-10" value={product.price} suffix="VNĐ" />
 
 				<div className="flex">

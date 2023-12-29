@@ -25,3 +25,30 @@ export const getAllCategoriesAPI = async () => {
 		return error.response;
 	}
 };
+
+export const getProductByIdAPI = async (id) => {
+	try {
+		const res = await api.get(`/api/products/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getProductImgByIdAPI = async (id) => {
+	try {
+		const res = await api.get(`/api/product_images/by_product_id/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+}
+
+export const getCategoryByIdAPI = async (id) => {
+	try {
+		const res = await api.get(`/api/categories/${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+}
