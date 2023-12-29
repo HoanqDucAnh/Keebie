@@ -62,3 +62,10 @@ class ProductByHeaderImage(ProductById):
     
     class Config:
         from_attributes = True
+
+class HeaderImageOnly(BaseModel):
+    id: int
+    header_image: bytes
+    
+    class Config:
+        from_attributes = True
