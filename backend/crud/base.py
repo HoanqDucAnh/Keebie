@@ -131,10 +131,16 @@ class ProductImageCRUD:
 class OrderCRUD:
     def __init__(self, model: Type[OrderType]):
         self.model = model
-    def get_by_customer(self, db: Session, customer_id: int) -> List[OrderType]:
-        return db.query(self.model).filter(self.model.customer_id == customer_id).all()
+    def get_by_customer(self, db: Session, user_id: int) -> List[OrderType]:
+        return db.query(self.model).filter(self.model.user_id == user_id).all()
     def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
-        return db.query(self.model).filter(self.model.order_status_id == status_id).all()
+        return db.query(self.model).filter(self.model.status_id == status_id).all()
+    def update_status(self, db: Session, id: int, status_id: int) -> OrderType:
+        order = db.query(self.model).filter(self.model.id == id).first()
+        order.status_id = status_id
+        db.commit()
+        db.refresh(order)
+        return order
     
 class OrderDetailCRUD:
     def __init__(self, model: Type[OrderDetailType]):

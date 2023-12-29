@@ -56,12 +56,12 @@ def get_order_by_id(id: int, db: Session = Depends(deps.get_db)):
         )
         
 @router.get("/by_customer/{customer_id}", response_model=List[OrderById])
-def get_order_by_customer(customer_id: int, db: Session = Depends(deps.get_db)):
-    order = crud.orderInteract.get_by_customer(db, customer_id=customer_id)
+def get_order_by_customer(user_id: int, db: Session = Depends(deps.get_db)):
+    order = crud.orderInteract.get_by_customer(db, user_id==user_id)
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order with customer ID {customer_id} not found",
+            detail=f"Order with user ID {user_id} not found",
         )
     
     try :
@@ -125,24 +125,6 @@ def get_all_orders(db: Session = Depends(deps.get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
         )
-        
-@router.get("/by_status_name/{status_name}", response_model=List[OrderById])
-def get_order_by_status_name(status_name: str, db: Session = Depends(deps.get_db)):
-    order = crud.orderInteract.get_by_status_name(db, status_name=status_name)
-    if not order:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order with status name {status_name} not found",
-        )
-    
-    try :
-        return order
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-        )
     
 @router.delete("/{id}", response_model=int)
 def delete_order(id: int, db: Session = Depends(deps.get_db)):
@@ -167,5 +149,13 @@ def delete_order(id: int, db: Session = Depends(deps.get_db)):
             detail=error,
         )
 
-
-    
+@router.put("/update_status/{id}", response_model=OrderById)
+def update_order_status(id: int, status_id: int, db: Session = Depends(deps.get_db)):
+    try :
+        return crud.orderInteract.update_status(db, id=id, status_id=status_id)
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
