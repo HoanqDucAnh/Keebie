@@ -42,7 +42,7 @@ export const getProductImgByIdAPI = async (id) => {
 	} catch (error) {
 		return error.response;
 	}
-}
+};
 
 export const getCategoryByIdAPI = async (id) => {
 	try {
@@ -51,4 +51,13 @@ export const getCategoryByIdAPI = async (id) => {
 	} catch (error) {
 		return error.response;
 	}
-}
+};
+
+export const getHeaderImgByProdIdAPI = async (id) => {
+	try {
+		const res = await api.get(`/api/products/by_header_image/?id=${id}`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
