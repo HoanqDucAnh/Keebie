@@ -27,6 +27,7 @@ export const signupAPI = async (
 	email,
 	profile_pic,
 	activated,
+	address,
 	phone_number,
 	fullname
 ) => {
@@ -39,6 +40,7 @@ export const signupAPI = async (
 			activated: activated,
 			phone_number: phone_number,
 			fullname: fullname,
+			address: address,
 		});
 		return res;
 	} catch (error) {

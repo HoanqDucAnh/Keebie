@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ConfigProvider, Layout, Menu } from "antd";
 import {
 	UserOutlined,
@@ -29,6 +29,13 @@ const componentsSwtich = (key) => {
 };
 
 export default function AdminScreen() {
+	useEffect(() => {
+		const isAdmin = localStorage.getItem("isAdmin");
+		if (isAdmin === "false" || isAdmin === null) {
+			window.location.href = "/404";
+		}
+	}, []);
+
 	const [selectedMenuItem, setSelectedMenuItem] = useState("account-list");
 
 	return (

@@ -14,6 +14,7 @@ class UserBase(BaseModel):
     activated: bool
     phone_number: str
     fullname: str
+    address: str
     
 
 class UserCreate(UserBase):
@@ -31,6 +32,12 @@ class UserByName(UserBase):
     class Config:
         from_attributes = True
 
+class UserByRole(BaseModel):
+    is_admin: bool
+    
+    class Config:
+        from_attributes = True
+
 class UserLogin(BaseModel):
     username: str
     password: str
@@ -38,4 +45,13 @@ class UserLogin(BaseModel):
 class UserUpdate:
     pass
 
+class UserByAddress(BaseModel):
+    username: str
+    address: str
+    phone_number: str
+    fullname: str
+    id: int
+
+class UserPassword(BaseModel):
+    password: str
 

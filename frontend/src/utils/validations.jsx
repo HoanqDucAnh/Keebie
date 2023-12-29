@@ -115,3 +115,17 @@ export const confirmPasswordValidation = {
 		},
 	},
 };
+
+export const adddressValidation = {
+	name: "address",
+	label: "Địa chỉ",
+	type: "text",
+	id: "address",
+	placeholder: "Hãy nhập địa chỉ",
+	validation: {
+		required: {
+			value: true,
+			message: "Không được để trống",
+		},
+	},
+};

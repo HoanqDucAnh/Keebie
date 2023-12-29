@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { ConfigProvider, Table } from "antd";
-import { getAllUseresAPI } from "../../services/AdminServices";
+import { getAllUsersAPI } from "../../services/AdminServices";
 
 export default function AllUsersComponent() {
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
-		var allUsers = getAllUseresAPI();
-		allUsers.then((res) => {
-			setUsers(res.data);
-		});
+		const isAdmin = localStorage.getItem("isAdmin");
+		if (isAdmin === "true") {
+			var allUsers = getAllUsersAPI();
+			allUsers.then((res) => {
+				if (res.status === 200) setUsers(res.data);
+			});
+		}
 	}, []);
 
 	const columns = [
@@ -20,8 +23,8 @@ export default function AllUsersComponent() {
 			width: "180px",
 		},
 		{
-			title: "Mật khẩu",
-			dataIndex: "password",
+			title: "Địa chỉ",
+			dataIndex: "address",
 			width: "140px",
 		},
 		{

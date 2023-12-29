@@ -56,6 +56,9 @@ function App() {
 					</Route>
 					<Route path="/payment">
 						<PaymentScreen />
+          </Route>
+					<Route path="/404">
+						<NotFoundScreen />
 					</Route>
 					<Route path="*">
 						<NotFoundScreen />

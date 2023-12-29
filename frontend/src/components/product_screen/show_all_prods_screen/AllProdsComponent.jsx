@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ConfigProvider, Table } from "antd";
-import {
-	getAllProductsAPI,
-	getAllCategoriesAPI,
-} from "../../../services/AdminServices";
+import { getAllCategoriesAPI } from "../../../services/AdminServices";
+
+import { getAllProductsAPI } from "../../../services/SystemServices";
 
 export default function AllProdsComponent() {
 	const [products, setProducts] = useState([]);
@@ -16,6 +15,7 @@ export default function AllProdsComponent() {
 				//fetch categories
 				const allCategories = await getAllCategoriesAPI();
 				const transformedCategories = {};
+				if (allCategories.data.length == 0) return;
 				allCategories.data.forEach((categories) => {
 					transformedCategories[categories.id] = categories.cat_name;
 				});
@@ -23,6 +23,7 @@ export default function AllProdsComponent() {
 
 				//fetch products
 				const allProducts = await getAllProductsAPI();
+				if (allProducts.data.length == 0) return;
 				allProducts.data.forEach((product) => {
 					var prodType = product.category_id;
 					productsTemp.push({

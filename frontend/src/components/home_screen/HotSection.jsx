@@ -12,7 +12,7 @@ export default function HotSection() {
 					className="ml-2"
 				/>
 			</div>
-			<ProductRow />
+			<ProductRow sectionName={"HotSection"} />
 		</div>
 	);
 }

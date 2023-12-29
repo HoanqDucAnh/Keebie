@@ -1,18 +1,41 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
-from schemas import ProductCreate, ProductById, ProductBase
+from fastapi.requests import Request
+from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage
+from models.product import Product
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
 import crud
-from .auth import manager
+import base64
+from security import manager
 router = APIRouter()
 
 @router.post("/", response_model=ProductById)
-def create_product(product_in: ProductCreate, db: Session = Depends(deps.get_db)):
+async def create_product(file: UploadFile,
+                         db: Session = Depends(deps.get_db), 
+                         product_name: str = Form(...),
+                        brand: str = Form(...),
+                        content: str = Form(...),
+                        price: float = Form(...),
+                        stock: int = Form(...),
+                        category_id: int = Form(...),
+                         user=Depends(manager)):
     try:
-        return crud.product.create(db, obj_in=product_in)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else :
+            data = await file.read()  
+            data = base64.b64encode(data)  
+            db_obj = Product(header_image=data, product_name=product_name, brand=brand, content=content, price=price, stock=stock, category_id=category_id) 
+            db.add(db_obj)  
+            db.commit() 
+            db.refresh(db_obj)
+            return ProductById(**db_obj.__dict__)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -40,21 +63,21 @@ def get_product_by_id(id: int, db: Session = Depends(deps.get_db)):
     
 
 @router.delete("/{id}", response_model=int)
-def delete_product(id: int, db: Session = Depends(deps.get_db)):
+def delete_product(id: int, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
-    associated_product_details = crud.product_details.list_by_product(db, product.id)
-    if associated_product_details:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"Cannot delete product with ID {id}. There are associated product details.",
-        )
     if not product:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Product with ID {id} not found",
         )
     try :
-        return crud.product.remove(db, obj=product)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return crud.product.remove(db, obj=product)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -63,7 +86,7 @@ def delete_product(id: int, db: Session = Depends(deps.get_db)):
         )
         
 @router.put("/{id}", response_model=ProductById)
-def update_product(id: int, product_in: ProductCreate, db: Session = Depends(deps.get_db)):
+def update_product(id: int, product_in: ProductCreate, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
     if not product:
         raise HTTPException(
@@ -71,7 +94,13 @@ def update_product(id: int, product_in: ProductCreate, db: Session = Depends(dep
             detail=f"Product with ID {id} not found",
         )
     try :
-        return crud.product.update(db, db_obj=product, obj_in=product_in)
+        if user.is_admin == False:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User is not admin",
+            )
+        else:
+            return crud.product.update(db, db_obj=product, obj_in=product_in)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -113,7 +142,14 @@ def get_products_by_name(product_name: str, db: Session = Depends(deps.get_db)):
             detail=error,
         )
     
-@router.get("/", response_model=List[ProductBase])
+@router.get("/", response_model=List[ProductByHeaderImage])
 def get_all_products(db: Session = Depends(deps.get_db)):
-    return crud.product.get_all(db)
+    try :    
+        return crud.product.get_all(db)
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
 

@@ -7,6 +7,7 @@ from api.base import api_router
 from fastapi.responses import JSONResponse
 from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.encoders import jsonable_encoder
+from security import manager
 
 from fastapi.exceptions import RequestValidationError
 app = FastAPI()
@@ -30,6 +31,8 @@ app.add_middleware(
 app.include_router(api_router, prefix="/api")
 app.mount("/api", api_router, name="api")
 
+
+    
 
 if __name__ == "__main__":
     import uvicorn

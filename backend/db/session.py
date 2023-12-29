@@ -6,7 +6,8 @@ import mysql.connector
 import pymysql
 import models
 from models.user import User, Base
-from models.product import Product, BaseProduct
+from models.product import Base as BaseProduct
+from models.order import Base as BaseOrder
 
 
 SQLALCHEMY_DATABASE_URL = "mysql+mysqlconnector://root:4444@localhost:3306/keebie"
@@ -18,10 +19,16 @@ if not database_exists(engine.url):
 
 BaseProduct.metadata.create_all(engine)
 Base.metadata.create_all(engine)
-
-
+BaseOrder.metadata.create_all(engine)
 print(database_exists(engine.url))
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
 

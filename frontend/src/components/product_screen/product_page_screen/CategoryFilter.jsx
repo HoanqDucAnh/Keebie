@@ -9,16 +9,16 @@ export default function CategoryFilter() {
 	const allCategories = useCategoryStore((state) => state.categories);
 	const [value, setValue] = useState(1);
 
-	const fetchAllCategories = useCategoryStore(
-		(state) => state.fetchAllCategories
-	);
+	// const fetchAllCategories = useCategoryStore(
+	// 	(state) => state.fetchAllCategories
+	// );
 	const filterDisplayProductsOnCategoryID = useProdOnDisplayStore(
 		(state) => state.filterDisplayProductsOnCategoryID
 	);
 
-	useEffect(() => {
-		fetchAllCategories();
-	}, []);
+	// useEffect(() => {
+	// 	fetchAllCategories();
+	// }, []);
 
 	useEffect(() => {
 		filterDisplayProductsOnCategoryID(value);

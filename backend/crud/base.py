@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from models import Base, User, Product, Category, ProductImage
+from models.order import Order, OrderDetail, Status
 import models
 from schemas import user
 
@@ -13,7 +14,9 @@ CategoryType = TypeVar("CategoryType", bound=Category)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 ProductImageType = TypeVar("ProductImageType", bound=ProductImage)
-
+OrderType = TypeVar("OrderType", bound=Order)
+OrderDetailType = TypeVar("OrderDetailType", bound=OrderDetail)
+StatusType = TypeVar("StatusType", bound=Status)
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
@@ -80,6 +83,12 @@ class UserCRUD:
         return db.query(self.model).filter(self.model.email == email).first()
     def list_all_user(self, db: Session) -> List[UserType]:
         return db.query(self.model).all()
+    def update_user_password(self, db: Session, id: int, password: str) -> UserType:
+        user = db.query(self.model).filter(self.model.id == id).first()
+        user.password = password
+        db.commit()
+        db.refresh(user)
+        return user
     
 class ProductCRUD:
     def __init__(self, model: Type[ProductType]):
@@ -90,6 +99,16 @@ class ProductCRUD:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
     def list_all_product(self, db: Session) -> List[ProductType]:
         return db.query(self.model).all()
+    def get_stock_by_id(self, db: Session, id: int) -> int:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        return product.stock
+    
+    def update_stock_by_id(self, db: Session, id: int, stock: int) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.stock = stock
+        db.commit()
+        db.refresh(product)
+        return product
     
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
@@ -108,5 +127,26 @@ class ProductImageCRUD:
         return db.query(self.model).all()
     def list_by_product(self, db: Session, product_id: int) -> List[ProductImageType]:
         return db.query(self.model).filter(self.model.product_id == product_id).all()
+
+class OrderCRUD:
+    def __init__(self, model: Type[OrderType]):
+        self.model = model
+    def get_by_customer(self, db: Session, customer_id: int) -> List[OrderType]:
+        return db.query(self.model).filter(self.model.customer_id == customer_id).all()
+    def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
+        return db.query(self.model).filter(self.model.order_status_id == status_id).all()
     
+class OrderDetailCRUD:
+    def __init__(self, model: Type[OrderDetailType]):
+        self.model = model
+    def get_by_order(self, db: Session, order_id: int) -> List[OrderDetailType]:
+        return db.query(self.model).filter(self.model.order_id == order_id).all()
+    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[OrderDetailType]:
+        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
+    
+class StatusCRUD:
+    def __init__(self, model: Type[StatusType]):
+        self.model = model
+    def get_by_name(self, db: Session, status_name: str) -> Optional[StatusType]:
+        return db.query(self.model).filter(self.model.status_name == status_name).first()
     
