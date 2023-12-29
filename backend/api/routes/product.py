@@ -12,7 +12,7 @@ import base64
 from security import manager
 router = APIRouter()
 
-@router.post("/", response_model=ProductBase)
+@router.post("/", response_model=ProductById)
 async def create_product(file: UploadFile,
                          db: Session = Depends(deps.get_db), 
                          product_name: str = Form(...),
