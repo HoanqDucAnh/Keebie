@@ -48,8 +48,11 @@ export default function PaymentScreen() {
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
-		const decodeToken = JSON.parse(atob(token.split(".")[1]));
-		const user_id = decodeToken.user_id;
+		var decodeToken = {};
+		if (token) {
+			decodeToken = JSON.parse(atob(token?.split(".")[1]));
+		}
+		const user_id = decodeToken?.user_id;
 		inputFieldValue.current.user_id = user_id;
 	}, []);
 

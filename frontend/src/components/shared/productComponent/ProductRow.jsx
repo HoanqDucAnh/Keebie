@@ -4,6 +4,7 @@ import useProdOnDisplayStore from "../../../stores/ProdOnDisplay";
 import useCategoryStore from "../../../stores/CategoryStore";
 import { useImmer } from "use-immer";
 import useCartStore from "../../../stores/CartStore";
+import { toast } from "react-toastify";
 
 export default function ProductRow({ sectionName }) {
 	//prodOnDisplayStore
@@ -83,18 +84,20 @@ export default function ProductRow({ sectionName }) {
 
 	return (
 		<div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5 ">
-			{screenProds.map((screenProd) => (
-				<div key={screenProd.id} className="w-full sm:w-auto">
-					<ProdCard
-						title={screenProd.product_name}
-						price={screenProd.price}
-						imageBase64={screenProd.header_image}
-						id={screenProd.id}
-						className={"row-span-1"}
-						inStockValue={screenProd.stock}
-					/>
-				</div>
-			))}
+			{screenProds.length === 0
+				? null
+				: screenProds.map((screenProd) => (
+						<div key={screenProd.id} className="w-full sm:w-auto">
+							<ProdCard
+								title={screenProd.product_name}
+								price={screenProd.price}
+								imageBase64={screenProd.header_image}
+								id={screenProd.id}
+								className={"row-span-1"}
+								inStockValue={screenProd.stock}
+							/>
+						</div>
+				  ))}
 		</div>
 	);
 }
