@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 
-# from .base import Base
 
 Base = declarative_base()
 
@@ -21,9 +20,6 @@ class User(Base):
     phone_number = Column(String(12), nullable=False, unique=True)
     fullname = Column(String(255), nullable=False, unique=False)
     address = Column(String(255), nullable=False, unique=False)
-    # role = Column(String(12), nullable=False, unique=True, default="customer")
-    is_admin = Column(Boolean, nullable=False, default=True)
-    # admins = relationship('Admin', back_populates='user')
-    # customers = relationship('Customer', back_populates='user')
+    is_admin = Column(Boolean, nullable=False, default=False)
 
 
