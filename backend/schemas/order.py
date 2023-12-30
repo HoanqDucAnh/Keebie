@@ -59,5 +59,12 @@ class OrderDetailUpdate:
 class StatusUpdate:
     pass
 
+class OrderByUserId(OrderBase):
+    user_id: int
+    
+    class Config:
+        from_attributes = True
+        
 
         
+

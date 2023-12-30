@@ -14,10 +14,15 @@ from models.order import Base as BaseOrder
 load_dotenv()
 
 username = os.getenv("MYSQL_USER")
+# username = "root"
 password = os.getenv("MYSQL_PASSWORD")
+# password = "QuanTnaq_4321"
 host = os.getenv("MYSQL_SERVICE_HOST")
+# host = "localhost"
 port = os.getenv("MYSQL_SERVICE_PORT")
+# port = 3307
 database = os.getenv("MYSQL_DATABASE")
+# database = "keebie4"
 
 SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{username}:{password}@{host}:{port}/{database}"
 
@@ -25,9 +30,7 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 if not database_exists(engine.url):
     create_database(engine.url)
 
-BaseProduct.metadata.create_all(engine)
 Base.metadata.create_all(engine)
-BaseOrder.metadata.create_all(engine)
 print(database_exists(engine.url))
 
 

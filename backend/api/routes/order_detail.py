@@ -68,6 +68,24 @@ def get_order_detail_by_order(order_id: int, db: Session = Depends(deps.get_db))
             detail=error,
         )
         
+@router.get("/by_product/{product_id}", response_model=List[OrderDetailById])
+def get_order_detail_by_product(product_id: int, db: Session = Depends(deps.get_db)):
+    order_detail = crud.order_detailInteract.get_by_product(db, product_id=product_id)
+    if not order_detail:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Order detail with product ID {product_id} not found",
+        )
+    
+    try :
+        return order_detail
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
+        
 @router.delete("/{id}", response_model=int)
 def delete_order_detail(id: int, db: Session = Depends(deps.get_db)):
     order_detail = crud.order_detail.get(db, id=id)
