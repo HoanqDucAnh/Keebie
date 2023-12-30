@@ -48,6 +48,26 @@ export const signupAPI = async (
 	}
 };
 
+export const changePasswordAPI = async (userId, oldPassword, newPassword) => {
+	const token = localStorage.getItem("token");
+	const headers = {
+		Authorization: `Bearer ${token}`,
+	};
+
+	const form = new FormData();
+	form.append("old_password", oldPassword);
+	form.append("new_password", newPassword);
+
+	try {
+		const res = await api.put(`/api/users/update_password/${userId}`, form, {
+			headers: headers,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const createOrderAPI = async (
 	address,
 	phone_number,
