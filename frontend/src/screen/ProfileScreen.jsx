@@ -4,7 +4,6 @@ import { UserOutlined, BarsOutlined, HomeOutlined } from "@ant-design/icons";
 import { Layout, Menu, ConfigProvider } from "antd";
 import UserComponent from "../components/profile_screen/UserComponent";
 import HistoryComponent from "../components/profile_screen/HistoryComponent";
-import AddressComponent from "../components/profile_screen/AddressComponent";
 
 const { Content, Sider } = Layout;
 
@@ -14,8 +13,6 @@ const componentsSwtich = (key) => {
 			return <UserComponent />;
 		case "history":
 			return <HistoryComponent />;
-		case "address":
-			return <AddressComponent />;
 		default:
 			break;
 	}
@@ -58,9 +55,6 @@ const ProfileScreen = () => {
 						</Menu.Item>
 						<Menu.Item key="history" icon={<BarsOutlined />}>
 							Lịch sử mua hàng
-						</Menu.Item>
-						<Menu.Item key="address" icon={<HomeOutlined />}>
-							Địa chỉ
 						</Menu.Item>
 					</Menu>
 				</ConfigProvider>
