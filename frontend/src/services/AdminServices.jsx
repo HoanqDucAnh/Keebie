@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: "http://127.0.0.1:8000",
+	baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 const headers = {
@@ -73,8 +73,10 @@ export const createProductAPI = async (
 };
 
 export const deleteProductAPI = async (id) => {
+	const token = localStorage.getItem("token");
+	const headers = { Authorization: `Bearer ${token}` };
 	try {
-		const res = await api.delete(`/api/products/${id}`);
+		const res = await api.delete(`/api/products/${id}`, { headers: headers });
 		return res;
 	} catch (error) {
 		return error.response;
@@ -175,8 +177,12 @@ export const getCategoryByIdAPI = async (id) => {
 };
 
 export const deleteCategoryAPI = async (id) => {
+	const token = localStorage.getItem("token");
+
+	const headers = { Authorization: `Bearer ${token}` };
+	console.log(headers);
 	try {
-		const res = await api.delete(`/api/categories/${id}`);
+		const res = await api.delete(`/api/categories/${id}`, headers);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -227,6 +233,26 @@ export const getProdImgByProdIdAPI = async (product_id) => {
 	try {
 		const res = await api.get(
 			`/api/product_images/by_product_id/${product_id}`
+		);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getAllOrderAPi = async () => {
+	try {
+		const res = await api.get(`/api/orders`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const updateOrderStatusAPI = async (id, status_id) => {
+	try {
+		const res = await api.put(
+			`/api/orders/update_status/${id}?status_id=${status_id}`
 		);
 		return res;
 	} catch (error) {
