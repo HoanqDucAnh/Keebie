@@ -105,7 +105,6 @@ export default function AddProductComponent() {
 	const handleFinishAddingProduct = async (values) => {
 		let headerImage = uploadImgHeader.imgFile[0];
 		setProductFieldValue(values, headerImage);
-		console.log(productFieldValue);
 		let respond = await createProductAPI(
 			productFieldValue.product_name,
 			productFieldValue.brand,
