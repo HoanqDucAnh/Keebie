@@ -55,9 +55,9 @@ def get_order_by_id(id: int, db: Session = Depends(deps.get_db)):
             detail=error,
         )
         
-@router.get("/by_customer/{customer_id}", response_model=List[OrderById])
+@router.get("/by_customer/{user_id}", response_model=List[OrderById])
 def get_order_by_customer(user_id: int, db: Session = Depends(deps.get_db)):
-    order = crud.orderInteract.get_by_customer(db, user_id==user_id)
+    order = crud.orderInteract.get_by_customer(db, user_id=user_id)
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
