@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { ConfigProvider } from "antd";
 import { Button, Form, Input, Radio, Space } from "antd";
@@ -8,12 +8,27 @@ import ProdCart from "../components/cart_screen/ProdCart";
 import useCartStore from "../stores/CartStore";
 import { toast } from "react-toastify";
 import { useImmer } from "use-immer";
+import { createOrderAPI, createOrderDetailAPI } from "../services/UserServices";
 
 export default function PaymentScreen() {
 	const cart = useCartStore((state) => state.cart);
 
 	const [price, setPrice] = useImmer(0);
 	const [displayCartProducts, setDisplayCartProducts] = useImmer([]);
+	const inputFieldValue = useRef({
+		fullname: "",
+		email: "",
+		phone_number: "",
+		address: "",
+		note: "",
+		payment_method: "",
+		shipping_method: "",
+		payment_image: "none",
+		total_price: "",
+		user_id: "",
+		status_id: "1",
+	});
+	const cartItems = useRef([]);
 
 	const [form] = Form.useForm();
 
@@ -21,16 +36,26 @@ export default function PaymentScreen() {
 	const onChangeShipping = (e) => {
 		console.log("radio checked", e.target.value);
 		setShipping(e.target.value);
+		inputFieldValue.current.shipping_method = e.target.value;
 	};
 
 	const [payment, setPayment] = useState(1);
 	const onChangePayment = (e) => {
 		console.log("radio checked", e.target.value);
 		setPayment(e.target.value);
+		inputFieldValue.current.payment_method = e.target.value;
 	};
 
 	useEffect(() => {
+		const token = localStorage.getItem("token");
+		const decodeToken = JSON.parse(atob(token.split(".")[1]));
+		const user_id = decodeToken.user_id;
+		inputFieldValue.current.user_id = user_id;
+	}, []);
+
+	useEffect(() => {
 		setDisplayCartProducts(cart);
+		cartItems.current = cart;
 		setPrice(
 			cart.reduce((total, item) => {
 				return total + item.price * item.quantity;
@@ -39,10 +64,58 @@ export default function PaymentScreen() {
 	}, [cart]);
 
 	const formatPrice = (price) => {
+		inputFieldValue.current.total_price = price;
 		return price.toLocaleString("it-IT", {
 			style: "currency",
 			currency: "VND",
 		});
+	};
+
+	const handleOrder = async () => {
+		console.log(inputFieldValue.current);
+		console.log(cartItems.current);
+		console.log(cartItems.current.length);
+		const response = await createOrderAPI(
+			inputFieldValue.current.address,
+			inputFieldValue.current.phone_number,
+			inputFieldValue.current.email,
+			inputFieldValue.current.fullname,
+			inputFieldValue.current.note,
+			inputFieldValue.current.user_id,
+			inputFieldValue.current.status_id,
+			inputFieldValue.current.total_price,
+			inputFieldValue.current.payment_image,
+			inputFieldValue.current.payment_method,
+			inputFieldValue.current.shipping_method
+		);
+		if (response) {
+			if (response.status === 200) {
+				const order_id = response.data.id;
+				const flag = true;
+				for (let i = 0; i < cartItems.current.length; i++) {
+					const response = await createOrderDetailAPI(
+						order_id,
+						cartItems.current[i].id,
+						cartItems.current[i].quantity
+					);
+					if (response.status === 200) {
+					} else {
+						flag = false;
+					}
+				}
+				if (flag) {
+					toast.success("Đặt hàng thành công");
+					localStorage.removeItem("cart");
+					setTimeout(() => {
+						window.location.href = "/";
+					}, 1000);
+				} else {
+					toast.error("Đặt hàng thất bại, xin hãy thử lại");
+				}
+			} else {
+				toast.error("Đặt hàng thất bại, xin hãy thử lại");
+			}
+		}
 	};
 
 	return (
@@ -86,7 +159,13 @@ export default function PaymentScreen() {
 							tooltip="Thông tin bắt buộc"
 							style={{ marginBottom: "5px" }}
 						>
-							<Input placeholder="Họ và tên" style={{ width: "350px" }} />
+							<Input
+								placeholder="Họ và tên"
+								style={{ width: "350px" }}
+								onChange={(e) =>
+									(inputFieldValue.current.fullname = e.target.value)
+								}
+							/>
 						</Form.Item>
 						<Form.Item
 							label="Email"
@@ -94,7 +173,12 @@ export default function PaymentScreen() {
 							tooltip="Thông tin bắt buộc"
 							style={{ marginBottom: "5px" }}
 						>
-							<Input placeholder="Email" />
+							<Input
+								placeholder="Email"
+								onChange={(e) =>
+									(inputFieldValue.current.email = e.target.value)
+								}
+							/>
 						</Form.Item>
 						<Form.Item
 							label="Số điện thoại"
@@ -102,7 +186,12 @@ export default function PaymentScreen() {
 							tooltip="Thông tin bắt buộc"
 							style={{ marginBottom: "5px" }}
 						>
-							<Input placeholder="Số điện thoại" />
+							<Input
+								placeholder="Số điện thoại"
+								onChange={(e) =>
+									(inputFieldValue.current.phone_number = e.target.value)
+								}
+							/>
 						</Form.Item>
 						<Form.Item
 							label="Địa chỉ nhận hàng"
@@ -110,10 +199,20 @@ export default function PaymentScreen() {
 							tooltip="Thông tin bắt buộc"
 							style={{ marginBottom: "5px" }}
 						>
-							<Input placeholder="Địa chỉ nhận hàng" />
+							<Input
+								placeholder="Địa chỉ nhận hàng"
+								onChange={(e) =>
+									(inputFieldValue.current.address = e.target.value)
+								}
+							/>
 						</Form.Item>
 						<Form.Item label="Ghi chú">
-							<Input.TextArea rows={4} />
+							<Input.TextArea
+								rows={4}
+								onChange={(e) =>
+									(inputFieldValue.current.note = e.target.value)
+								}
+							/>
 						</Form.Item>
 					</Form>
 				</div>
@@ -134,7 +233,11 @@ export default function PaymentScreen() {
 								items={[
 									{
 										key: "1",
-										label: <Radio value={1}> Nhận tại cửa hàng</Radio>,
+										label: (
+											<Radio value={"Nhận tại cửa hàng"}>
+												Nhận tại cửa hàng
+											</Radio>
+										),
 										children: (
 											<p className="w-[330px]">
 												Địa chỉ nhận hàng trực tiếp: 144 Xuân Thủy, Dịch Vọng
@@ -145,7 +248,11 @@ export default function PaymentScreen() {
 									},
 									{
 										key: "2",
-										label: <Radio value={2}>Vận chuyển thường</Radio>,
+										label: (
+											<Radio value={"Vận chuyển thường"}>
+												Vận chuyển thường
+											</Radio>
+										),
 										children: (
 											<p className="w-[330px]">
 												Thời gian dự kiến: 2 ngày (Hà Nội) và 3-4 ngày (các tỉnh
@@ -156,7 +263,9 @@ export default function PaymentScreen() {
 									},
 									{
 										key: "3",
-										label: <Radio value={3}>Vận chuyển nhanh</Radio>,
+										label: (
+											<Radio value={"Vận chuyển nhanh"}>Vận chuyển nhanh</Radio>
+										),
 										children: (
 											<p className="w-[330px]">
 												Thời gian dự kiến: 1 ngày (Hà Nội) và 2-3 ngày (các tỉnh
@@ -185,13 +294,21 @@ export default function PaymentScreen() {
 								items={[
 									{
 										key: "1",
-										label: <Radio value={1}>Thanh toán khi nhận hàng</Radio>,
+										label: (
+											<Radio value={"Thanh toán khi nhận hàng"}>
+												Thanh toán khi nhận hàng
+											</Radio>
+										),
 										children: <p className="w-0 h-0"></p>,
 										showArrow: false,
 									},
 									{
 										key: "2",
-										label: <Radio value={2}>Chuyển khoản qua ngân hàng</Radio>,
+										label: (
+											<Radio value={"Chuyển khoản qua ngân hàng"}>
+												Chuyển khoản qua ngân hàng
+											</Radio>
+										),
 										children: (
 											<div className="w-[330px]">
 												<p className="mb-2 ml-2">
@@ -204,7 +321,13 @@ export default function PaymentScreen() {
 													className="w-[300px] ml-2"
 												/>
 												<p className="mt-2 ml-2">Link ảnh:</p>
-												<Input className="w-[300px] ml-2 mt-2" />
+												<Input
+													onChange={(e) =>
+														(inputFieldValue.current.payment_image =
+															e.target.value)
+													}
+													className="w-[300px] ml-2 mt-2"
+												/>
 											</div>
 										),
 										showArrow: false,
@@ -238,12 +361,7 @@ export default function PaymentScreen() {
 						</div>
 						<button
 							className="w-[200px] font-bold ml-[180px] bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg p-2 mt-2"
-							onClick={() => {
-								toast.success("Đặt hàng thành công");
-								setTimeout(() => {
-									window.location.href = "/";
-								}, 2000);
-							}}
+							onClick={() => handleOrder()}
 						>
 							Đặt hàng
 						</button>
