@@ -118,7 +118,7 @@ export const createOrderDetailAPI = async (order_id, product_id, quantity) => {
 export const getOrdersByCustomerAPI = async (user_id) => {
 	try {
 		const res = await api.get(
-			`/api/orders/by_customer/{customer_id}?user_id=${user_id}`
+			`/api/orders/by_customer/${user_id}`
 		);
 		return res;
 	} catch (error) {
