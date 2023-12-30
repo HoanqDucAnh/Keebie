@@ -152,6 +152,12 @@ def delete_order(id: int, db: Session = Depends(deps.get_db)):
 @router.put("/update_status/{id}", response_model=OrderById)
 def update_order_status(id: int, status_id: int, db: Session = Depends(deps.get_db)):
     try :
+        if status_id == 3:
+            order_details = crud.order_detailInteract.get_by_order(db, order_id=id)
+            for order_detail in order_details:
+                order_detail_stock = order_detail.amount
+                product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail.product_id)
+                crud.productInteract.update_stock_by_id(db, id=order_detail.product_id, stock=order_detail.amount + product_in_stock)
         return crud.orderInteract.update_status(db, id=id, status_id=status_id)
     except SQLAlchemyError as e:
         error = str(e)
