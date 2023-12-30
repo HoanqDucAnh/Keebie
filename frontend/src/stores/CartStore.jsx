@@ -15,7 +15,6 @@ const useCartStore = create((set) => ({
 	//add/remove product to cart
 	addProdToCart: (product) =>
 		set((state) => {
-			console.log(product);
 			const prodIndex = state.cart.findIndex((x) => x.id === product.id);
 			if (prodIndex !== -1) {
 				const newCart = [...state.cart];
@@ -32,15 +31,23 @@ const useCartStore = create((set) => ({
 			}
 		}),
 
-	removeProdFromCart: (product) =>
-		set((state) => ({
-			cart: state.cart.filter((x) => x.id !== product.id),
-		})),
-
-	updateProdsFromLocalStorage: (products) =>
-		set(() => ({
-			cart: products,
-		})),
+	removeProdFromCart: (productId) =>
+		set((state) => {
+			const prodIndex = state.cart.findIndex((x) => x.id === productId);
+			if (prodIndex !== -1) {
+				const newCart = [...state.cart];
+				newCart.splice(prodIndex, 1);
+				toast.success("Xóa sản phẩm khỏi giỏ hàng thành công!");
+				return {
+					cart: newCart,
+				};
+			} else {
+				toast.error("Xóa sản phẩm khỏi giỏ hàng thất bại!");
+				return {
+					cart: [...state.cart],
+				};
+			}
+		}),
 
 	//update quantity
 	updateProdQuantity: (prodID, quantity) =>

@@ -1,7 +1,6 @@
 import React from "react";
 import { Breadcrumb, Layout } from "antd";
 import Sidebar from "../components/product_screen/product_page_screen/Sidebar";
-import ProductRow from "../components/shared/productComponent/ProductRow";
 import SortingFilter from "../components/product_screen/product_page_screen/SortingFilter";
 import ProductDisplayFilter from "../components/shared/productComponent/ProductDisplayFilter";
 
