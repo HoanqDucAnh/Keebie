@@ -17,6 +17,12 @@ const useCartStore = create((set) => ({
 		set((state) => {
 			const prodIndex = state.cart.findIndex((x) => x.id === product.id);
 			if (prodIndex !== -1) {
+				if (state.cart[prodIndex].quantity >= product.inStockValue) {
+					toast.error("Số lượng sản phẩm không đủ");
+					return {
+						cart: [...state.cart],
+					};
+				}
 				const newCart = [...state.cart];
 				newCart[prodIndex].quantity += 1;
 				toast.success("Cập nhật số lượng sản phẩm thành công!");
