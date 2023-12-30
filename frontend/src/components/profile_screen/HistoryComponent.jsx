@@ -1,5 +1,6 @@
 import React from "react";
 import { ConfigProvider, Table } from "antd";
+import { getOrdersByCustomerAPI } from "../../services/UserServices";
 
 export default function HistoryComponent() {
 	const columns = [
@@ -8,30 +9,6 @@ export default function HistoryComponent() {
 			dataIndex: "name",
 			key: "name",
 			width: "230px",
-		},
-		{
-			title: "Loại sản phẩm",
-			dataIndex: "type",
-			width: "140px",
-			filters: [
-				{
-					text: "Bàn phím",
-					value: "Bàn phím",
-				},
-				{
-					text: "Bộ nút bàn phím",
-					value: "Bộ nút bàn phím",
-				},
-				{
-					text: "Công tắc bàn phím",
-					value: "Công tắc bàn phím",
-				},
-				{
-					text: "Phụ kiện khác",
-					value: "Phụ kiện khác",
-				},
-			],
-			onFilter: (value, record) => record.type.startsWith(value),
 		},
 		{
 			title: "Ngày mua hàng",
