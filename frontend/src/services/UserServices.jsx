@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: "http://127.0.0.1:8000",
+	baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 const headers = {
@@ -109,6 +109,15 @@ export const createOrderDetailAPI = async (order_id, product_id, quantity) => {
 			product_id: product_id,
 			amount: quantity,
 		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getOrdersByCustomerAPI = async (user_id) => {
+	try {
+		const res = await api.get(`/api/orders/by_customer/${user_id}`);
 		return res;
 	} catch (error) {
 		return error.response;
