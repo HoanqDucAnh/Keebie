@@ -1,120 +1,111 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useEffect, useState } from "react";
 import { ConfigProvider, Table } from "antd";
+import { getOrdersByCustomerAPI } from "../../services/UserServices";
 
 export default function HistoryComponent() {
+	const userId = useRef(null);
+	const [orders, setOrders] = useState([]);
+
+	const orderStatusMap = useRef({
+		1: "Chưa thanh toán",
+		2: "Đã thanh toán",
+		3: "Đã huỷ",
+	});
+
+	const mappingOrderStatus = (status) => {
+		return orderStatusMap.current[status];
+	};
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		const uid = JSON.parse(atob(token.split(".")[1])).user_id;
+		userId.current = uid;
+		const getOrdersByCustomer = async () => {
+			const res = await getOrdersByCustomerAPI(uid);
+			if (res.status === 200) {
+				setOrders(res.data);
+				setOrders((prev) => {
+					return prev.map((order) => {
+						return {
+							...order,
+							status_code: mappingOrderStatus(order.status_id),
+						};
+					});
+				});
+			}
+		};
+
+		getOrdersByCustomer();
+	}, []);
+
+	useEffect(() => {
+		console.log(orders);
+	}, [orders]);
+
 	const columns = [
 		{
-			title: "Tên đơn hàng",
-			dataIndex: "name",
-			key: "name",
-			width: "230px",
+			title: "ID",
+			dataIndex: "id",
+			key: "id",
 		},
 		{
-			title: "Loại sản phẩm",
-			dataIndex: "type",
-			width: "140px",
-			filters: [
-				{
-					text: "Bàn phím",
-					value: "Bàn phím",
-				},
-				{
-					text: "Bộ nút bàn phím",
-					value: "Bộ nút bàn phím",
-				},
-				{
-					text: "Công tắc bàn phím",
-					value: "Công tắc bàn phím",
-				},
-				{
-					text: "Phụ kiện khác",
-					value: "Phụ kiện khác",
-				},
-			],
-			onFilter: (value, record) => record.type.startsWith(value),
+			title: "Số điện thoại",
+			dataIndex: "phone_number",
+			key: "phone_number",
 		},
 		{
 			title: "Ngày mua hàng",
-			dataIndex: "date",
-			width: "150px",
-			sorter: (a, b) => new Date(a.date) - new Date(b.date),
+			dataIndex: "created_at",
+			key: "created_at",
+			sorter: (a, b) => a.created_at - b.created_at,
 		},
 		{
 			title: "Giá trị đơn hàng",
-			dataIndex: "price",
-			width: "140px",
-			sorter: (a, b) => a.price - b.price,
+			dataIndex: "total_price",
+			sorter: (a, b) => a.total_price - b.total_price,
 		},
 		{
 			title: "Trạng thái đơn hàng",
-			dataIndex: "status",
-			width: "160px",
+			dataIndex: "status_code",
 			filters: [
 				{
-					text: "Đã giao hàng",
-					value: "Đã giao hàng",
+					text: "Chưa thanh toán",
+					value: "Chưa thanh toán",
 				},
 				{
-					text: "Đang giao hàng",
-					value: "Đang giao hàng",
+					text: "Đã thanh toán",
+					value: "Đã thanh toán",
 				},
 				{
 					text: "Đã hủy",
-					value: "Đã hủy",
+					value: "Đã huỷ",
 				},
 			],
-			onFilter: (value, record) => record.status.startsWith(value),
-		},
-	];
-
-	const data = [
-		{
-			key: "item1",
-			name: "Bàn phím cơ AKKO 3084",
-			type: "Bàn phím",
-			date: "2021-10-10",
-			price: 32,
-			status: "Đã giao hàng",
+			onFilter: (value, record) => {
+				return record.status_code.indexOf(value) === 0;
+			},
 		},
 		{
-			key: "item2",
-			name: "Bàn phím cơ Cycle7",
-			type: "Bàn phím",
-			date: "2022-10-10",
-			price: 420,
-			status: "Đang giao hàng",
+			title: "Hình thức thanh toán",
+			dataIndex: "payment_method",
+			filters: [
+				{
+					text: "Thanh toán khi nhận hàng",
+					value: "Thanh toán khi nhận hàng",
+				},
+				{
+					text: "Chuyển khoản qua ngân hàng",
+					value: "Chuyển khoản qua ngân hàng",
+				},
+			],
+			onFilter: (value, record) => {
+				return record.payment_method.indexOf(value) === 0;
+			},
 		},
 		{
-			key: "item3",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item4",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item5",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
-		},
-		{
-			key: "item6",
-			name: "BCP Switches x 70",
-			type: "Công tắc bàn phím",
-			date: "2023-09-11",
-			price: 320,
-			status: "Đã hủy",
+			title: "Vận chuyển",
+			dataIndex: "shipment_method",
 		},
 	];
 
@@ -133,7 +124,7 @@ export default function HistoryComponent() {
 				<Table
 					pagination={{ pageSize: 5 }}
 					columns={columns}
-					dataSource={data}
+					dataSource={orders.length > 0 ? orders : []}
 					onChange={onChange}
 				/>
 			</ConfigProvider>

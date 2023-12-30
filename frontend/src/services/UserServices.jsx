@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: "http://127.0.0.1:8000",
+	baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 const headers = {
@@ -41,6 +41,26 @@ export const signupAPI = async (
 			phone_number: phone_number,
 			fullname: fullname,
 			address: address,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const changePasswordAPI = async (userId, oldPassword, newPassword) => {
+	const token = localStorage.getItem("token");
+	const headers = {
+		Authorization: `Bearer ${token}`,
+	};
+
+	const form = new FormData();
+	form.append("old_password", oldPassword);
+	form.append("new_password", newPassword);
+
+	try {
+		const res = await api.put(`/api/users/update_password/${userId}`, form, {
+			headers: headers,
 		});
 		return res;
 	} catch (error) {
@@ -89,6 +109,17 @@ export const createOrderDetailAPI = async (order_id, product_id, quantity) => {
 			product_id: product_id,
 			amount: quantity,
 		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getOrdersByCustomerAPI = async (user_id) => {
+	try {
+		const res = await api.get(
+			`/api/orders/by_customer/{customer_id}?user_id=${user_id}`
+		);
 		return res;
 	} catch (error) {
 		return error.response;
