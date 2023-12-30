@@ -18,28 +18,7 @@ export default function ProductDisplayFilter() {
 	const screenCategories = useRef([]);
 
 	const onChangePage = (page, pageSize) => {
-		console.log(page, pageSize);
-	};
-
-	const filterProds = (prods, catName, categories) => {
-		var prodTemp = prods;
-		const catId = categories.find((cat) => cat.cat_name === catName)?.id;
-		if (catId === null) return prodTemp;
-		prodTemp = prodTemp.filter((prod) => {
-			return prod.category_id === catId;
-		});
-
-		return prodTemp;
-	};
-
-	const filterInstockProds = (prods, categories) => {
-		var prodTemp = prods;
-		const catOrdId = categories.find((cat) => cat.cat_name === "Order")?.id;
-		if (catOrdId === null) return prodTemp;
-		prodTemp = prodTemp.filter((prod) => {
-			return prod.category_id != catOrdId;
-		});
-		return prodTemp;
+		setScreenProds(products.slice((page - 1) * 8, page * 8));
 	};
 
 	useEffect(() => {
@@ -55,7 +34,10 @@ export default function ProductDisplayFilter() {
 
 	return (
 		<div>
-			<div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5 ">
+			<div
+				className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5"
+				style={{ height: "43.1rem" }}
+			>
 				{screenProds.map((screenProd) => (
 					<div key={screenProd.id} className="w-full sm:w-auto">
 						<ProdCard
@@ -69,7 +51,7 @@ export default function ProductDisplayFilter() {
 					</div>
 				))}
 			</div>
-			<div className="w-full sm:w-auto">
+			<div className="w-full text-right my-5 px-3">
 				<ConfigProvider
 					theme={{
 						token: { colorPrimary: "#F8C70E", fontFamily: "monospace" },
@@ -77,8 +59,8 @@ export default function ProductDisplayFilter() {
 				>
 					<Pagination
 						showQuickJumper
-						defaultCurrent={2}
-						total={500}
+						defaultCurrent={1}
+						total={products.length / 8}
 						onChange={onChangePage}
 					/>
 				</ConfigProvider>
