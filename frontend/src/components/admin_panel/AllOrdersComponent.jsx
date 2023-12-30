@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ConfigProvider, Table, Modal, Input, Select } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import {
 	getAllOrderAPi,
 	updateOrderStatusAPI,
@@ -118,11 +118,11 @@ export default function AllOrdersComponent() {
 				},
 			],
 			onFilter: (value, record) => {
-				return record.status_id.indexOf(value) === 0;
+				return record.status_code.indexOf(value) === 0;
 			},
 		},
 		{
-			title: "",
+			title: "Sửa ",
 			render: (record) => {
 				return (
 					<>
@@ -131,10 +131,6 @@ export default function AllOrdersComponent() {
 								setIsEditing(true);
 								editedOrderId.current = record.id;
 							}}
-						/>
-						<DeleteOutlined
-							onClick={() => {}}
-							style={{ color: "red", marginLeft: 12 }}
 						/>
 					</>
 				);

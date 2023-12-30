@@ -73,8 +73,10 @@ export const createProductAPI = async (
 };
 
 export const deleteProductAPI = async (id) => {
+	const token = localStorage.getItem("token");
+	const headers = { Authorization: `Bearer ${token}` };
 	try {
-		const res = await api.delete(`/api/products/${id}`);
+		const res = await api.delete(`/api/products/${id}`, { headers: headers });
 		return res;
 	} catch (error) {
 		return error.response;
@@ -175,8 +177,12 @@ export const getCategoryByIdAPI = async (id) => {
 };
 
 export const deleteCategoryAPI = async (id) => {
+	const token = localStorage.getItem("token");
+
+	const headers = { Authorization: `Bearer ${token}` };
+	console.log(headers);
 	try {
-		const res = await api.delete(`/api/categories/${id}`);
+		const res = await api.delete(`/api/categories/${id}`, headers);
 		return res;
 	} catch (error) {
 		return error.response;
