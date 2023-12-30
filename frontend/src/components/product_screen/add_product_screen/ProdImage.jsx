@@ -22,7 +22,7 @@ export default function ProdImage({ src, alt, handleDeleteImage }) {
 				>
 					<div>
 						<img
-							className="w-full h-full object-cover rounded-md"
+							className="w-full h-32 object-cover rounded-md "
 							src={src}
 							alt={alt}
 						/>

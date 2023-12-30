@@ -150,9 +150,13 @@ class OrderCRUD:
     def get_by_user(self, db: Session, user_id: int) -> List[OrderType]:
         return db.query(self.model).filter(self.model.user_id == user_id).all()
     def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
-        return db.query(self.model).filter(self.model.id == status_id).all()
-    def get_by_status_name(self, db: Session, status_name: str) -> List[OrderType]:
-        return db.query(self.model).join(Status).filter(Status.status_name == status_name).all()
+        return db.query(self.model).filter(self.model.status_id == status_id).all()
+    def update_status(self, db: Session, id: int, status_id: int) -> OrderType:
+        order = db.query(self.model).filter(self.model.id == id).first()
+        order.status_id = status_id
+        db.commit()
+        db.refresh(order)
+        return order
     
 class OrderDetailCRUD:
     def __init__(self, model: Type[OrderDetailType]):

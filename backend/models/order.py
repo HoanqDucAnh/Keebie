@@ -1,6 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Float, LargeBinary
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 from .user import Base
 
@@ -9,10 +8,15 @@ class Order(Base):
     __tablename__ = "order"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_code = Column(String(255), nullable=False, unique=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
-    order_estimated_delivery = Column(DateTime(timezone=True), default=func.now(), nullable=False)
-    address = Column(String(255), nullable=False, unique=True)
+    payment_image = Column(String(800), nullable=True)
+    payment_method = Column(String(255), nullable=False)
+    shipment_method = Column(String(255), nullable=False)
+    note = Column(String(800), nullable=True)
+    address = Column(String(255), nullable=False)
+    phone_number = Column(String(255), nullable=False)
+    email = Column(String(255), nullable=False)
+    full_name = Column(String(255), nullable=False)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     total_price = Column(Float, nullable=False)  
     status_id = Column(Integer, ForeignKey("status.id"), nullable=False)

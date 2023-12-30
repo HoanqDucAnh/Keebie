@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ConfigProvider, Table } from "antd";
 import { getAllCategoriesAPI } from "../../../services/AdminServices";
-
 import { getAllProductsAPI } from "../../../services/SystemServices";
 
 export default function AllProdsComponent() {
