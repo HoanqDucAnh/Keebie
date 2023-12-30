@@ -233,3 +233,23 @@ export const getProdImgByProdIdAPI = async (product_id) => {
 		return error.response;
 	}
 };
+
+export const getAllOrderAPi = async () => {
+	try {
+		const res = await api.get(`/api/orders`);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const updateOrderStatusAPI = async (id, status_id) => {
+	try {
+		const res = await api.put(
+			`/api/orders/update_status/${id}?status_id=${status_id}`
+		);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
