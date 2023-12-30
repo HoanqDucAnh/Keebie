@@ -1,10 +1,11 @@
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Request
 from api.base import api_router
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.encoders import jsonable_encoder
 from security import manager
@@ -31,11 +32,14 @@ app.add_middleware(
 app.include_router(api_router, prefix="/api")
 app.mount("/api", api_router, name="api")
 
-
-    
+app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
+@app.get("/{full_path:path}")
+async def catch_all(full_path: str):
+    return FileResponse("../frontend/build/index.html")
 
 if __name__ == "__main__":
     import uvicorn
+    import sys
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
-    # uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    RELOAD = True if "--reload" in sys.argv else False
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=RELOAD)
