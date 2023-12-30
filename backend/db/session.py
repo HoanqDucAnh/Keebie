@@ -13,11 +13,16 @@ from models.order import Base as BaseOrder
 
 load_dotenv()
 
-username = os.getenv("MYSQL_USER")
-password = os.getenv("MYSQL_PASSWORD")
-host = os.getenv("MYSQL_SERVICE_HOST")
-port = os.getenv("MYSQL_SERVICE_PORT")
-database = os.getenv("MYSQL_DATABASE")
+# username = os.getenv("MYSQL_USER")
+username = "root"
+# password = os.getenv("MYSQL_PASSWORD")
+password = "QuanTnaq_4321"
+# host = os.getenv("MYSQL_SERVICE_HOST")
+host = "localhost"
+# port = os.getenv("MYSQL_SERVICE_PORT")
+port = 3307
+# database = os.getenv("MYSQL_DATABASE")
+database = "keebie4"
 
 SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{username}:{password}@{host}:{port}/{database}"
 

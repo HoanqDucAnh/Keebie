@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from schemas import VerifyBase, VerifyById, VerifyCreate, VerifyUpdate, VerifyByUserId, VerifyByCode
+from schemas import VerifyBase, VerifyById, VerifyCreate, VerifyUpdate, VerifyByUserId, VerifyByCode, VerifyRealCreate
 from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 from sqlalchemy.exc import SQLAlchemyError
@@ -12,16 +12,23 @@ import logging
 import crud
 import datetime
 import sqlalchemy
+from fastapi import BackgroundTasks
 
 router = APIRouter()
 
 @router.post("/", response_model=VerifyById)
-def create_verify(verify_in: VerifyCreate, db: Session = Depends(deps.get_db)):
+def create_verify(verify_in: VerifyCreate, backgroundtasks: BackgroundTasks,db: Session = Depends(deps.get_db)):
     try:
-        temp = crud.verify.create(db, obj_in=verify_in)
+        obj = VerifyRealCreate()
+        obj.user_id = verify_in.user_id
+        # Create verify code
+        import random
+        verify_code = random.randint(100000, 999999)
+        obj.verify_code = verify_code
+        temp = crud.verify.create(db, obj_in=obj)
         crud.verifyInteract.update_expired_at(db, id=temp.id)
         user = crud.user.get(db, id=temp.user_id)
-        send_verify_mail(user.email, temp.verify_code)
+        backgroundtasks.add_task(send_verify_mail, user.email, temp.verify_code)
         return temp
     except SQLAlchemyError as e:
             error = str(e),
@@ -30,6 +37,8 @@ def create_verify(verify_in: VerifyCreate, db: Session = Depends(deps.get_db)):
                 detail=error,
             )
             
+
+
 @router.get("/{id}", response_model=VerifyById)
 def get_verify_by_id(id: int, db: Session = Depends(deps.get_db)):
     verify = crud.verify.get(db, id=id)
