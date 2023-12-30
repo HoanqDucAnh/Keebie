@@ -172,49 +172,6 @@ class StatusCRUD:
     def get_by_name(self, db: Session, status_name: str) -> Optional[StatusType]:
         return db.query(self.model).filter(self.model.status_name == status_name).first()
     
-class SaleCRUD:
-    def __init__(self, model: Type[SaleType]):
-        self.model = model
-    def get_by_user(self, db: Session, user_id: int) -> List[SaleType]:
-        return db.query(self.model).filter(self.model.id == user_id).all()
-    def get_by_name(self, db: Session, sale_name: str) -> Optional[SaleType]:
-        return db.query(self.model).filter(self.model.sale_name == sale_name).first()
-    
-class SaleDetailCRUD:
-    def __init__(self, model: Type[SaleDetailType]):
-        self.model = model
-    def get_by_sale(self, db: Session, sale_id: int) -> List[SaleDetailType]:
-        return db.query(self.model).filter(self.model.sale_id == sale_id).all()
-    def get_by_product(self, db: Session, product_id: int) -> List[SaleDetailType]:
-        return db.query(self.model).filter(self.model.product_id == product_id).all()
-    def get_by_is_percent(self, db: Session, is_percent: bool) -> List[SaleDetailType]:
-        return db.query(self.model).filter(self.model.is_percentage == is_percent).all()
-    
-class VoucherCRUD:
-    def __init__(self, model: Type[VoucherType]):
-        self.model = model
-    def get_by_name(self, db: Session, voucher_name: str) -> Optional[VoucherType]:
-        return db.query(self.model).filter(self.model.voucher_name == voucher_name).first()
-    def get_by_code(self, db: Session, voucher_code: str) -> Optional[VoucherType]:
-        return db.query(self.model).filter(self.model.voucher_code == voucher_code).first()
-    
-class VoucherCustomerCRUD:
-    def __init__(self, model: Type[VoucherCustomerType]):
-        self.model = model
-    def get_by_user(self, db: Session, user_id: int) -> List[VoucherCustomerType]:
-        return db.query(self.model).filter(self.model.user_id == user_id).all()
-    def get_by_voucher(self, db: Session, voucher_id: int) -> List[VoucherCustomerType]:
-        return db.query(self.model).filter(self.model.voucher_id == voucher_id).all()
-    
-
-class ReviewCRUD:
-    def __init__(self, model: Type[ReviewType]):
-        self.model = model
-    def get_by_user(self, db: Session, user_id: int) -> List[ReviewType]:
-        return db.query(self.model).filter(self.model.user_id == user_id).all()
-    def get_by_product(self, db: Session, product_id: int) -> List[ReviewType]:
-        return db.query(self.model).filter(self.model.product_id == product_id).all()
-    
 class VerifyCRUD:
     def __init__(self, model: Type[models.Verify]):
         self.model = model
