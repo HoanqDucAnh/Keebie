@@ -7,16 +7,16 @@ import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { getProductByIdAPI } from "../../../services/SystemServices";
 import { getProductImgByIdAPI } from "../../../services/SystemServices";
-import { Modal, Input, InputNumber } from "antd";
-import TagSection from "../../../components/product_screen/add_product_screen/TagSection";
-import { useImmer } from "use-immer";
-import { editProductAPI } from "../../../services/AdminServices";
+import useCartStore from "../../../stores/CartStore";
 
 export default function ProductDetailScreen() {
 	const productId = useParams();
 	const [product, setProduct] = useState({});
 	const [productImages, setProductImages] = useState([]);
 	const [isAdmin, setIsAdmin] = useState(false);
+
+	const cartItems = useCartStore((state) => state.cart);
+	const addProdToCart = useCartStore((state) => state.addProdToCart);
 
 	useEffect(() => {
 		const admin = localStorage.getItem("isAdmin");
@@ -39,6 +39,10 @@ export default function ProductDetailScreen() {
 		getProductById();
 		getProductImgById();
 	}, []);
+
+	useEffect(() => {
+		localStorage.setItem("cart", JSON.stringify(cartItems));
+	}, [cartItems]);
 
 	const [amount, setAmount] = useState(1);
 	const setIncrease = () => {
@@ -127,11 +131,16 @@ export default function ProductDetailScreen() {
 							</h3>
 							<Button icon={<PlusOutlined />} onClick={() => setIncrease()} />
 							<button
-								className="ml-5 text-center bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer font-semibold rounded-md px-4"
+								className="ml-5 text-center bg-[#F8C70E]  text-[#000000]  cursor-pointer font-semibold rounded-md px-4"
 								type="default"
-								disabled
+								disabled={product.stock === 0}
 								onClick={() => {
-									toast.success("Thêm vào giỏ hàng thành công");
+									addProdToCart({
+										title: product.product_name,
+										price: product.price,
+										id: product.id,
+										inStockValue: product.stock,
+									});
 								}}
 							>
 								Thêm vào giỏ hàng
