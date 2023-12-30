@@ -1,8 +1,8 @@
-from typing import List
-from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
+from typing import List, Optional
+from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form, Query
 from sqlalchemy.orm import Session
 from fastapi.requests import Request
-from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage
+from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage, HeaderImageOnly
 from models.product import Product
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
@@ -14,14 +14,14 @@ router = APIRouter()
 
 @router.post("/", response_model=ProductById)
 async def create_product(file: UploadFile,
-                         db: Session = Depends(deps.get_db), 
-                         product_name: str = Form(...),
+                        db: Session = Depends(deps.get_db), 
+                        product_name: str = Form(...),
                         brand: str = Form(...),
                         content: str = Form(...),
                         price: float = Form(...),
                         stock: int = Form(...),
                         category_id: int = Form(...),
-                         user=Depends(manager)):
+                        user=Depends(manager)):
     try:
         if user.is_admin == False:
             raise HTTPException(
@@ -152,4 +152,19 @@ def get_all_products(db: Session = Depends(deps.get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=error,
         )
-
+    
+@router.get("/by_header_image/", response_model=List[HeaderImageOnly])
+def get_header_image_by_list_id(id: str, db: Session = Depends(deps.get_db)):
+    try :    
+        id_list = [int(i) for i in id.split(",")]
+        ListProduct = []
+        for i in id_list:
+            product = crud.product.get(db, id=i)
+            ListProduct.append(product)
+        return ListProduct
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error
+        )

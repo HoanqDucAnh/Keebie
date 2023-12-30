@@ -4,16 +4,33 @@ from sqlalchemy.orm import Session
 from schemas.order import OrderCreate, OrderById, OrderBase
 from schemas.user import UserById
 from fastapi_login import LoginManager
+from models.order import Order
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
+import base64
 import crud
 
 router = APIRouter()
 
 @router.post("/", response_model=OrderById)
-def create_order(order_in: OrderCreate, db: Session = Depends(deps.get_db)):
+async def create_order(payment_image: str = Form(...),
+                        address: str = Form(...), 
+                        user_id: int = Form(...), 
+                        status_id: int = Form(...), 
+                        total_price: float = Form(...),
+                        email: str = Form(...),
+                        phone_number: str = Form(...),
+                        full_name: str = Form(...), 
+                        note: str = Form(...),
+                        payment_method: str = Form(...),
+                        shipment_method: str = Form(...),
+                        db: Session = Depends(deps.get_db)):
     try:
-        return crud.order.create(db, obj_in=order_in)
+        db_obj = Order(address=address, user_id=user_id, status_id=status_id, total_price=total_price, payment_image=payment_image, email=email, phone_number=phone_number, full_name=full_name, note=note, payment_method=payment_method, shipment_method=shipment_method) 
+        db.add(db_obj)  
+        db.commit() 
+        db.refresh(db_obj)
+        return OrderById(**db_obj.__dict__)
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -45,7 +62,7 @@ def get_order_by_customer(user_id: int, db: Session = Depends(deps.get_db)):
     if not order:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order with customer ID {user_id} not found",
+            detail=f"Order with user ID {user_id} not found",
         )
     
     try :
@@ -103,24 +120,6 @@ def get_all_orders(db: Session = Depends(deps.get_db)):
     
     try :
         return orders
-    except SQLAlchemyError as e:
-        error = str(e)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error,
-        )
-        
-@router.get("/by_status_name/{status_name}", response_model=List[OrderById])
-def get_order_by_status_name(status_name: str, db: Session = Depends(deps.get_db)):
-    order = crud.orderInteract.get_by_status_name(db, status_name=status_name)
-    if not order:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Order with status name {status_name} not found",
-        )
-    
-    try :
-        return order
     except SQLAlchemyError as e:
         error = str(e)
         raise HTTPException(
@@ -196,5 +195,20 @@ def send_order_mail(order: OrderById, email : str, user: UserById, order_details
         server.login(msg['From'], password)
         server.sendmail(msg['From'], [msg['To']], msg.as_string())
         print("Email sent!")
-
-    
+        
+@router.put("/update_status/{id}", response_model=OrderById)
+def update_order_status(id: int, status_id: int, db: Session = Depends(deps.get_db)):
+    try :
+        if status_id == 3:
+            order_details = crud.order_detailInteract.get_by_order(db, order_id=id)
+            for order_detail in order_details:
+                order_detail_stock = order_detail.amount
+                product_in_stock = crud.productInteract.get_stock_by_id(db, id = order_detail.product_id)
+                crud.productInteract.update_stock_by_id(db, id=order_detail.product_id, stock=order_detail.amount + product_in_stock)
+        return crud.orderInteract.update_status(db, id=id, status_id=status_id)
+    except SQLAlchemyError as e:
+        error = str(e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )

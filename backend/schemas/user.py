@@ -1,5 +1,3 @@
-# Pydantic model
-
 from pydantic import BaseModel
 from datetime import *
 

@@ -15,6 +15,7 @@ import ProductDetailScreen from "./components/shared/productComponent/ProductDet
 import ProductPageScreen from "./screen/ProductPageScreen";
 import CartScreen from "./screen/CartScreen";
 import PaymentScreen from "./screen/PaymentScreen";
+import SearchScreen from "./screen/SearchScreen";
 
 function App() {
 	useEffect(() => {
@@ -22,14 +23,11 @@ function App() {
 	}, []);
 
 	return (
-		<Layout>
-			<Router>
+		<Router>
+			<Layout>
 				<NavigationBar />
 				<MyToast />
 				<Switch>
-					<Route exact path="/">
-						<HomeScreen />
-					</Route>
 					<Route path="/login">
 						<LoginScreen />
 					</Route>
@@ -45,7 +43,7 @@ function App() {
 					<Route path="/admin">
 						<AdminScreen />
 					</Route>
-					<Route path="/product">
+					<Route path="/product/:id">
 						<ProductDetailScreen />
 					</Route>
 					<Route path="/product_page">
@@ -56,17 +54,23 @@ function App() {
 					</Route>
 					<Route path="/payment">
 						<PaymentScreen />
-          </Route>
+					</Route>
 					<Route path="/404">
 						<NotFoundScreen />
+					</Route>
+					<Route path="/search">
+						<SearchScreen />
+					</Route>
+					<Route exact path="/">
+						<HomeScreen />
 					</Route>
 					<Route path="*">
 						<NotFoundScreen />
 					</Route>
 				</Switch>
-			</Router>
-			<Footer />
-		</Layout>
+				<Footer />
+			</Layout>
+		</Router>
 	);
 }
 

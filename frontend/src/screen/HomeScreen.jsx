@@ -12,12 +12,10 @@ import useProdOnDisplayStore from "../stores/ProdOnDisplay";
 import useCategoryStore from "../stores/CategoryStore";
 
 export default function HomeScreen() {
-	const fetchAllCategories = useCategoryStore(
-		(state) => state.fetchAllCategories
-	);
 	const setDisplayProducts = useProdOnDisplayStore(
 		(state) => state.updateAllDisplayProducts
 	);
+	const setAllCategories = useCategoryStore((state) => state.updateCategories);
 
 	const fetchProducts = async () => {
 		const res = await getAllProductsAPI();
@@ -26,10 +24,20 @@ export default function HomeScreen() {
 		}
 	};
 
+	const fetchAllCategories = async () => {
+		const response = await getAllCategoriesAPI();
+		if (response.status === 200) {
+			setAllCategories(response.data);
+		}
+	};
+
 	useEffect(() => {
-		fetchProducts();
-		fetchAllCategories();
-		console.log("App.js: useEffect");
+		const fetchData = async () => {
+			await fetchAllCategories();
+			await fetchProducts();
+		};
+
+		fetchData();
 	}, []);
 
 	return (

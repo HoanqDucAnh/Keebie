@@ -81,27 +81,6 @@ export const deleteProductAPI = async (id) => {
 	}
 };
 
-export const updateProductAPI = async ({
-	product_name,
-	content,
-	category_id,
-	price,
-	instock,
-}) => {
-	try {
-		const res = await api.put("/api/products", {
-			product_name: product_name,
-			content: content,
-			price: price,
-			stock: instock,
-			category_id: category_id,
-		});
-		return res;
-	} catch (error) {
-		return error.response;
-	}
-};
-
 export const getAllProductsByCategoryAPI = async (catID) => {
 	try {
 		const res = await api.get(`/api/products/category/${catID}`);
@@ -111,9 +90,53 @@ export const getAllProductsByCategoryAPI = async (catID) => {
 	}
 };
 
-export const getAllCategoriesAPI = async () => {
+export const editProductAPI = async (
+	id,
+	product_name,
+	content,
+	price,
+	stock,
+	category_id,
+	brand
+) => {
+	const formdata = new FormData();
+	formdata.append("id", id);
+	formdata.append("product_name", product_name);
+	formdata.append("content", content);
+	formdata.append("price", price);
+	formdata.append("stock", stock);
+	formdata.append("category_id", category_id);
+	formdata.append("brand", brand);
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
+	try {
+		const res = await api.put(
+			`/api/products/${id}`,
+			{
+				id: id,
+				product_name: product_name,
+				content: content,
+				price: price,
+				stock: stock,
+				category_id: category_id,
+				brand: brand,
+			},
+			{
+				headers: headers,
+			}
+		);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const getAllCategoriesAPI = async () => {
+	const token = localStorage.getItem("token");
+	const headers = {
+		"Content-Type": "application/json",
+		Authorization: `Bearer ${token}`,
+	};
 	try {
 		const res = await api.get("/api/categories", { headers: headers });
 		return res;
