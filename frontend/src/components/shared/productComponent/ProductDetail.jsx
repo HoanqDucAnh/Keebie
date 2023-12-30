@@ -143,7 +143,7 @@ export default function ProductDetailScreen() {
 									});
 								}}
 							>
-								Thêm vào giỏ hàng
+								{product.stock === 0 ? "Hết hàng" : "Thêm vào giỏ hàng"}
 							</button>
 						</div>
 
