@@ -33,8 +33,6 @@ class Product(Base):
     stock = Column(Integer, nullable=False)
     category = relationship('Category', back_populates='product')
     product_image = relationship("ProductImage", back_populates="product")
-    sale_detail = relationship("SaleDetail", back_populates="product")
-    review = relationship("Review", back_populates="product")
     order_detail = relationship("OrderDetail", back_populates="product")
 
 class ProductImage(Base):

@@ -24,12 +24,7 @@ class User(Base):
     is_admin = Column(Boolean, nullable=False, default=True)
     
     order = relationship('Order', back_populates='user')
-    sale = relationship('Sale', back_populates='user')
-    sale_detail = relationship('SaleDetail', back_populates='user')
     verify = relationship('Verify', back_populates='user')
-    review = relationship('Review', back_populates='user')
-    voucher_customer = relationship('VoucherCustomer', back_populates='user')
-    voucher = relationship('Voucher', back_populates='user')
     
     
 
