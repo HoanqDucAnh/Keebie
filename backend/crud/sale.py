@@ -1,6 +1,6 @@
 from typing import Type
 from crud.base import CRUDBase, SaleCRUD, SaleDetailCRUD
-from schemas.sale import SaleCreate, SaleById, SaleUpdate, SaleByAdminId, SaleBySaleName
+from schemas.sale import SaleCreate, SaleById, SaleUpdate, SaleBySaleName
 from schemas.sale import SaleDetailById, SaleDetailUpdate, SaleDetailCreate, SaleDetailBySaleId, SaleDetailByProductId, SaleDetailByIsPercentage
 from models.sale import Sale, SaleDetail
 

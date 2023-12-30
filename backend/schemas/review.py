@@ -35,9 +35,3 @@ class ReviewByProductId(ReviewBase):
     class Config:
         from_attributes = True
         
-# review = ReviewBase()
-# review_create = ReviewCreate()
-# review_update = ReviewUpdate()
-# review_delete = ReviewDelete()
-# review_by_customer_id = ReviewByCustomerId()
-# review_by_product_detail_id = ReviewByProductDetailId()

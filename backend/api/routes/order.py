@@ -2,6 +2,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from schemas.order import OrderCreate, OrderById, OrderBase
+from schemas.user import UserById
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
 from api import deps
@@ -150,5 +151,50 @@ def delete_order(id: int, db: Session = Depends(deps.get_db)):
             detail=error,
         )
 
+def send_order_mail(order: OrderById, email : str, user: UserById, order_details: List[OrderBase]):
+    import smtplib, ssl
+    import email.message as em
+    
+    port = 587  # For starttls
+    smtp_server = "smtp.gmail.com"
+    password = "usdd bbkj bskh lbdz"
+    msg = em.Message()
+    msg['Subject'] = 'Verify your email'
+    msg['From'] = "keebiekeyboard.uet@gmail.com"
+    msg['To'] = email
+    msg.add_header('Content-Type', 'text/html')
+    msg.set_payload("""\
+        <!doctype html>
+        <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        </head>
+        <body style="font-family: sans-serif;">
+            <div style="display: block; margin: auto; max-width: 600px;" class="main">
+            <h1 style="font-size: 18px; font-weight: bold; margin-top: 20px">
+                Congrats for sending test email with Mailtrap!
+            </h1>
+            <p>Inspect it using the tabs you see above and learn how this email can be improved.</p>
+            <img alt="Inspect with Tabs" src="cid:welcome.png" style="width: 100%;">
+            <p>Now send your email using our fake SMTP server and integration of your choice!</p>
+            <p>Good luck! Hope it works.</p>
+            </div>
+            <!-- Example of invalid for email html/css, will be detected by Mailtrap: -->
+            <style>
+            .main { background-color: white; }
+            a:hover { border-left-width: 1em; min-height: 2em; }
+            </style>
+        </body>
+        </html>
+        """)
+    
+    context = ssl.create_default_context()
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.ehlo()  # Can be omitted
+        server.starttls(context=context)
+        server.ehlo()  # Can be omitted
+        server.login(msg['From'], password)
+        server.sendmail(msg['From'], [msg['To']], msg.as_string())
+        print("Email sent!")
 
     

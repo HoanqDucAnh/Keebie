@@ -217,5 +217,21 @@ class VerifyCRUD:
     def get_by_user(self, db: Session, user_id: int) -> Optional[models.Verify]:
         return db.query(self.model).filter(self.model.user_id == user_id).first()
     def get_by_code(self, db: Session, code: str) -> Optional[models.Verify]:
-        return db.query(self.model).filter(self.model.code == code).first()
+        return db.query(self.model).filter(self.model.verify_code == code).first()
+    def update_expired_at(self, db: Session, id: int) -> Optional[models.Verify]:
+        verify = db.query(self.model).filter(self.model.id == id).first()
+        verify.expired_at = datetime.datetime.now() + datetime.timedelta(minutes=5)
+        db.commit()
+        db.refresh(verify)
+        return verify
+    def update_activated(self, db: Session, id: int) -> Optional[models.Verify]:
+        verify = db.query(self.model).filter(self.model.id == id).first()
+        verify.activated = True
+        db.commit()
+        db.refresh(verify)
+        user = db.query(User).filter(User.id == verify.user_id).first()
+        user.activated = True
+        db.commit()
+        db.refresh(user)
+        return verify
     

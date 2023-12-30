@@ -4,11 +4,11 @@ from datetime import *
 class VerifyBase(BaseModel):
     verify_code: str
     user_id: int
-    created_at: datetime
-    expired_at: datetime
     
 class VerifyById(VerifyBase):
     id: int
+    created_at: datetime
+    expired_at: datetime
     
     class Config:
         from_attributes = True

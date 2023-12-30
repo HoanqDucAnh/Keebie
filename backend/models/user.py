@@ -30,6 +30,7 @@ class User(Base):
     verify = relationship('Verify', back_populates='user')
     review = relationship('Review', back_populates='user')
     voucher_customer = relationship('VoucherCustomer', back_populates='user')
+    voucher = relationship('Voucher', back_populates='user')
     
     
 

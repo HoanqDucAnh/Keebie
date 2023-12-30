@@ -9,9 +9,9 @@ class Verify(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-    code = Column(String(6), nullable=False, unique=True)
+    verify_code = Column(String(6), nullable=False, unique=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), default=func.now(), nullable=False)
-    expired_at = Column(DateTime(timezone=True), nullable=False)
+    expired_at = Column(DateTime(timezone=True), default=func.now(), nullable=False)
     activated = Column(Boolean, nullable=False, default=False)
     
     user = relationship("User", back_populates="verify")
