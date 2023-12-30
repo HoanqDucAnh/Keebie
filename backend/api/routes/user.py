@@ -25,7 +25,6 @@ def create_user(user_in: UserCreate, db: Session = Depends(deps.get_db)):
                 detail=error,
             )
 
-
 @router.get("/by_name/{username}", response_model=UserLogin)
 def get_user_by_name(username: str, db: Session = Depends(deps.get_db), user = Depends(manager)):
     user = crud.userInteract.get_by_username(db, username=username)
@@ -100,7 +99,7 @@ def update_user_password(user_id: int, new_password: str = Form(...), db: Sessio
                 detail="Wrong password",
             )
         else:
-             return crud.userInteract.update_user_password(db, id=user_id, password=new_password)
+            return crud.userInteract.update_user_password(db, id=user_id, password=new_password)
             
     except SQLAlchemyError as e:
             error = str(e),

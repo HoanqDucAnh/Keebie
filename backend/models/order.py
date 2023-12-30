@@ -21,7 +21,8 @@ class Order(Base):
     total_price = Column(Float, nullable=False)  
     status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
     status = relationship("Status", back_populates="order")
-    order_detail = relationship("OrderDetail", back_populates="order", cascade="all, delete-orphan", single_parent=True)
+    order_detail = relationship("OrderDetail", back_populates="order")
+    user = relationship("User", back_populates="order")
     
 class Status(Base):
     __tablename__ = "status"
@@ -36,8 +37,10 @@ class OrderDetail(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     amount = Column(Integer, nullable=False)
+    product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     
     order = relationship("Order", back_populates="order_detail")
+    product = relationship("Product", back_populates="order_detail")
     

@@ -4,8 +4,6 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 from .user import Base
 
-BaseProduct = declarative_base()
-
 class Category(Base):
     __tablename__ = 'category'
 
@@ -34,7 +32,8 @@ class Product(Base):
     price = Column(Float, nullable=False)
     stock = Column(Integer, nullable=False)
     category = relationship('Category', back_populates='product')
-    product_image = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan", single_parent=True)
+    product_image = relationship("ProductImage", back_populates="product")
+    order_detail = relationship("OrderDetail", back_populates="product")
 
 class ProductImage(Base):
     __tablename__ = 'product_image'

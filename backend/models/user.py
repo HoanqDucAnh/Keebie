@@ -20,6 +20,12 @@ class User(Base):
     phone_number = Column(String(12), nullable=False, unique=True)
     fullname = Column(String(255), nullable=False, unique=False)
     address = Column(String(255), nullable=False, unique=False)
-    is_admin = Column(Boolean, nullable=False, default=False)
+    # role = Column(String(12), nullable=False, unique=True, default="customer")
+    is_admin = Column(Boolean, nullable=False, default=True)
+    
+    order = relationship('Order', back_populates='user')
+    verify = relationship('Verify', back_populates='user')
+    
+    
 
 

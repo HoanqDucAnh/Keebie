@@ -2,21 +2,28 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User, Product, Category, ProductImage
+from models import Base, User, Product, Category, ProductImage, Verify
 from models.order import Order, OrderDetail, Status
-import models
+import models, datetime
 from schemas import user
 
 ModelType = TypeVar("ModelType", bound=Base)
 UserType = TypeVar("UserType", bound=User)
 ProductType = TypeVar("ProductType", bound=Product)
 CategoryType = TypeVar("CategoryType", bound=Category)
-CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
-UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
-ProductImageType = TypeVar("ProductImageType", bound=ProductImage)
 OrderType = TypeVar("OrderType", bound=Order)
 OrderDetailType = TypeVar("OrderDetailType", bound=OrderDetail)
 StatusType = TypeVar("StatusType", bound=Status)
+VerifyType = TypeVar("VerifyType", bound=models.Verify)
+# OptionType = TypeVar("OptionType", bound=Option)
+# ProductOptionType = TypeVar("ProductOptionType", bound=ProductOption)
+
+CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
+ProductImageType = TypeVar("ProductImageType", bound=ProductImage)
+
+
+
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
@@ -99,6 +106,23 @@ class ProductCRUD:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
     def list_all_product(self, db: Session) -> List[ProductType]:
         return db.query(self.model).all()
+    def list_by_category_name(self, db: Session, category_name: str) -> List[ProductType]:
+        return db.query(self.model).join(Category).filter(Category.cat_name == category_name).all()
+    def update_open_close_date(self, db: Session, id: int, open_at: datetime, close_at: datetime) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.open_at = open_at
+        product.close_at = close_at
+        db.commit()
+        db.refresh(product)
+        return product
+    
+    def update_updated_at(self, db: Session, id: int) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.updated_at = datetime.datetime.now()
+        db.commit()
+        db.refresh(product)
+        return product
+    
     def get_stock_by_id(self, db: Session, id: int) -> int:
         product = db.query(self.model).filter(self.model.id == id).first()
         return product.stock
@@ -127,7 +151,6 @@ class ProductImageCRUD:
         return db.query(self.model).all()
     def list_by_product(self, db: Session, product_id: int) -> List[ProductImageType]:
         return db.query(self.model).filter(self.model.product_id == product_id).all()
-
 class OrderCRUD:
     def __init__(self, model: Type[OrderType]):
         self.model = model
@@ -147,12 +170,36 @@ class OrderDetailCRUD:
         self.model = model
     def get_by_order(self, db: Session, order_id: int) -> List[OrderDetailType]:
         return db.query(self.model).filter(self.model.order_id == order_id).all()
-    def get_by_product_detail(self, db: Session, product_detail_id: int) -> List[OrderDetailType]:
-        return db.query(self.model).filter(self.model.product_detail_id == product_detail_id).all()
+    def get_by_product(self, db: Session, product_id: int) -> List[OrderDetailType]:
+        return db.query(self.model).filter(self.model.product_id == product_id).all()
     
 class StatusCRUD:
     def __init__(self, model: Type[StatusType]):
         self.model = model
     def get_by_name(self, db: Session, status_name: str) -> Optional[StatusType]:
         return db.query(self.model).filter(self.model.status_name == status_name).first()
+    
+class VerifyCRUD:
+    def __init__(self, model: Type[models.Verify]):
+        self.model = model
+    def get_by_user(self, db: Session, user_id: int) -> Optional[models.Verify]:
+        return db.query(self.model).filter(self.model.user_id == user_id).last()
+    def get_by_code(self, db: Session, code: str) -> Optional[models.Verify]:
+        return db.query(self.model).filter(self.model.verify_code == code).first()
+    def update_expired_at(self, db: Session, id: int) -> Optional[models.Verify]:
+        verify = db.query(self.model).filter(self.model.id == id).first()
+        verify.expired_at = datetime.datetime.now() + datetime.timedelta(minutes=5)
+        db.commit()
+        db.refresh(verify)
+        return verify
+    def update_activated(self, db: Session, id: int) -> Optional[models.Verify]:
+        verify = db.query(self.model).filter(self.model.id == id).first()
+        verify.activated = True
+        db.commit()
+        db.refresh(verify)
+        user = db.query(User).filter(User.id == verify.user_id).first()
+        user.activated = True
+        db.commit()
+        db.refresh(user)
+        return verify
     
