@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
+
 import TagSection from "./TagSection";
 import UploadImage from "./UploadImage";
-import MyButton from "../../shared/MyButton";
+
 import {
 	InputNumber,
 	Input,
@@ -10,8 +10,6 @@ import {
 	ConfigProvider,
 	Modal,
 	Form,
-	message,
-	Upload,
 } from "antd";
 import { toast } from "react-toastify";
 import {
@@ -21,7 +19,6 @@ import {
 } from "../../../services/AdminServices";
 import { useImmer } from "use-immer";
 import UploadHeaderImage from "./UploadHeaderImage";
-import { set } from "react-hook-form";
 
 const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY", "DD-MM-YYYY", "DD-MM-YY"];
