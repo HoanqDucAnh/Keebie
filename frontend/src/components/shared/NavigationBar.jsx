@@ -17,11 +17,11 @@ const NavigationBar = () => {
 	const isLogin = localStorage.getItem("token");
 
 	const showDrawer = () => {
-    setOpen(true);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
+		setOpen(true);
+	};
+	const onClose = () => {
+		setOpen(false);
+	};
 
 	const handleNav = () => {
 		setNav(!nav);
@@ -210,8 +210,9 @@ const NavigationBar = () => {
 							closable={false}
 							onClose={onClose}
 							open={open}
-							height={100} >
-								<SearchDrawer	/>
+							height={100}
+						>
+							<SearchDrawer />
 						</Drawer>
 					</li>
 					<li className="p-2">
