@@ -23,14 +23,11 @@ function App() {
 	}, []);
 
 	return (
-		<Layout>
-			<Router>
+		<Router>
+			<Layout>
 				<NavigationBar />
 				<MyToast />
 				<Switch>
-					<Route exact path="/">
-						<HomeScreen />
-					</Route>
 					<Route path="/login">
 						<LoginScreen />
 					</Route>
@@ -64,13 +61,16 @@ function App() {
 					<Route path="/search">
 						<SearchScreen />
 					</Route>
+					<Route exact path="/">
+						<HomeScreen />
+					</Route>
 					<Route path="*">
 						<NotFoundScreen />
 					</Route>
 				</Switch>
-			</Router>
-			<Footer />
-		</Layout>
+				<Footer />
+			</Layout>
+		</Router>
 	);
 }
 
