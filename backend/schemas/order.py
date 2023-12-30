@@ -17,9 +17,7 @@ class OrderBase(BaseModel):
     
 class OrderDetailBase(BaseModel):
     amount: int
-    price: int
     order_id: int
-    product_id: int
     product_id: int
     
 class StatusBase(BaseModel):

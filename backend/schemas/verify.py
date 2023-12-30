@@ -2,11 +2,11 @@ from pydantic import BaseModel
 from datetime import *
 
 class VerifyBase(BaseModel):
-    verify_code: str
     user_id: int
     
 class VerifyById(VerifyBase):
     id: int
+    verify_code: str
     created_at: datetime
     expired_at: datetime
     
@@ -15,6 +15,9 @@ class VerifyById(VerifyBase):
         
 class VerifyCreate(VerifyBase):
     pass
+
+class VerifyRealCreate(VerifyBase):
+    verify_code: str
 
 class VerifyUpdate:
     pass

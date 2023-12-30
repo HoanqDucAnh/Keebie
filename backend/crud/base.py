@@ -183,7 +183,7 @@ class VerifyCRUD:
     def __init__(self, model: Type[models.Verify]):
         self.model = model
     def get_by_user(self, db: Session, user_id: int) -> Optional[models.Verify]:
-        return db.query(self.model).filter(self.model.user_id == user_id).first()
+        return db.query(self.model).filter(self.model.user_id == user_id).last()
     def get_by_code(self, db: Session, code: str) -> Optional[models.Verify]:
         return db.query(self.model).filter(self.model.verify_code == code).first()
     def update_expired_at(self, db: Session, id: int) -> Optional[models.Verify]:

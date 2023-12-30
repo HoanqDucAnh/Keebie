@@ -37,7 +37,6 @@ class OrderDetail(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     amount = Column(Integer, nullable=False)
-    price = Column(Integer, nullable=False)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     order_id = Column(Integer, ForeignKey("order.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
