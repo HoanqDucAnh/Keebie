@@ -2,7 +2,7 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from models import Base, User, Product, Category, ProductImage, Review, Sale, SaleDetail, Voucher, VoucherCustomer
+from models import Base, User, Product, Category, ProductImage, Verify
 from models.order import Order, OrderDetail, Status
 import models, datetime
 from schemas import user
@@ -14,11 +14,7 @@ CategoryType = TypeVar("CategoryType", bound=Category)
 OrderType = TypeVar("OrderType", bound=Order)
 OrderDetailType = TypeVar("OrderDetailType", bound=OrderDetail)
 StatusType = TypeVar("StatusType", bound=Status)
-SaleType = TypeVar("SaleType", bound=Sale)
-SaleDetailType = TypeVar("SaleDetailType", bound=SaleDetail)
-VoucherType = TypeVar("VoucherType", bound=Voucher)
-VoucherCustomerType = TypeVar("VoucherCustomerType", bound=VoucherCustomer)
-ReviewType = TypeVar("ReviewType", bound=Review)
+VerifyType = TypeVar("VerifyType", bound=models.Verify)
 # OptionType = TypeVar("OptionType", bound=Option)
 # ProductOptionType = TypeVar("ProductOptionType", bound=ProductOption)
 
@@ -104,8 +100,8 @@ class UserCRUD:
 class ProductCRUD:
     def __init__(self, model: Type[ProductType]):
         self.model = model
-    def list_by_name(self, db: Session, product_name: str) -> List[ProductType]:
-        return db.query(self.model).filter(self.model.product_name == product_name).all()
+    def get_by_name(self, db: Session, product_name: str) -> Optional[ProductType]:
+        return db.query(self.model).filter(self.model.product_name == product_name).first()
     def list_by_category(self, db: Session, category_id: int) -> List[ProductType]:
         return db.query(self.model).filter(self.model.category_id == category_id).all()
     def list_all_product(self, db: Session) -> List[ProductType]:
@@ -123,6 +119,17 @@ class ProductCRUD:
     def update_updated_at(self, db: Session, id: int) -> ProductType:
         product = db.query(self.model).filter(self.model.id == id).first()
         product.updated_at = datetime.datetime.now()
+        db.commit()
+        db.refresh(product)
+        return product
+    
+    def get_stock_by_id(self, db: Session, id: int) -> int:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        return product.stock
+    
+    def update_stock_by_id(self, db: Session, id: int, stock: int) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.stock = stock
         db.commit()
         db.refresh(product)
         return product
