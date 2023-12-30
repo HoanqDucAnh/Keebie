@@ -154,7 +154,7 @@ class ProductImageCRUD:
 class OrderCRUD:
     def __init__(self, model: Type[OrderType]):
         self.model = model
-    def get_by_user(self, db: Session, user_id: int) -> List[OrderType]:
+    def get_by_customer(self, db: Session, user_id: int) -> List[OrderType]:
         return db.query(self.model).filter(self.model.user_id == user_id).all()
     def get_by_status(self, db: Session, status_id: int) -> List[OrderType]:
         return db.query(self.model).filter(self.model.status_id == status_id).all()
