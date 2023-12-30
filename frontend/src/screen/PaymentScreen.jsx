@@ -229,7 +229,6 @@ export default function PaymentScreen() {
 					>
 						<Space direction="vertical">
 							<Collapse
-								defaultActiveKey={["1"]}
 								accordion
 								bordered={false}
 								ghost
@@ -290,7 +289,6 @@ export default function PaymentScreen() {
 					>
 						<Space direction="vertical">
 							<Collapse
-								defaultActiveKey={["1"]}
 								accordion
 								bordered={false}
 								ghost
