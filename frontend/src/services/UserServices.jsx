@@ -47,3 +47,50 @@ export const signupAPI = async (
 		return error.response;
 	}
 };
+
+export const createOrderAPI = async (
+	address,
+	phone_number,
+	email,
+	fullname,
+	note,
+	user_id,
+	status_id,
+	total_price,
+	payment_image,
+	payment_method,
+	shipping_method
+) => {
+	try {
+		const form = new FormData();
+		form.append("address", address);
+		form.append("phone_number", phone_number);
+		form.append("email", email);
+		form.append("full_name", fullname);
+		form.append("note", note);
+		form.append("user_id", user_id);
+		form.append("status_id", status_id);
+		form.append("total_price", total_price);
+		form.append("payment_image", payment_image);
+		form.append("payment_method", payment_method);
+		form.append("shipment_method", shipping_method);
+
+		const res = await api.post(`/api/orders`, form);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const createOrderDetailAPI = async (order_id, product_id, quantity) => {
+	try {
+		const res = await api.post(`/api/order_details`, {
+			order_id: order_id,
+			product_id: product_id,
+			amount: quantity,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};

@@ -13,6 +13,7 @@ class OrderBase(BaseModel):
     payment_method: str 
     shipment_method: str
     payment_image: str
+    created_at: datetime
     
 class OrderDetailBase(BaseModel):
     amount: int
