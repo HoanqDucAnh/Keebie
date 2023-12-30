@@ -64,7 +64,7 @@ export default function CartScreen() {
 								<p className="text-xl">{formatPrice(price)}</p>
 							</div>
 							<button
-								className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg p-auto m-auto"
+								className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg pl-4 pt-2 pb-2 pr-4 mt-3"
 								onClick={() => {
 									window.location.href = "/payment";
 								}}
