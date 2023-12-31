@@ -34,6 +34,7 @@ REACT_APP_BASE_URL=http://fall2324w20g1.int3306.freeddns.org
 ```
 
 ### IV. Run project:
+1. Option 1:
 * Run frontend:
 ```bash
 $ cd frontend
@@ -45,3 +46,16 @@ $ cd backend
 $ python main.py
 ```
 * When finished, open http://localhost:8000/ to view the website.
+
+2. Option 2:
+* Run backend:
+```bash
+$ cd backend
+$ python main.py
+```
+* Run frontend:
+```bash
+$ cd frontend
+$ yarn start
+```
+* When finished, open http://localhost:3000/ to view the website.
