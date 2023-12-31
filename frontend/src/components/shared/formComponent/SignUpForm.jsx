@@ -47,7 +47,7 @@ export default function SignUpForm() {
 	}
 
 	function checkPasswordMatched() {
-		if (methods.watch("password") != methods.watch("confirmPassword")) {
+		if (methods.watch("password") !== methods.watch("confirmPassword")) {
 			methods.setError("confirmPassword", {
 				type: "manual",
 				message: "Mật khẩu không khớp",
@@ -86,12 +86,12 @@ export default function SignUpForm() {
 			signupField.fullname
 		);
 		if (respond) {
-			if (respond.status == 200) {
+			if (respond.status === 200) {
 				toast.success("Đăng ký thành công");
 				setTimeout(() => {
 					window.location.href = "/login";
 				}, 1000);
-			} else if (respond.status == 500) {
+			} else if (respond.status === 500) {
 				toast.error("Đăng ký thất bại, tên đăng nhập đã tồn tại");
 				console.log(respond);
 			} else {
