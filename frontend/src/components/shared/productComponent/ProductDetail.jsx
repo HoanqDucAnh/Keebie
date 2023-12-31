@@ -18,6 +18,16 @@ export default function ProductDetailScreen() {
 	const cartItems = useCartStore((state) => state.cart);
 	const addProdToCart = useCartStore((state) => state.addProdToCart);
 
+	const productCategoryMap = useRef({
+		1: "Công tắc bàn phím",
+		2: "Bàn phím cơ",
+		3: "Bộ nút phím cơ",
+	});
+
+	const mappingProductCategory = (category) => {
+		return productCategoryMap.current[category];
+	};
+
 	useEffect(() => {
 		const admin = localStorage.getItem("isAdmin");
 		if (admin === "true") {
@@ -27,6 +37,12 @@ export default function ProductDetailScreen() {
 			const res = await getProductByIdAPI(productId.id);
 			if (res.status === 200) {
 				setProduct(res.data);
+				setProduct((prev) => {
+					return {
+						...prev,
+						category: mappingProductCategory(prev.category_id),
+					};
+				});
 			}
 		};
 		const getProductImgById = async () => {
@@ -131,7 +147,7 @@ export default function ProductDetailScreen() {
 							</h3>
 							<Button icon={<PlusOutlined />} onClick={() => setIncrease()} />
 							<button
-								className="ml-5 text-center bg-[#F8C70E]  text-[#000000]  cursor-pointer font-semibold rounded-md px-4"
+								className="ml-5 text-center bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E]  cursor-pointer font-semibold rounded-md px-4"
 								type="default"
 								disabled={product.stock === 0}
 								onClick={() => {
