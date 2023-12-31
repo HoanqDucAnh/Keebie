@@ -20,7 +20,6 @@ class User(Base):
     phone_number = Column(String(12), nullable=False, unique=True)
     fullname = Column(String(255), nullable=False, unique=False)
     address = Column(String(255), nullable=False, unique=False)
-    # role = Column(String(12), nullable=False, unique=True, default="customer")
     is_admin = Column(Boolean, nullable=False, default=False)
     
     order = relationship('Order', back_populates='user')
