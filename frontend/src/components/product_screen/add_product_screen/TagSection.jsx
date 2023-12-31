@@ -38,7 +38,6 @@ export default function TagSection({ onChange }) {
 	return (
 		<div>
 			<Select
-				mode="tags"
 				style={{
 					width: "100%",
 				}}
