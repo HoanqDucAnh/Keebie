@@ -182,8 +182,8 @@ class StatusCRUD:
 class VerifyCRUD:
     def __init__(self, model: Type[models.Verify]):
         self.model = model
-    def get_by_user(self, db: Session, user_id: int) -> Optional[models.Verify]:
-        return db.query(self.model).filter(self.model.user_id == user_id).last()
+    def get_by_email(self, db: Session, email: str) -> Optional[models.Verify]:
+        return db.query(self.model).filter(self.model.email == email).last()
     def get_by_code(self, db: Session, code: str) -> Optional[models.Verify]:
         return db.query(self.model).filter(self.model.verify_code == code).first()
     def update_expired_at(self, db: Session, id: int) -> Optional[models.Verify]:
@@ -197,9 +197,15 @@ class VerifyCRUD:
         verify.activated = True
         db.commit()
         db.refresh(verify)
-        user = db.query(User).filter(User.id == verify.user_id).first()
-        user.activated = True
-        db.commit()
-        db.refresh(user)
         return verify
+    
+    def delete_all_expired(self, db: Session) -> bool:
+        db.query(self.model).filter(self.model.expired_at < datetime.datetime.now()).delete()
+        db.commit()
+        return True
+    
+    def delete_all_by_email(self, db: Session, email: str) -> bool:
+        db.query(self.model).filter(self.model.email == email).delete()
+        db.commit()
+        return True
     

@@ -21,6 +21,29 @@ export const loginAPI = async (username, password) => {
 	}
 };
 
+export const verifyCodeAPI = async (email, code) => {
+	const form = new FormData();
+	form.append("email", email);
+	form.append("verify_code", code);
+	try {
+		const res = await api.post(`/api/verify/verify/`, form);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const sendVerifyCodeAPI = async (email) => {
+	const form = new FormData();
+	form.append("email", email);
+	try {
+		const res = await api.post(`/api/verify/`, form);
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const signupAPI = async (
 	password,
 	username,
