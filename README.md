@@ -1,28 +1,47 @@
-# Getting Started with Create React App
+# Keebie
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Instruction
 
-# Steps to set-up the project in your local
+### I. Install dependencies:
+* Make sure that Nodejs has been installed by running `npm -v`. If not successfully, please checkout https://nodejs.org/en/download to install Nodejs.
+* Run `npm install -g yarn` to install `yarn`.
+* Open project in Visual Studio Code and run in terminal:
+```bash
+$ cd frontend
+$ yarn
+$ cd ../backend
+$ pip install -r requirements.txt
+```
 
-## Setup frontend
+### II. Set up backend:
+* Create a file named **.env** includes:
+```
+MYSQL_USER=root
+MYSQL_PASSWORD=4444
+MYSQL_SERVICE_HOST=localhost
+MYSQL_SERVICE_PORT=3306
+MYSQL_DATABASE=keebie
+```
 
-- After set-up the backend, you will need to setup the frontend
-  1. Make sure that you have already installed Nodejs by running `npm -v` to check current version
-  2. If not downloaded, please visit https://nodejs.org/en/download
-  3. Run `npm install -g yarn` to install yarn in your local machine
-- #cd ./frontend/
-- Run`yarn` to install dependencies
+### III. Set up frontend:
+* Create a file named **.env** includes
+```bash
+REACT_APP_BASE_URL=http://127.0.0.1:8000
+```
+* Create a file named **.env.production** includes
+```bash
+REACT_APP_BASE_URL=http://fall2324w20g1.int3306.freeddns.org 
+```
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-Make sure to also run the backend for the database
+### IV. Run project:
+* Run frontend:
+```bash
+$ cd frontend
+$ yarn build
+```
+* Run backend:
+```bash
+$ cd backend
+$ python main.py
+```
+* When finished, open http://localhost:8000/ to view the website.
