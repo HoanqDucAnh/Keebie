@@ -20,7 +20,7 @@ router = APIRouter()
 def create_verify(verify_in: VerifyCreate, backgroundtasks: BackgroundTasks,db: Session = Depends(deps.get_db)):
     try:
         obj = VerifyRealCreate()
-        obj.user_id = verify_in.user_id
+        obj.email = verify_in.email
         # Create verify code
         import random
         verify_code = random.randint(100000, 999999)
@@ -57,13 +57,13 @@ def get_verify_by_id(id: int, db: Session = Depends(deps.get_db)):
             detail=error,
         )
         
-@router.get("/by_user/{user_id}", response_model=VerifyByUserId)
-def get_verify_by_user(user_id: int, db: Session = Depends(deps.get_db)):
-    verify = crud.verifyInteract.get_by_user(db, user_id=user_id)
+@router.get("/by_email/{email}", response_model=VerifyByUserId)
+def get_verify_by_email(email: str, db: Session = Depends(deps.get_db)):
+    verify = crud.verifyInteract.get_by_email(db, email=email)
     if not verify:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Verify with user ID {user_id} not found",
+            detail=f"Verify with email {email} not found",
         )
     
     try :
@@ -224,3 +224,23 @@ def send_verify_mail(email: str, verify_code: str):
         server.login(msg['From'], password)
         server.sendmail(msg['From'], [msg['To']], msg.as_string())
         print("Email sent!")
+        
+def deleteAllVerifyByExpired(db: Session = Depends(deps.get_db)):
+    try:
+        crud.verifyInteract.delete_all_expired(db)
+    except SQLAlchemyError as e:
+        error = str(e),
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
+        
+def deleteAllVerifyByEmail(email: str, db: Session = Depends(deps.get_db)):
+    try:
+        crud.verifyInteract.delete_all_by_email(db, email=email)
+    except SQLAlchemyError as e:
+        error = str(e),
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
