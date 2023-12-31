@@ -3,6 +3,7 @@ import { Breadcrumb } from "antd";
 import ProdCart from "../components/cart_screen/ProdCart";
 import useCartStore from "../stores/CartStore";
 import { useImmer } from "use-immer";
+import { toast } from "react-toastify";
 
 export default function CartScreen() {
 	const cart = useCartStore((state) => state.cart);
@@ -66,6 +67,10 @@ export default function CartScreen() {
 							<button
 								className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] cursor-pointer rounded-lg pl-4 pt-2 pb-2 pr-4 mt-3"
 								onClick={() => {
+									if (cart.length === 0) {
+										toast.error("Giỏ hàng của bạn đang trống");
+										return;
+									}
 									window.location.href = "/payment";
 								}}
 							>
