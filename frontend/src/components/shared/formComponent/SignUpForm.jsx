@@ -162,22 +162,21 @@ export default function SignUpForm() {
 					<div classname="col-span-1">
 						<Input {...verify_codeValidation} />
 					</div>
-					<div classname="col-span-1">
-						<button
-							onClick={onSendVerifyCode}
-							className="col-span-1 bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
-						>
-							Gửi mã bảo mật
-						</button>
-					</div>
-					
 				</div>
-				<button
-					onClick={onSubmit}
-					className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
-				>
-					Đăng ký
-				</button>
+				<div className="flex">
+					<button
+						onClick={onSendVerifyCode}
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 w-full"
+					>
+						Gửi mã bảo mật
+					</button>
+					<button
+						onClick={onSubmit}
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 ml-3 w-full"
+					>
+						Đăng ký
+					</button>
+				</div>
 			</form>
 		</FormProvider>
 	);
