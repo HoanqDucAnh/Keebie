@@ -156,7 +156,7 @@ const NavigationBar = () => {
 							>
 								<a
 									className="hover:text-[#FFF5D6]"
-									onClick={(e) => e.preventDefault()}
+									href="/product_page"
 								>
 									<Space>
 										Group Buy <AiFillCaretDown />
@@ -175,7 +175,7 @@ const NavigationBar = () => {
 							>
 								<a
 									className="hover:text-[#FFF5D6]"
-									onClick={(e) => e.preventDefault()}
+									href="/product_page"
 								>
 									<Space>
 										Sản phẩm <AiFillCaretDown />
