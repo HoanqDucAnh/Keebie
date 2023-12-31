@@ -24,7 +24,6 @@ class User(Base):
     is_admin = Column(Boolean, nullable=False, default=True)
     
     order = relationship('Order', back_populates='user')
-    verify = relationship('Verify', back_populates='user')
     
     
 

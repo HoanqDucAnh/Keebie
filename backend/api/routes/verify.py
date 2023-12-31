@@ -2,7 +2,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from schemas import VerifyBase, VerifyById, VerifyCreate, VerifyUpdate, VerifyByUserId, VerifyByCode, VerifyRealCreate
+from schemas import VerifyBase, VerifyById, VerifyCreate, VerifyUpdate, VerifyByCode, VerifyRealCreate, VerifyByEmail
 from fastapi_login import LoginManager
 from fastapi_login.exceptions import InvalidCredentialsException
 from sqlalchemy.exc import SQLAlchemyError
@@ -17,18 +17,18 @@ from fastapi import BackgroundTasks
 router = APIRouter()
 
 @router.post("/", response_model=VerifyById)
-def create_verify(verify_in: VerifyCreate, backgroundtasks: BackgroundTasks,db: Session = Depends(deps.get_db)):
+def create_verify(backgroundtasks: BackgroundTasks, email: str = Form(...), db: Session = Depends(deps.get_db)):
+    deleteAllVerifyByEmail(email, db)
     try:
-        obj = VerifyRealCreate()
-        obj.user_id = verify_in.user_id
+        obj = VerifyRealCreate(email=email, verify_code="string")
+        obj.email = email
         # Create verify code
         import random
         verify_code = random.randint(100000, 999999)
         obj.verify_code = verify_code
         temp = crud.verify.create(db, obj_in=obj)
         crud.verifyInteract.update_expired_at(db, id=temp.id)
-        user = crud.user.get(db, id=temp.user_id)
-        backgroundtasks.add_task(send_verify_mail, user.email, temp.verify_code)
+        backgroundtasks.add_task(send_verify_mail, email, temp.verify_code)
         return temp
     except SQLAlchemyError as e:
             error = str(e),
@@ -57,13 +57,13 @@ def get_verify_by_id(id: int, db: Session = Depends(deps.get_db)):
             detail=error,
         )
         
-@router.get("/by_user/{user_id}", response_model=VerifyByUserId)
-def get_verify_by_user(user_id: int, db: Session = Depends(deps.get_db)):
-    verify = crud.verifyInteract.get_by_user(db, user_id=user_id)
+@router.get("/by_email/{email}", response_model=VerifyByEmail)
+def get_verify_by_email(email: str, db: Session = Depends(deps.get_db)):
+    verify = crud.verifyInteract.get_by_email(db, email=email)
     if not verify:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Verify with user ID {user_id} not found",
+            detail=f"Verify with email {email} not found",
         )
     
     try :
@@ -148,8 +148,8 @@ def get_all_verify(db: Session = Depends(deps.get_db)):
         )
         
 
-@router.post("/verify/{verify_code}", response_model=VerifyById)
-def verify_user(verify_code: str, db: Session = Depends(deps.get_db)):
+@router.post("/verify/", response_model=VerifyById)
+def verify_user(verify_code: str = Form(...), email: str = Form(...), db: Session = Depends(deps.get_db)):
     verify = crud.verifyInteract.get_by_code(db, code=verify_code)
     if not verify:
         raise HTTPException(
@@ -157,8 +157,12 @@ def verify_user(verify_code: str, db: Session = Depends(deps.get_db)):
             detail=f"Verify with code {verify_code} not found",
         )
     
-
-    if (verify.expired_at < datetime.datetime.now()):
+    if (verify.email != email):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Email not match",
+        )
+    elif (verify.expired_at < datetime.datetime.now()):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Verify code expired",
@@ -183,6 +187,8 @@ def send_verify_mail(email: str, verify_code: str):
     import smtplib, ssl
     import email.message as em
     
+    sentence1 = "Mã xác nhận của bạn là: " + verify_code
+    sentence2 = "Mã xác nhận sẽ hết hạn sau 5 phút. Vui lòng không chia sẻ mã này với bất kỳ ai."
     port = 587  # For starttls
     smtp_server = "smtp.gmail.com"
     password = "usdd bbkj bskh lbdz"
@@ -200,9 +206,9 @@ def send_verify_mail(email: str, verify_code: str):
         <body style="font-family: sans-serif;">
             <div style="display: block; margin: auto; max-width: 600px;" class="main">
             <h1 style="font-size: 18px; font-weight: bold; margin-top: 20px">
-                Congrats for sending test email with Mailtrap!
+                """ + sentence1 + """
             </h1>
-            <p>Inspect it using the tabs you see above and learn how this email can be improved.</p>
+            <p> """ + sentence2 + """</p>
             <img alt="Inspect with Tabs" src="cid:welcome.png" style="width: 100%;">
             <p>Now send your email using our fake SMTP server and integration of your choice!</p>
             <p>Good luck! Hope it works.</p>
@@ -222,5 +228,25 @@ def send_verify_mail(email: str, verify_code: str):
         server.starttls(context=context)
         server.ehlo()  # Can be omitted
         server.login(msg['From'], password)
-        server.sendmail(msg['From'], [msg['To']], msg.as_string())
+        server.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
         print("Email sent!")
+        
+def deleteAllVerifyByExpired(db: Session = Depends(deps.get_db)):
+    try:
+        crud.verifyInteract.delete_all_expired(db)
+    except SQLAlchemyError as e:
+        error = str(e),
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
+        
+def deleteAllVerifyByEmail(email: str, db: Session = Depends(deps.get_db)):
+    try:
+        crud.verifyInteract.delete_all_by_email(db, email=email)
+    except SQLAlchemyError as e:
+        error = str(e),
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=error,
+        )
