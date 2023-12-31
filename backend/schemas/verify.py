@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from datetime import *
 
 class VerifyBase(BaseModel):
-    user_id: int
+    email: str
     
 class VerifyById(VerifyBase):
     id: int
@@ -22,8 +22,8 @@ class VerifyRealCreate(VerifyBase):
 class VerifyUpdate:
     pass
 
-class VerifyByUserId(VerifyBase):
-    user_id: int
+class VerifyByEmail(VerifyBase):
+    email: str
     
     class Config:
         from_attributes = True
@@ -33,4 +33,6 @@ class VerifyByCode(VerifyBase):
     
     class Config:
         from_attributes = True
+        
+
         

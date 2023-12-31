@@ -1,6 +1,6 @@
 from typing import Type
 from crud.base import CRUDBase, VerifyCRUD
-from schemas import VerifyBase, VerifyById, VerifyCreate, VerifyUpdate, VerifyByUserId, VerifyByCode
+from schemas import VerifyBase, VerifyById, VerifyCreate, VerifyUpdate, VerifyByCode, VerifyByEmail
 from models import Verify
 
 
