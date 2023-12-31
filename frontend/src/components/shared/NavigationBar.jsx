@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import {
 	AiOutlineSearch,
@@ -81,25 +82,25 @@ const NavigationBar = () => {
 		{
 			key: "1",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
+				<Link to={{ pathname: "/product_page", state: { type: "keyboard" } }}>
 					Bàn phím cơ
-				</a>
+				</Link>
 			),
 		},
 		{
 			key: "2",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
+				<Link to={{ pathname: "/product_page", state: { type: "keycap" } }}>
 					Bộ nút phím cơ
-				</a>
+				</Link>
 			),
 		},
 		{
 			key: "3",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
+				<Link to={{ pathname: "/product_page", state: { type: "switch" } }}>
 					Công tắc bàn phím
-				</a>
+				</Link>
 			),
 		},
 	];
@@ -108,25 +109,25 @@ const NavigationBar = () => {
 		{
 			key: "1",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
+				<Link to={{ pathname: "/product_page" }}>
 					Đang diễn ra
-				</a>
+				</Link>
 			),
 		},
 		{
 			key: "2",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
+				<Link to={{ pathname: "/product_page" }}>
 					Sắp diễn ra
-				</a>
+				</Link>
 			),
 		},
 		{
 			key: "3",
 			label: (
-				<a target="_blank" rel="noopener noreferrer" href="/product_page">
-					Đã kết thúc
-				</a>
+				<Link to={{ pathname: "/product_page" }}>
+					Kết thúc
+				</Link>
 			),
 		},
 	];
@@ -134,17 +135,13 @@ const NavigationBar = () => {
 	return (
 		<nav className="sticky w-full top-0 z-10 flex justify-between items-center h-18 mx-auto px-4 text-black bg-[#F8C70E]">
 			<h1 className="text-3xl font-mono font-bold p-4 text-[#000000]">
-				<a className="hover:text-[#FFF5D6]" href="/">
-					Keebi3.
-				</a>
+				<Link to="/" className="hover:text-[#FFF5D6]">Keebi3.</Link>
 			</h1>
 
 			<div className="hidden md:flex">
 				<ul className="flex font-mono text-xl">
 					<li className="p-4">
-						<a className="hover:text-[#FFF5D6]" href="/">
-							Trang chủ
-						</a>
+						<Link to="/" className="hover:text-[#FFF5D6]">Trang chủ</Link>
 					</li>
 					<li className="p-4">
 						<ConfigProvider theme={{ token: { fontFamily: "monospace" } }}>
@@ -154,14 +151,14 @@ const NavigationBar = () => {
 								}}
 								placement="bottomLeft"
 							>
-								<a
+								<Link
+									to={{ pathname: "/product_page" }}
 									className="hover:text-[#FFF5D6]"
-									href="/product_page"
 								>
 									<Space>
 										Group Buy <AiFillCaretDown />
 									</Space>
-								</a>
+								</Link>
 							</Dropdown>
 						</ConfigProvider>
 					</li>
@@ -173,27 +170,23 @@ const NavigationBar = () => {
 								}}
 								placement="bottomLeft"
 							>
-								<a
+								<Link
+									to={{ pathname: "/product_page" }}
 									className="hover:text-[#FFF5D6]"
-									href="/product_page"
 								>
 									<Space>
 										Sản phẩm <AiFillCaretDown />
 									</Space>
-								</a>
+								</Link>
 							</Dropdown>
 						</ConfigProvider>
 					</li>
 					<li className="p-4">
-						<a className="hover:text-[#FFF5D6]" href="/contact">
-							Liên hệ
-						</a>
+						<Link to="/contact" className="hover:text-[#FFF5D6]">Liên hệ</Link>
 					</li>
 					{isAdmin ? (
 						<li className="p-4">
-							<a className="hover:text-[#FFF5D6]" href="/admin">
-								Quản lý
-							</a>
+							<Link to="/admin" className="hover:text-[#FFF5D6]">Quản lí</Link>
 						</li>
 					) : null}
 				</ul>
@@ -227,18 +220,18 @@ const NavigationBar = () => {
 								}}
 								placement="bottomRight"
 							>
-								<a className="hover:text-[#FFF5D6]" href="/profile">
+								<Link to={"/profile"} className="hover:text-[#FFF5D6]" >
 									<Space>
 										<AiOutlineUser />
 									</Space>
-								</a>
+								</Link>
 							</Dropdown>
 						</ConfigProvider>
 					</li>
 					<li className="p-2">
-						<a className="hover:text-[#FFF5D6]" href="/cart">
+						<Link to={"/cart"} className="hover:text-[#FFF5D6]" >
 							<AiOutlineShoppingCart />
-						</a>
+						</Link>
 					</li>
 				</ul>
 			</div>
