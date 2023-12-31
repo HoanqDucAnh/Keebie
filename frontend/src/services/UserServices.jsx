@@ -21,6 +21,29 @@ export const loginAPI = async (username, password) => {
 	}
 };
 
+export const verifyCodeAPI = async (email, code) => {
+	try {
+		const res = await api.post(`/api/verify/verify/${code}`, {
+			email: email,
+			verify_code: code,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
+export const sendVerifyCodeAPI = async (email) => {
+	try {
+		const res = await api.post(`/api/verify`, {
+			email: email,
+		});
+		return res;
+	} catch (error) {
+		return error.response;
+	}
+};
+
 export const signupAPI = async (
 	password,
 	username,

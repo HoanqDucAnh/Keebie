@@ -9,8 +9,9 @@ import {
 	passwordValidation,
 	confirmPasswordValidation,
 	adddressValidation,
+	verify_codeValidation,
 } from "../../../utils/validations";
-import { signupAPI } from "../../../services/UserServices";
+import { sendVerifyCodeAPI, signupAPI, verifyCodeAPI } from "../../../services/UserServices";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
@@ -28,6 +29,7 @@ export default function SignUpForm() {
 		address: "",
 		phone_number: "",
 		fullname: "",
+		verify_code: "",
 	});
 
 	function cleanUp() {
@@ -42,6 +44,7 @@ export default function SignUpForm() {
 			address: "",
 			profile_pic: "normal",
 			activated: true,
+			verify_code: "",
 		});
 		methods.reset();
 	}
@@ -56,6 +59,23 @@ export default function SignUpForm() {
 		}
 		return true;
 	}
+
+	const onSendVerifyCode = methods.handleSubmit(async (data) => {
+		if (data.email === "") {
+			toast.error("Hãy nhập email");
+			return;
+		}
+		let respond = await sendVerifyCodeAPI(data.email);
+		if (respond) {
+			if (respond.status === 200) {
+				toast.success("Gửi mã bảo mật thành công");
+			} else if (respond.status === 500) {
+				toast.error("Gửi mã bảo mật thất bại, xin hãy thử lại");
+			} else {
+				toast.error("Gửi mã bảo mật thất bại, xin hãy thử lại");
+			}
+		}
+	});
 
 	const onSubmit = methods.handleSubmit(async (data) => {
 		if (!checkPasswordMatched()) return;
@@ -73,6 +93,27 @@ export default function SignUpForm() {
 				fullname: data.fullname,
 			})
 		);
+		let temp = await verifyCodeAPI(data.email, data.verify_code);
+		if (temp) {
+			if (temp.status === 200) {
+				toast.success("Xác thực thành công");
+			} else if (temp.status === 500) {
+				toast.error("Xác thực thất bại, xin hãy thử lại");
+				return;
+			} else if (temp.status === 401) {
+				if (temp.detail === "Verify code expired") {
+					toast.error("Mã bảo mật đã hết hạn, vui lòng yêu cầu mã bảo mật mới.");
+				} else if (temp.detail === "Verify code already activated") {
+					toast.error("Mã bảo mật đã được sử dụng, vui lòng yêu cầu mã bảo mật mới.");
+				}
+				return;
+			} else if (temp.status === 404) {
+				toast.error("Mã bảo mật không chính xác, xin hãy thử lại");
+				return;
+			}
+		}
+
+
 		console.log(signupField);
 		console.log(data);
 		let respond = await signupAPI(
@@ -117,6 +158,17 @@ export default function SignUpForm() {
 				<Input {...userNameValidation} />
 				<Input {...passwordValidation} />
 				<Input {...confirmPasswordValidation} />
+				<div classname="grid grid-cols-2 gap-4">
+					<div classname="col-span-1">
+						<Input {...verify_codeValidation} />
+					</div>
+					<button
+						onClick={onSendVerifyCode}
+						className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"
+					>
+						Gửi mã bảo mật
+					</button>
+				</div>
 				<button
 					onClick={onSubmit}
 					className="bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 w-full"

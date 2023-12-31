@@ -129,3 +129,25 @@ export const adddressValidation = {
 		},
 	},
 };
+
+export const verify_codeValidation = {
+	name: "verify_code",
+	label: "Mã bảo mật",
+	type: "text",
+	id: "verify_code",
+	placeholder: "Hãy nhập mã xác nhận",
+	validation: {
+		required: {
+			value: true,
+			message: "Không được để trống",
+		},
+	},
+	minLength: {
+		value: 6,
+		message: "Mã bảo mật gồm 6 ký tự",
+	},
+	maxLength: {
+		value: 6,
+		message: "Mã bảo mật gồm 6 ký tự",
+	},
+};
