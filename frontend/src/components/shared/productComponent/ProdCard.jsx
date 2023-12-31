@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Card } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
 import useCartStore from "../../../stores/CartStore";
@@ -32,9 +33,9 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 					<div onClick={() => handleAddToCart(title, price, id, inStockValue)}>
 						<PlusOutlined key="addToCart" />
 					</div>,
-					<a href={`/product/${id}`}>
+					<Link to={`/product/${id}`}>
 						<EyeOutlined key="details" />,
-					</a>,
+					</Link>,
 				]}
 			>
 				<Meta
