@@ -32,7 +32,7 @@ app.add_middleware(
 app.include_router(api_router, prefix="/api")
 app.mount("/api", api_router, name="api")
 
-# app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
+app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
 @app.get("/{full_path:path}")
 async def catch_all(full_path: str):
     return FileResponse("../frontend/build/index.html")
