@@ -7,8 +7,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Setup frontend
 
 - After set-up the backend, you will need to setup the frontend
-  1. Make sure that you have already installed Nodejs by running `npm -v`
+  1. Make sure that you have already installed Nodejs by running `npm -v` to check current version
   2. If not downloaded, please visit https://nodejs.org/en/download
+  3. Run `npm install -g yarn` to install yarn in your local machine
 - #cd ./frontend/
 - Run`yarn` to install dependencies
 
