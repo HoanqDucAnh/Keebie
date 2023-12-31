@@ -60,22 +60,22 @@ export default function SignUpForm() {
 		return true;
 	}
 
-	const onSendVerifyCode = methods.handleSubmit(async (data) => {
-		if (data.email === "") {
+	const onSendVerifyCode = async () => {
+		if (methods.watch("email") === "") {
 			toast.error("Hãy nhập email");
 			return;
 		}
-		let respond = await sendVerifyCodeAPI(data.email);
+		let respond = await sendVerifyCodeAPI(methods.watch("email"));
 		if (respond) {
 			if (respond.status === 200) {
-				toast.success("Gửi mã bảo mật thành công");
+				toast.success("Gửi mã bảo mật thành công đến email " + methods.watch("email") + ", hãy kiểm tra email của bạn. Mã bảo mật sẽ hết hạn trong 5 phút.");
 			} else if (respond.status === 500) {
 				toast.error("Gửi mã bảo mật thất bại, xin hãy thử lại");
 			} else {
 				toast.error("Gửi mã bảo mật thất bại, xin hãy thử lại");
 			}
 		}
-	});
+	};
 
 	const onSubmit = methods.handleSubmit(async (data) => {
 		if (!checkPasswordMatched()) return;
@@ -93,7 +93,7 @@ export default function SignUpForm() {
 				fullname: data.fullname,
 			})
 		);
-		let temp = await verifyCodeAPI(data.email, data.verify_code);
+		let temp = await verifyCodeAPI(methods.watch("email"), methods.watch("verify_code"));
 		if (temp) {
 			if (temp.status === 200) {
 				toast.success("Xác thực thành công");
