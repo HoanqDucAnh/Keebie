@@ -10,8 +10,7 @@ class ProductBase(BaseModel):
     price: float
     stock: int
     category_id: int
-
-
+    purchase: int
 
 class CategoryBase(BaseModel):
     cat_name: str

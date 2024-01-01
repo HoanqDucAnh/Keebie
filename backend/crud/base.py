@@ -134,6 +134,17 @@ class ProductCRUD:
         db.refresh(product)
         return product
     
+    def get_purchase_by_id(self, db: Session, id: int) -> int:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        return product.purchase
+    
+    def update_purchase_by_id(self, db: Session, id: int, purchase: int) -> ProductType:
+        product = db.query(self.model).filter(self.model.id == id).first()
+        product.purchase = purchase
+        db.commit()
+        db.refresh(product)
+        return product
+    
 class CategoryCRUD:
     def __init__(self, model: Type[CategoryType]):
         self.model = model
