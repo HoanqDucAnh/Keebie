@@ -4,7 +4,28 @@ import useProdOnDisplayStore from "../../../stores/ProdOnDisplay";
 import useCategoryStore from "../../../stores/CategoryStore";
 import { useImmer } from "use-immer";
 import useCartStore from "../../../stores/CartStore";
-import { toast } from "react-toastify";
+import styled from "styled-components";
+
+const Tab = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 40px;
+	cursor: pointer;
+	margin: 0 auto;
+	overflow-x: auto;
+	white-space: nowrap;
+	overflow-y: hidden;
+	max-width: 100%;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+`;
+
+const currentTabStyle = {
+	borderBottom: "2px solid #F8C70E",
+	transition: "width 0.2s ease",
+};
 
 export default function ProductRow({ sectionName }) {
 	//prodOnDisplayStore
@@ -13,7 +34,10 @@ export default function ProductRow({ sectionName }) {
 	const categories = useCategoryStore((state) => state.categories);
 	//cartStore
 	const cartItems = useCartStore((state) => state.cart);
-	const addProdToCart = useCartStore((state) => state.addProdToCart);
+
+	const listFinalTab = ["Bộ nút phím cơ", "Công tắc bàn phím"];
+	const listInstockTab = ["Bàn phím cơ", "Sản phẩm hot", "Sản phẩm mới"];
+	const [currentTab, setCurrentTab] = useState("");
 
 	const [screenProds, setScreenProds] = useImmer([]);
 	const screenCategories = useRef([]);
@@ -29,14 +53,61 @@ export default function ProductRow({ sectionName }) {
 		return prodTemp;
 	};
 
+	const filterHotProduct = (prods) => {
+		var prodTemp = [...prods];
+		prodTemp.sort((a, b) => b.purchase - a.purchase);
+		if (prodTemp.length > 4) {
+			prodTemp = prodTemp.slice(0, 4);
+		}
+		return prodTemp;
+	};
+
+	const filterNewProduct = (prods) => {
+		var prodTemp = [...prods];
+		prodTemp.sort((a, b) => b.id - a.id);
+		if (prodTemp.length > 4) {
+			prodTemp = prodTemp.slice(0, 4);
+		}
+		return prodTemp;
+	};
+
 	const filterInstockProds = (prods, categories) => {
 		var prodTemp = prods;
 		const catOrdId = categories.find((cat) => cat.cat_name === "Order")?.id;
 		if (catOrdId === null) return prodTemp;
 		prodTemp = prodTemp.filter((prod) => {
-			return prod.category_id != catOrdId;
+			return prod.category_id !== catOrdId;
 		});
 		return prodTemp;
+	};
+
+	const setTabnFilter = (tabName) => {
+		setCurrentTab(tabName);
+		switch (tabName) {
+			case "Bàn phím cơ":
+				setScreenProds(
+					filterProds(products, "Bàn phím cơ", screenCategories.current)
+				);
+				break;
+			case "Sản phẩm hot":
+				setScreenProds(filterHotProduct(products));
+				break;
+			case "Sản phẩm mới":
+				setScreenProds(filterNewProduct(products));
+				break;
+			case "Bộ nút phím cơ":
+				setScreenProds(
+					filterProds(products, "Bộ nút bàn phím cơ", screenCategories.current)
+				);
+				break;
+			case "Công tắc bàn phím":
+				setScreenProds(
+					filterProds(products, "Công tắc bàn phím", screenCategories.current)
+				);
+				break;
+			default:
+				break;
+		}
 	};
 
 	useEffect(() => {
@@ -49,9 +120,7 @@ export default function ProductRow({ sectionName }) {
 		if (screenCategories.current.length > 0) {
 			switch (sectionName) {
 				case "HotSection":
-					setScreenProds(
-						filterProds(products, "Order", screenCategories.current)
-					);
+					setScreenProds(filterHotProduct(products));
 					break;
 				case "GroupbuySection":
 					setScreenProds(
@@ -64,40 +133,72 @@ export default function ProductRow({ sectionName }) {
 					);
 					break;
 				case "FilterSection":
-					var tempProds = products;
-					if (tempProds.length > 8) {
-						tempProds = tempProds.slice(0, 8);
+					var temp = products;
+					if (temp.length > 4) {
+						temp = temp.slice(0, 4);
 					}
-					setScreenProds(tempProds);
+					setScreenProds(temp);
 					break;
 				default:
-					var tempProds = products;
-					if (tempProds.length > 8) {
-						tempProds = tempProds.slice(0, 8);
+					var temp = products;
+					if (temp.length > 4) {
+						temp = temp.slice(0, 4);
 					}
-					setScreenProds(tempProds);
+					setScreenProds(temp);
 					break;
 			}
 		}
-		console.log(screenProds);
 	}, [products]);
 
 	return (
-		<div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5 ">
-			{screenProds.length === 0
-				? null
-				: screenProds.map((screenProd) => (
-						<div key={screenProd.id} className="w-full sm:w-auto">
-							<ProdCard
-								title={screenProd.product_name}
-								price={screenProd.price}
-								imageBase64={screenProd.header_image}
-								id={screenProd.id}
-								className={"row-span-1"}
-								inStockValue={screenProd.stock}
-							/>
-						</div>
-				  ))}
+		<div>
+			{sectionName === "InstockSection" ? (
+				<div className="flex my-3 justify-center">
+					<Tab>
+						{listInstockTab.map((tab, index) => (
+							<div
+								className="mx-4 hover:text-[#F8C70E]"
+								style={currentTab === tab ? currentTabStyle : {}}
+								key={index}
+								onClick={() => setTabnFilter(tab)}
+							>
+								{tab}
+							</div>
+						))}
+					</Tab>
+				</div>
+			) : sectionName === "LastSection" ? (
+				<div className="flex my-3 justify-center">
+					<Tab>
+						{listFinalTab.map((tab, index) => (
+							<div
+								className="mx-4 hover:text-[#F8C70E]"
+								style={currentTab === tab ? currentTabStyle : {}}
+								key={index}
+								onClick={() => setTabnFilter(tab)}
+							>
+								{tab}
+							</div>
+						))}
+					</Tab>
+				</div>
+			) : null}
+			<div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5 ">
+				{screenProds.length === 0
+					? null
+					: screenProds.map((screenProd) => (
+							<div key={screenProd.id} className="w-full sm:w-auto">
+								<ProdCard
+									title={screenProd.product_name}
+									price={screenProd.price}
+									imageBase64={screenProd.header_image}
+									id={screenProd.id}
+									className={"row-span-1"}
+									inStockValue={screenProd.stock}
+								/>
+							</div>
+					  ))}
+			</div>
 		</div>
 	);
 }

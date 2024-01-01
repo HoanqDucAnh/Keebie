@@ -54,7 +54,6 @@ export default function UserComponent() {
 	};
 
 	const onSubmit = async () => {
-		console.log(passwordField.current);
 		if (
 			passwordField.current.newPassword !==
 			passwordField.current.confirmNewPassword
@@ -87,7 +86,7 @@ export default function UserComponent() {
 				passwordField.current.oldPassword,
 				passwordField.current.newPassword
 			);
-			console.log(response);
+
 			if (response.status === 200) {
 				resetEditing();
 				toast.success("Đổi mật khẩu thành công quay về trang đăng nhập");
@@ -191,7 +190,7 @@ export default function UserComponent() {
 								setChangePasswordFieldValue((draft) => {
 									draft.oldPassword = e.target.value;
 								});
-								// console.log(e.target.value);
+								//
 							}}
 						/>
 						<p className="mt-2 mb-1 ml-2 text-xl font-semibold">

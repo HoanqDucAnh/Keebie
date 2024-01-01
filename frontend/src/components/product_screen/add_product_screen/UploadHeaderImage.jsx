@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ProdImage from "./ProdImage";
-import { set } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const lableStyle =
@@ -20,7 +19,7 @@ export default function UploadHeaderImage({
 				return;
 			}
 			setUploadImgHeader({
-				imgFile: files[0],
+				imgFile: files,
 				imageURL: URL.createObjectURL(files[0]),
 				id: 0,
 			});
@@ -38,6 +37,13 @@ export default function UploadHeaderImage({
 	return (
 		<div>
 			<h3>Ảnh bìa sản phẩm</h3>
+			<a
+				href="https://compressnow.com/"
+				target="_blank"
+				className="text-blue underline"
+			>
+				Nén ảnh tại đây
+			</a>
 			<div className="mb-3">
 				<div className="grid grid-cols-3 mb-3 gap-1 h-32 ">
 					{uploadImgHeader.imgFile && (

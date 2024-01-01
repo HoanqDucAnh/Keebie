@@ -10,9 +10,7 @@ export default function SortingFilter() {
 		{ value: "4", label: "Giá giảm dần" },
 	];
 
-	const handleChange = (value) => {
-		console.log(`selected ${value}`);
-	};
+	const handleChange = (value) => {};
 
 	return (
 		<ConfigProvider

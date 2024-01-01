@@ -11,7 +11,11 @@ import {
 	adddressValidation,
 	verify_codeValidation,
 } from "../../../utils/validations";
-import { sendVerifyCodeAPI, signupAPI, verifyCodeAPI } from "../../../services/UserServices";
+import {
+	sendVerifyCodeAPI,
+	signupAPI,
+	verifyCodeAPI,
+} from "../../../services/UserServices";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
@@ -68,7 +72,11 @@ export default function SignUpForm() {
 		let respond = await sendVerifyCodeAPI(methods.watch("email"));
 		if (respond) {
 			if (respond.status === 200) {
-				toast.success("Gửi mã bảo mật thành công đến email " + methods.watch("email") + ", hãy kiểm tra email của bạn. Mã bảo mật sẽ hết hạn trong 5 phút.");
+				toast.success(
+					"Gửi mã bảo mật thành công đến email " +
+						methods.watch("email") +
+						", hãy kiểm tra email của bạn. Mã bảo mật sẽ hết hạn trong 5 phút."
+				);
 			} else if (respond.status === 500) {
 				toast.error("Gửi mã bảo mật thất bại, xin hãy thử lại");
 			} else {
@@ -93,7 +101,10 @@ export default function SignUpForm() {
 				fullname: data.fullname,
 			})
 		);
-		let temp = await verifyCodeAPI(methods.watch("email"), methods.watch("verify_code"));
+		let temp = await verifyCodeAPI(
+			methods.watch("email"),
+			methods.watch("verify_code")
+		);
 		if (temp) {
 			if (temp.status === 200) {
 				toast.success("Xác thực thành công");
@@ -102,9 +113,13 @@ export default function SignUpForm() {
 				return;
 			} else if (temp.status === 401) {
 				if (temp.detail === "Verify code expired") {
-					toast.error("Mã bảo mật đã hết hạn, vui lòng yêu cầu mã bảo mật mới.");
+					toast.error(
+						"Mã bảo mật đã hết hạn, vui lòng yêu cầu mã bảo mật mới."
+					);
 				} else if (temp.detail === "Verify code already activated") {
-					toast.error("Mã bảo mật đã được sử dụng, vui lòng yêu cầu mã bảo mật mới.");
+					toast.error(
+						"Mã bảo mật đã được sử dụng, vui lòng yêu cầu mã bảo mật mới."
+					);
 				}
 				return;
 			} else if (temp.status === 404) {
@@ -113,9 +128,6 @@ export default function SignUpForm() {
 			}
 		}
 
-
-		console.log(signupField);
-		console.log(data);
 		let respond = await signupAPI(
 			signupField.password,
 			signupField.username,
@@ -134,7 +146,6 @@ export default function SignUpForm() {
 				}, 1000);
 			} else if (respond.status === 500) {
 				toast.error("Đăng ký thất bại, tên đăng nhập đã tồn tại");
-				console.log(respond);
 			} else {
 				toast.error("Đăng ký thất bại, xin hãy thử lại");
 			}

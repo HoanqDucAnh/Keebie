@@ -26,7 +26,6 @@ export default function ProdCart({ key, id, name, price, instock, quantity }) {
 	const getHeaderImg = async (id) => {
 		const response = await getHeaderImgByProdIdAPI(id);
 		if (response.status === 200) {
-			console.log(response.data[0]);
 			setHeaderImg(response.data[0]);
 		}
 	};
