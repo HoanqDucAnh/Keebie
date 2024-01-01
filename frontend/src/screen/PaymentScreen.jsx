@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useState, useEffect } from "react";
 import { ConfigProvider } from "antd";
-import { Button, Form, Input, Radio, Space } from "antd";
+import { Form, Input, Radio, Space } from "antd";
 import { Collapse } from "antd";
 import { Breadcrumb } from "antd";
 import ProdCart from "../components/cart_screen/ProdCart";
@@ -34,14 +34,12 @@ export default function PaymentScreen() {
 
 	const [shipping, setShipping] = useState(1);
 	const onChangeShipping = (e) => {
-		console.log("radio checked", e.target.value);
 		setShipping(e.target.value);
 		inputFieldValue.current.shipping_method = e.target.value;
 	};
 
 	const [payment, setPayment] = useState(1);
 	const onChangePayment = (e) => {
-		console.log("radio checked", e.target.value);
 		setPayment(e.target.value);
 		inputFieldValue.current.payment_method = e.target.value;
 	};
@@ -75,9 +73,6 @@ export default function PaymentScreen() {
 	};
 
 	const handleOrder = async () => {
-		console.log(inputFieldValue.current);
-		console.log(cartItems.current);
-		console.log(cartItems.current.length);
 		const response = await createOrderAPI(
 			inputFieldValue.current.address,
 			inputFieldValue.current.phone_number,
@@ -94,7 +89,7 @@ export default function PaymentScreen() {
 		if (response) {
 			if (response.status === 200) {
 				const order_id = response.data.id;
-				const flag = true;
+				var flag = true;
 				for (let i = 0; i < cartItems.current.length; i++) {
 					const response = await createOrderDetailAPI(
 						order_id,

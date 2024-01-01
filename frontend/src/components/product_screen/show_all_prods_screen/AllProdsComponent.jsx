@@ -78,7 +78,6 @@ export default function AllProdsComponent() {
 			}
 		} catch (error) {
 			toast.error(`Xoá sản phẩm thất bại, ${error.response.data.message}`);
-			console.log(error);
 		}
 	};
 
@@ -124,9 +123,7 @@ export default function AllProdsComponent() {
 				});
 
 				setProducts(productsTemp);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		};
 
 		fetchData();
@@ -213,9 +210,7 @@ export default function AllProdsComponent() {
 		},
 	];
 
-	const onChange = (pagination, filters, sorter, extra) => {
-		console.log("params", pagination, filters, sorter, extra);
-	};
+	const onChange = (pagination, filters, sorter, extra) => {};
 
 	return (
 		<div className="m-5 font-mono">

@@ -4,10 +4,6 @@ const api = axios.create({
 	baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-const headers = {
-	"Content-Type": "application/x-www-form-urlencoded",
-};
-
 export const getAllUsersAPI = async () => {
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
@@ -48,7 +44,6 @@ export const createProductAPI = async (
 	category_id,
 	headerImage
 ) => {
-	console.log(headerImage);
 	const token = localStorage.getItem("token");
 	const headers = {
 		"Content-Type": "multipart/form-data",
@@ -151,7 +146,7 @@ export const createCategoryAPI = async (cat_name, cat_detail) => {
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
 	try {
-		if (cat_name.length == 0 || cat_detail.length == 0)
+		if (cat_name.length === 0 || cat_detail.length === 0)
 			return new Error("Empty field");
 		const res = await api.post(
 			`/api/categories`,
@@ -180,7 +175,7 @@ export const deleteCategoryAPI = async (id) => {
 	const token = localStorage.getItem("token");
 
 	const headers = { Authorization: `Bearer ${token}` };
-	console.log(headers);
+
 	try {
 		const res = await api.delete(`/api/categories/${id}`, headers);
 		return res;
@@ -201,7 +196,6 @@ export const createProdImageAPI = async (imageList, prodID) => {
 		Authorization: `Bearer ${token}`,
 	};
 	try {
-		console.log(headers);
 		const res = await api.post(`/api/product_images/`, formData, {
 			headers: headers,
 		});

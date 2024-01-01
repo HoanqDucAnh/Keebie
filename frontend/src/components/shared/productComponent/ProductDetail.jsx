@@ -126,7 +126,7 @@ export default function ProductDetailScreen() {
 					>
 						<h2 className="mb-2">{product.product_name}</h2>
 						<p className="mb-1 text-base">
-							<strong>Phân loại:</strong> {product.category}
+							<strong>Phân loại:</strong> {product.category || "Order"}
 						</p>
 						<p className="mb-1 text-base">
 							<strong>Thương hiệu:</strong> {product.brand}
@@ -138,6 +138,7 @@ export default function ProductDetailScreen() {
 						<p className="mb-4 text-justify">
 							<strong>Mô tả:</strong> {product.content}
 						</p>
+
 						<Statistic className="mb-10" value={product.price} suffix="VNĐ" />
 
 						<div className="flex">
@@ -164,6 +165,7 @@ export default function ProductDetailScreen() {
 						</div>
 
 						<p className="mt-2">Còn: {product.stock} sản phẩm</p>
+						<p className="mb-1">Đã bán: {product.purchase} </p>
 					</ConfigProvider>
 				</div>
 			</div>

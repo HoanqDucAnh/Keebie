@@ -11,7 +11,6 @@ export default function PriceFilter() {
 	);
 
 	const onChange = (e) => {
-		console.log("radio checked", e.target.value);
 		setValue(e.target.value);
 		filterProdOnPrice(e.target.value);
 	};

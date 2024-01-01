@@ -11,7 +11,6 @@ export default function UploadImage({ uploadImgList, setUploadImgList }) {
 	const handleAddImage = async (e) => {
 		let files = e.target.files;
 		for (let i = 0; i < files.length; i++) {
-			console.log(files[i]);
 			if (files[i].size > 30000) {
 				toast.error(
 					`Ảnh ${files[i].name} lớn hơn 30Kb, vui lòng chọn ảnh khác`

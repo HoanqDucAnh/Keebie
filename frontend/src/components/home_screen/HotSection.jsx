@@ -3,7 +3,7 @@ import ProductRow from "../shared/productComponent/ProductRow";
 
 export default function HotSection() {
 	return (
-		<div className="my-5">
+		<div className="my-10">
 			<div className="flex items-center mb-5">
 				<h1>Hot</h1>
 				<img

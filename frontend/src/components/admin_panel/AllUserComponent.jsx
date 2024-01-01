@@ -44,9 +44,7 @@ export default function AllUsersComponent() {
 		},
 	];
 
-	const onChange = (pagination, filters, sorter, extra) => {
-		console.log("params", pagination, filters, sorter, extra);
-	};
+	const onChange = (pagination, filters, sorter, extra) => {};
 
 	return (
 		<div className="m-5 font-mono">
