@@ -251,13 +251,24 @@ const NavigationBar = () => {
 					Keebi3.
 				</h1>
 				<ul className="p-2 font-mono">
-					<li className="p-4 border-b border-[#F2D15D]">Home</li>
-					<li className="p-4 border-b border-[#F2D15D]">About</li>
-					<li className="p-4 border-b border-[#F2D15D]">Product</li>
-					<li className="p-4 border-b border-[#F2D15D]">Contact</li>
-					<li className="p-4 border-b border-[#F2D15D]">Bid</li>
-					<li className="p-4 border-b border-[#F2D15D]">Account</li>
-					<li className="p-4 border-b border-[#F2D15D]">Cart</li>
+					<li className="p-4 border-b border-[#F2D15D]">
+						<Link to="/">Trang chủ</Link>
+					</li>
+					<li className="p-4 border-b border-[#F2D15D]">
+						<Link to={{ pathname: "/product_page" }} >Group Buy</Link>
+					</li>
+					<li className="p-4 border-b border-[#F2D15D]">
+						<Link to={{ pathname: "/product_page" }} >Sản phẩm</Link>
+					</li>
+					<li className="p-4 border-b border-[#F2D15D]">
+						<Link to={{ pathname: "/contact" }}>Liên hệ</Link>
+					</li>
+					<li className="p-4 border-b border-[#F2D15D]">
+						<Link to={{ pathname: "/profile" }}>Tài khoản</Link>
+					</li>
+					<li className="p-4 border-b border-[#F2D15D]">
+						<Link to={{ pathname: "/cart" }}>Giỏ hàng</Link>
+					</li>
 				</ul>
 			</div>
 		</nav>
