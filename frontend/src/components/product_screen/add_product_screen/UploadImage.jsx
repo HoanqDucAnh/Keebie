@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ProdImage from "./ProdImage";
 import { createProdImageAPI } from "../../../services/AdminServices";
 import { useImmer } from "use-immer";
+import { toast } from "react-toastify";
 
 const lableStyle =
 	"mt-5 text-center mt-5 bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 cursor-pointer";
@@ -11,6 +12,12 @@ export default function UploadImage({ uploadImgList, setUploadImgList }) {
 		let files = e.target.files;
 		for (let i = 0; i < files.length; i++) {
 			console.log(files[i]);
+			if (files[i].size > 30000) {
+				toast.error(
+					`Ảnh ${files[i].name} lớn hơn 30Kb, vui lòng chọn ảnh khác`
+				);
+				break;
+			}
 			setUploadImgList((draft) => {
 				draft.push({
 					imgFile: files[i],

@@ -77,6 +77,7 @@ export default function AllProdsComponent() {
 				toast.success("Xoá sản phẩm thành công");
 			}
 		} catch (error) {
+			toast.error(`Xoá sản phẩm thất bại, ${error.response.data.message}`);
 			console.log(error);
 		}
 	};
