@@ -26,8 +26,10 @@ export default function HomeScreen() {
 
 	const fetchAllCategories = async () => {
 		const response = await getAllCategoriesAPI();
-		if (response.status === 200) {
-			setAllCategories(response.data);
+		if (response) {
+			if (response.status === 200) {
+				setAllCategories(response.data);
+			}
 		}
 	};
 

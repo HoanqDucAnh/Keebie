@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ProdImage from "./ProdImage";
 import { set } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const lableStyle =
 	"mt-5 text-center mt-5 bg-[#F8C70E] hover:bg-[#000000d0] text-[#000000] hover:text-[#F8C70E] font-semibold rounded-md py-2 px-4 cursor-pointer";
@@ -12,10 +13,16 @@ export default function UploadHeaderImage({
 	const handleAddImage = async (e) => {
 		let files = e.target.files;
 		if (files.length > 0) {
+			if (files[0].size > 30000) {
+				toast.error(
+					`Ảnh ${files[0].name} lớn hơn 30Kb, vui lòng chọn ảnh khác`
+				);
+				return;
+			}
 			setUploadImgHeader({
-				imgFile: files,
+				imgFile: files[0],
 				imageURL: URL.createObjectURL(files[0]),
-				id: "header",
+				id: 0,
 			});
 		}
 	};

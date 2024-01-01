@@ -182,7 +182,7 @@ export default function AllOrdersComponent() {
 
 				{allOrderList.length > 0 && (
 					<Table
-						pagination={{ pageSize: allOrderList.length }}
+						pagination={{ pageSize: 5 }}
 						columns={columns}
 						dataSource={allOrderList}
 						onChange={onChange}
