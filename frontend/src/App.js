@@ -31,63 +31,158 @@ function App() {
 				<MyToast />
 				<Switch>
 					<Route path="/login">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<LoginScreen />
 						</Suspense>
 					</Route>
 					<Route path="/signup">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<SignUpScreen />
 						</Suspense>
 					</Route>
 					<Route path="/contact">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<ContactScreen />
 						</Suspense>
 					</Route>
 					<Route path="/profile">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<ProfileScreen />
 						</Suspense>
 					</Route>
 					<Route path="/admin">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<AdminScreen />
 						</Suspense>
 					</Route>
 					<Route path="/product/:id">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<ProductDetailScreen />
 						</Suspense>
 					</Route>
 					<Route path="/product_page">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
-							{" "}
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<ProductPageScreen />
 						</Suspense>
 					</Route>
 					<Route path="/cart">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<CartScreen />
 						</Suspense>
 					</Route>
 					<Route path="/payment">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<PaymentScreen />
 						</Suspense>
 					</Route>
 					<Route path="/404">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<NotFoundScreen />
 						</Suspense>
 					</Route>
 					<Route exact path="/">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<HomeScreen />
 						</Suspense>
 					</Route>
 					<Route path="*">
-						<Suspense fallback={<div className="flex h-screen"><div className="font-mono font-bold text-3xl m-auto">Loading...</div></div>}>
+						<Suspense
+							fallback={
+								<div className="flex h-screen">
+									<div className="font-mono font-bold text-3xl m-auto">
+										Loading...
+									</div>
+								</div>
+							}
+						>
 							<NotFoundScreen />
 						</Suspense>
 					</Route>
