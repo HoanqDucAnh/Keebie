@@ -32,8 +32,8 @@ class Product(Base):
     price = Column(Float, nullable=False)
     stock = Column(Integer, nullable=False)
     category = relationship('Category', back_populates='product')
-    product_image = relationship("ProductImage", back_populates="product")
-    order_detail = relationship("OrderDetail", back_populates="product")
+    product_image = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan", single_parent=True)
+    order_detail = relationship("OrderDetail", back_populates="product", cascade="all, delete-orphan", single_parent=True)
 
 class ProductImage(Base):
     __tablename__ = 'product_image'

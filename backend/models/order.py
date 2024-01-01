@@ -21,7 +21,7 @@ class Order(Base):
     total_price = Column(Float, nullable=False)  
     status_id = Column(Integer, ForeignKey("status.id"), nullable=False)
     status = relationship("Status", back_populates="order")
-    order_detail = relationship("OrderDetail", back_populates="order")
+    order_detail = relationship("OrderDetail", back_populates="order", cascade="all, delete-orphan", single_parent=True)
     user = relationship("User", back_populates="order")
     
 class Status(Base):
