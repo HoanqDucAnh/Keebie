@@ -17,10 +17,6 @@ export default function SearchDrawer() {
 		searchProd.current = allProd;
 	}, [allProd]);
 
-	const onSearch = () => {
-		window.location.href = "/search";
-	};
-
 	const onSearchProduct = (value) => {
 		// search base on prod name using regex
 		const regex = new RegExp(value, "i");
@@ -47,7 +43,6 @@ export default function SearchDrawer() {
 					setVisible(true);
 					onSearchProduct(e.target.value);
 				}}
-				onSearch={onSearch}
 				style={{
 					width: 1000,
 					paddingLeft: 200,
