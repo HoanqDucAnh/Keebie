@@ -33,6 +33,8 @@ app.include_router(api_router, prefix="/api")
 app.mount("/api", api_router, name="api")
 
 app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
+app.mount("/product/static", StaticFiles(directory="../frontend/build/static"), name="productstatic")
+
 @app.get("/{full_path:path}")
 async def catch_all(full_path: str):
     return FileResponse("../frontend/build/index.html")
