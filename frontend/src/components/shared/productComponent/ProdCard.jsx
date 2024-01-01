@@ -17,15 +17,16 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 	};
 
 	return (
-		<div className={className} key={id}>
+		<Link to={`/product/${id}`} className={className} key={id}>
 			<Card
 				key={id}
 				hoverable
+				bordered={false}
 				style={{ width: "100%" }}
 				cover={
 					<img
 						className="prod-img"
-						alt="example"
+						alt={`${title}`}
 						src={`data:image/png;base64, ${imageBase64}`}
 					/>
 				}
@@ -44,7 +45,7 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 					description={`${formatPrice(price)} VND`}
 				/>
 			</Card>
-		</div>
+		</Link>
 	);
 }
 

@@ -8,25 +8,19 @@ import { toast } from "react-toastify";
 import { getProductByIdAPI } from "../../../services/SystemServices";
 import { getProductImgByIdAPI } from "../../../services/SystemServices";
 import useCartStore from "../../../stores/CartStore";
+import useCategoryStore from "../../../stores/CategoryStore";
+import { getAllCategoriesAPI } from "../../../services/AdminServices";
 
 export default function ProductDetailScreen() {
 	const productId = useParams();
 	const [product, setProduct] = useState({});
 	const [productImages, setProductImages] = useState([]);
 	const [isAdmin, setIsAdmin] = useState(false);
+	const [allCategories, setAllCategories] = useState([]);
+	const [category, setCategory] = useState("");
 
 	const cartItems = useCartStore((state) => state.cart);
 	const addProdToCart = useCartStore((state) => state.addProdToCart);
-
-	const productCategoryMap = useRef({
-		1: "Công tắc bàn phím",
-		2: "Bàn phím cơ",
-		3: "Bộ nút phím cơ",
-	});
-
-	const mappingProductCategory = (category) => {
-		return productCategoryMap.current[category];
-	};
 
 	useEffect(() => {
 		const admin = localStorage.getItem("isAdmin");
@@ -35,30 +29,40 @@ export default function ProductDetailScreen() {
 		}
 		const getProductById = async () => {
 			const res = await getProductByIdAPI(productId.id);
-			if (res.status === 200) {
+			if (res?.status === 200) {
 				setProduct(res.data);
-				setProduct((prev) => {
-					return {
-						...prev,
-						category: mappingProductCategory(prev.category_id),
-					};
-				});
 			}
 		};
 		const getProductImgById = async () => {
 			const res = await getProductImgByIdAPI(productId.id);
-			if (res.status === 200) {
+			if (res?.status === 200) {
 				setProductImages(res.data);
+			}
+		};
+		const getAllCategories = async () => {
+			const res = await getAllCategoriesAPI();
+			if (res?.status === 200) {
+				setAllCategories(res.data);
 			}
 		};
 
 		getProductById();
 		getProductImgById();
+		getAllCategories();
 	}, []);
 
 	useEffect(() => {
 		localStorage.setItem("cart", JSON.stringify(cartItems));
 	}, [cartItems]);
+
+	useEffect(() => {
+		const category = allCategories.find((category) => {
+			return category.id === product.category_id;
+		});
+		if (category) {
+			setCategory(category.cat_name);
+		}
+	}, [allCategories, product.category_id]);
 
 	const [amount, setAmount] = useState(1);
 	const setIncrease = () => {
@@ -126,7 +130,7 @@ export default function ProductDetailScreen() {
 					>
 						<h2 className="mb-2">{product.product_name}</h2>
 						<p className="mb-1 text-base">
-							<strong>Phân loại:</strong> {product.category || "Order"}
+							<strong>Phân loại:</strong> {category}
 						</p>
 						<p className="mb-1 text-base">
 							<strong>Thương hiệu:</strong> {product.brand}
