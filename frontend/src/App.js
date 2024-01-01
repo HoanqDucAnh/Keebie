@@ -1,21 +1,23 @@
-import React, { useEffect } from "react";
-import HomeScreen from "./screen/HomeScreen";
-import LoginScreen from "./screen/LoginScreen";
+import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SignUpScreen from "./screen/SignUpScreen";
-import NavigationBar from "./components/shared/NavigationBar";
-import MyToast from "./components/shared/MyToast";
+import { Layout } from "antd";
 import Footer from "./components/shared/Footer";
-import Layout from "antd/es/layout/layout";
-import NotFoundScreen from "./screen/NotFoundScreen";
-import ContactScreen from "./screen/ContactScreen";
-import ProfileScreen from "./screen/ProfileScreen";
-import AdminScreen from "./screen/AdminScreen";
-import ProductDetailScreen from "./components/shared/productComponent/ProductDetail";
-import ProductPageScreen from "./screen/ProductPageScreen";
-import CartScreen from "./screen/CartScreen";
-import PaymentScreen from "./screen/PaymentScreen";
+import NavigationBar from "./components/shared/NavigationBar";
 
+const HomeScreen = lazy(() => import("./screen/HomeScreen"));
+const LoginScreen = lazy(() => import("./screen/LoginScreen"));
+const SignUpScreen = lazy(() => import("./screen/SignUpScreen"));
+const MyToast = lazy(() => import("./components/shared/MyToast"));
+const NotFoundScreen = lazy(() => import("./screen/NotFoundScreen"));
+const ContactScreen = lazy(() => import("./screen/ContactScreen"));
+const ProfileScreen = lazy(() => import("./screen/ProfileScreen"));
+const AdminScreen = lazy(() => import("./screen/AdminScreen"));
+const ProductDetailScreen = lazy(() =>
+	import("./components/shared/productComponent/ProductDetail")
+);
+const ProductPageScreen = lazy(() => import("./screen/ProductPageScreen"));
+const CartScreen = lazy(() => import("./screen/CartScreen"));
+const PaymentScreen = lazy(() => import("./screen/PaymentScreen"));
 
 function App() {
 	useEffect(() => {
@@ -29,40 +31,65 @@ function App() {
 				<MyToast />
 				<Switch>
 					<Route path="/login">
-						<LoginScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<LoginScreen />
+						</Suspense>
 					</Route>
 					<Route path="/signup">
-						<SignUpScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<SignUpScreen />
+						</Suspense>
 					</Route>
 					<Route path="/contact">
-						<ContactScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<ContactScreen />
+						</Suspense>
 					</Route>
 					<Route path="/profile">
-						<ProfileScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<ProfileScreen />
+						</Suspense>
 					</Route>
 					<Route path="/admin">
-						<AdminScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<AdminScreen />
+						</Suspense>
 					</Route>
 					<Route path="/product/:id">
-						<ProductDetailScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<ProductDetailScreen />
+						</Suspense>
 					</Route>
 					<Route path="/product_page">
-						<ProductPageScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							{" "}
+							<ProductPageScreen />
+						</Suspense>
 					</Route>
 					<Route path="/cart">
-						<CartScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<CartScreen />
+						</Suspense>
 					</Route>
 					<Route path="/payment">
-						<PaymentScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<PaymentScreen />
+						</Suspense>
 					</Route>
 					<Route path="/404">
-						<NotFoundScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<NotFoundScreen />
+						</Suspense>
 					</Route>
 					<Route exact path="/">
-						<HomeScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<HomeScreen />
+						</Suspense>
 					</Route>
 					<Route path="*">
-						<NotFoundScreen />
+						<Suspense fallback={<div>Loading...</div>}>
+							<NotFoundScreen />
+						</Suspense>
 					</Route>
 				</Switch>
 				<Footer />
