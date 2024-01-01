@@ -199,7 +199,14 @@ def send_order_mail(order: OrderById, email : str, user: UserById, order_details
 @router.put("/update_status/{id}", response_model=OrderById)
 def update_order_status(id: int, status_id: int, db: Session = Depends(deps.get_db)):
     try :
-        if status_id == 3:
+        if status_id == 2:
+            order_details = crud.order_detailInteract.get_by_order(db, order_id=id)
+            for order_detail in order_details:
+                product_id = order_detail.product_id
+                purchases_count = crud.productInteract.get_purchase_by_id(db, id=product_id)
+                crud.productInteract.update_purchase_by_id(db, id=product_id, purchase = 1 + purchases_count)
+
+        elif status_id == 3:
             order_details = crud.order_detailInteract.get_by_order(db, order_id=id)
             for order_detail in order_details:
                 order_detail_stock = order_detail.amount
