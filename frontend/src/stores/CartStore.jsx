@@ -30,10 +30,17 @@ const useCartStore = create((set) => ({
 					cart: newCart,
 				};
 			} else {
-				toast.success("Thêm vào giỏ hàng thành công!");
-				return {
-					cart: [...state.cart, { ...product, quantity: 1 }],
-				};
+				if (product.inStockValue <= 0) {
+					toast.error("Sản phẩm đã hết hàng");
+					return {
+						cart: [...state.cart],
+					};
+				} else {
+					toast.success("Thêm sản phẩm vào giỏ hàng thành công!");
+					return {
+						cart: [...state.cart, { ...product, quantity: 1 }],
+					};
+				}
 			}
 		}),
 
