@@ -46,6 +46,11 @@ try:
     # Insert default admin account
     session.add(models.user.User(username="Admin1", email="admin@gmail.com", password="admin1", profile_pic="", activated=True, phone_number="0123456789", fullname="Admin", address="Admin", is_admin=True))
     session.commit()
+    # Insert categories
+    categoryList = ["Bàn phím cơ", "Bộ nút phím cơ", "Công tắc bàn phím", "Order"]
+    for category in categoryList:
+        session.add(models.product.Category(cat_name=category, cat_detail=category))
+        session.commit()
 except Exception as e:
     print(e)
 finally:

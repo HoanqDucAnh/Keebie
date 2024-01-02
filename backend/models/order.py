@@ -28,7 +28,7 @@ class Status(Base):
     __tablename__ = "status"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    status_name = Column(String(255), nullable=False, default="Pending")
+    status_name = Column(String(255), nullable=False, default="Pending", unique=True)
     
     order = relationship("Order", back_populates="status")
     
