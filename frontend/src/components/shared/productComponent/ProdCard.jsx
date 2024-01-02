@@ -43,8 +43,8 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 						<PlusOutlined key="addToCart" />
 					</div>,
 					<Link to={`/product/${id}`}>
-						<EyeOutlined key="details" />,
-					</Link>,
+						<EyeOutlined key="details" />
+					</Link>
 				]}
 			>
 				<Link to={`/product/${id}`} className={className} key={id}>
