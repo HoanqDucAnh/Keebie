@@ -209,9 +209,6 @@ def send_verify_mail(email: str, verify_code: str):
                 """ + sentence1 + """
             </h1>
             <p> """ + sentence2 + """</p>
-            <img alt="Inspect with Tabs" src="cid:welcome.png" style="width: 100%;">
-            <p>Now send your email using our fake SMTP server and integration of your choice!</p>
-            <p>Good luck! Hope it works.</p>
             </div>
             <!-- Example of invalid for email html/css, will be detected by Mailtrap: -->
             <style>
