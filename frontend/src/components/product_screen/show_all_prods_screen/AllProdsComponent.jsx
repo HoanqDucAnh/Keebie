@@ -5,7 +5,6 @@ import {
 	Modal,
 	Input,
 	InputNumber,
-	TextArea,
 } from "antd";
 import { getAllCategoriesAPI } from "../../../services/AdminServices";
 import { getAllProductsAPI } from "../../../services/SystemServices";
@@ -26,7 +25,7 @@ export default function AllProdsComponent() {
 		content: "",
 		category_id: "",
 		price: "",
-		instock: "",
+		stock: "",
 		brand: "",
 	});
 	const targetEditedProd = useRef({});
@@ -44,7 +43,7 @@ export default function AllProdsComponent() {
 			content: "",
 			category_id: "",
 			price: "",
-			instock: "",
+			stock: "",
 			brand: "",
 		});
 	};
@@ -55,7 +54,7 @@ export default function AllProdsComponent() {
 			editProdFieldValue.product_name,
 			editProdFieldValue.content,
 			editProdFieldValue.price,
-			editProdFieldValue.instock,
+			editProdFieldValue.stock,
 			editProdFieldValue.category_id,
 			editProdFieldValue.brand
 		);
@@ -100,7 +99,7 @@ export default function AllProdsComponent() {
 				//fetch categories
 				const allCategories = await getAllCategoriesAPI();
 				const transformedCategories = {};
-				if (allCategories.data.length == 0) return;
+				if (allCategories.data.length === 0) return;
 				allCategories.data.forEach((categories) => {
 					transformedCategories[categories.id] = categories.cat_name;
 				});
@@ -108,7 +107,7 @@ export default function AllProdsComponent() {
 
 				//fetch products
 				const allProducts = await getAllProductsAPI();
-				if (allProducts.data.length == 0) return;
+				if (allProducts.data.length === 0) return;
 				allProducts.data.forEach((product) => {
 					var prodType = product.category_id;
 					productsTemp.push({
@@ -196,6 +195,14 @@ export default function AllProdsComponent() {
 							onClick={() => {
 								setOpenEditModal(true);
 								targetEditedProd.current = record.id;
+								setEditProdFieldValue((draft) => {
+									draft.product_name = record.product_name;
+									draft.content = record.content;
+									draft.category_id = record.category_id;
+									draft.price = record.price;
+									draft.stock = record.stock;
+									draft.brand = record.brand;
+								});
 							}}
 						/>
 						<DeleteOutlined
@@ -258,10 +265,10 @@ export default function AllProdsComponent() {
 									style={{
 										width: "100%",
 									}}
-									value={editProdFieldValue.instock}
+									value={editProdFieldValue.stock}
 									onChange={(e) => {
 										setEditProdFieldValue((draft) => {
-											draft.instock = e;
+											draft.stock = e;
 										});
 									}}
 									formatter={(value) =>
