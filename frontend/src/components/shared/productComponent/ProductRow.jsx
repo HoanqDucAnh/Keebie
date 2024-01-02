@@ -53,8 +53,18 @@ export default function ProductRow({ sectionName }) {
 		return prodTemp;
 	};
 
+	const filterInstockProds = (prods, categories) => {
+		var prodTemp = prods;
+		const catOrdId = categories.find((cat) => cat.cat_name === "Order")?.id;
+		if (catOrdId === null) return prodTemp;
+		prodTemp = prodTemp.filter((prod) => {
+			return prod.category_id !== catOrdId;
+		});
+		return prodTemp;
+	};
+
 	const filterHotProduct = (prods) => {
-		var prodTemp = [...prods];
+		var prodTemp = filterInstockProds(prods, screenCategories.current);
 		prodTemp.sort((a, b) => b.purchase - a.purchase);
 		if (prodTemp.length > 4) {
 			prodTemp = prodTemp.slice(0, 4);
@@ -63,21 +73,11 @@ export default function ProductRow({ sectionName }) {
 	};
 
 	const filterNewProduct = (prods) => {
-		var prodTemp = [...prods];
+		var prodTemp = filterInstockProds(prods, screenCategories.current);
 		prodTemp.sort((a, b) => b.id - a.id);
 		if (prodTemp.length > 4) {
 			prodTemp = prodTemp.slice(0, 4);
 		}
-		return prodTemp;
-	};
-
-	const filterInstockProds = (prods, categories) => {
-		var prodTemp = prods;
-		const catOrdId = categories.find((cat) => cat.cat_name === "Order")?.id;
-		if (catOrdId === null) return prodTemp;
-		prodTemp = prodTemp.filter((prod) => {
-			return prod.category_id !== catOrdId;
-		});
 		return prodTemp;
 	};
 
@@ -97,7 +97,7 @@ export default function ProductRow({ sectionName }) {
 				break;
 			case "Bộ nút phím cơ":
 				setScreenProds(
-					filterProds(products, "Bộ nút bàn phím cơ", screenCategories.current)
+					filterProds(products, "Bộ nút phím cơ", screenCategories.current)
 				);
 				break;
 			case "Công tắc bàn phím":
