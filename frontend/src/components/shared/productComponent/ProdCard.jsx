@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
+import { ConfigProvider } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
 import useCartStore from "../../../stores/CartStore";
 
@@ -17,7 +18,14 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 	};
 
 	return (
-		<Link to={`/product/${id}`} className={className} key={id}>
+		<ConfigProvider
+			theme={{
+				token: {
+					colorPrimary: "#F8C70E",
+					fontFamily: "monospace",
+				},
+			}}
+		>
 			<Card
 				key={id}
 				hoverable
@@ -39,13 +47,15 @@ function ProdCard({ title, price, imageBase64, id, className, inStockValue }) {
 					</Link>,
 				]}
 			>
-				<Meta
-					className="text-center"
-					title={title}
-					description={`${formatPrice(price)} VND`}
-				/>
+				<Link to={`/product/${id}`} className={className} key={id}>
+					<Meta
+						className="text-center"
+						title={title}
+						description={`${formatPrice(price)} VND`}
+					/>
+				</Link>
 			</Card>
-		</Link>
+		</ConfigProvider>
 	);
 }
 
