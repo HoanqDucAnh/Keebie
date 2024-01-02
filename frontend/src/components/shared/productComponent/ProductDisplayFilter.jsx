@@ -38,7 +38,7 @@ export default function ProductDisplayFilter() {
 				className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-5"
 				style={{ height: "43.1rem" }}
 			>
-				{screenProds.map((screenProd) => (
+				{screenProds.slice(0, 8).map((screenProd) => (
 					<div key={screenProd.id} className="w-full sm:w-auto">
 						<ProdCard
 							title={screenProd.product_name}
@@ -58,9 +58,9 @@ export default function ProductDisplayFilter() {
 					}}
 				>
 					<Pagination
-						showQuickJumper
+						pageSize={8}
 						defaultCurrent={1}
-						total={products.length / 8}
+						total={products.length}
 						onChange={onChangePage}
 					/>
 				</ConfigProvider>
