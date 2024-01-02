@@ -35,8 +35,8 @@ export default function ProductRow({ sectionName }) {
 	//cartStore
 	const cartItems = useCartStore((state) => state.cart);
 
-	const listFinalTab = ["Bộ nút phím cơ", "Công tắc bàn phím"];
-	const listInstockTab = ["Bàn phím cơ", "Sản phẩm hot", "Sản phẩm mới"];
+	const listFinalTab = ["Bàn phím cơ", "Bộ nút phím cơ", "Công tắc bàn phím"];
+	const listInstockTab = ["Sản phẩm hot", "Sản phẩm mới"];
 	const [currentTab, setCurrentTab] = useState("");
 
 	const [screenProds, setScreenProds] = useImmer([]);
