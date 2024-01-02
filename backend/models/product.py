@@ -8,7 +8,7 @@ class Category(Base):
     __tablename__ = 'category'
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    cat_name = Column(String(255), nullable=False)
+    cat_name = Column(String(255), nullable=False, unique=True)
     cat_detail = Column(String(255), default=None, nullable=True)
 
     __table_args__ = (
