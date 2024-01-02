@@ -60,6 +60,9 @@ export default function ProductRow({ sectionName }) {
 		prodTemp = prodTemp.filter((prod) => {
 			return prod.category_id !== catOrdId;
 		});
+		if (prodTemp.length > 8) {
+			prodTemp = prodTemp.slice(0, 8);
+		}
 		return prodTemp;
 	};
 
