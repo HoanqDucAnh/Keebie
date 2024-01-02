@@ -68,3 +68,11 @@ class HeaderImageOnly(BaseModel):
     
     class Config:
         from_attributes = True
+
+class ProductEdit(BaseModel):
+    product_name: str
+    brand: str
+    content: Optional[str]
+    price: float
+    stock: int
+    category_id: int

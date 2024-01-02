@@ -2,7 +2,7 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException, status, UploadFile, Depends, Form, Query
 from sqlalchemy.orm import Session
 from fastapi.requests import Request
-from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage, HeaderImageOnly
+from schemas import ProductCreate, ProductById, ProductBase, ProductByHeaderImage, HeaderImageOnly, ProductEdit
 from models.product import Product
 from fastapi_login import LoginManager
 from sqlalchemy.exc import SQLAlchemyError
@@ -86,7 +86,7 @@ def delete_product(id: int, db: Session = Depends(deps.get_db), user=Depends(man
         )
         
 @router.put("/{id}", response_model=ProductById)
-def update_product(id: int, product_in: ProductCreate, db: Session = Depends(deps.get_db), user=Depends(manager)):
+def update_product(id: int, product_in: ProductEdit, db: Session = Depends(deps.get_db), user=Depends(manager)):
     product = crud.product.get(db, id=id)
     if not product:
         raise HTTPException(
