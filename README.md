@@ -26,7 +26,7 @@ MYSQL_SERVICE_PORT=3306
 MYSQL_DATABASE=keebie
 ```
 
-### III. Run project:
+### IV. Run project:
 #### 1. Option 1:
 * Build frontend:
 ```bash
@@ -52,6 +52,14 @@ $ cd frontend
 $ yarn start
 ```
 * When finished, open http://localhost:3000/ to view the website.
+
+#### 3. Option 3:
+* Use docker-compose to run the project:
+```bash
+$ docker-compose up -d
+```
+
+* When finished, open http://localhost/ to view the website.
 
 ## Build project on platform
 ### I. Build frontend
