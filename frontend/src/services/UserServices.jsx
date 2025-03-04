@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-	baseURL: process.env.REACT_APP_BASE_URL,
-});
+import api from "./api";
 
 const headers = {
 	"Content-Type": "application/x-www-form-urlencoded",
@@ -11,7 +7,7 @@ const headers = {
 export const loginAPI = async (username, password) => {
 	try {
 		const res = await api.post(
-			`/api/auth/login`,
+			`/auth/login`,
 			{ username, password },
 			{ headers }
 		);
@@ -26,7 +22,7 @@ export const verifyCodeAPI = async (email, code) => {
 	form.append("email", email);
 	form.append("verify_code", code);
 	try {
-		const res = await api.post(`/api/verify/verify/`, form);
+		const res = await api.post(`/verify/verify/`, form);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -37,7 +33,7 @@ export const sendVerifyCodeAPI = async (email) => {
 	const form = new FormData();
 	form.append("email", email);
 	try {
-		const res = await api.post(`/api/verify/`, form);
+		const res = await api.post(`/verify/`, form);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -55,7 +51,7 @@ export const signupAPI = async (
 	fullname
 ) => {
 	try {
-		const res = await api.post(`/api/users`, {
+		const res = await api.post(`/users`, {
 			password: password,
 			username: username,
 			email: email,
@@ -82,7 +78,7 @@ export const changePasswordAPI = async (userId, oldPassword, newPassword) => {
 	form.append("new_password", newPassword);
 
 	try {
-		const res = await api.put(`/api/users/update_password/${userId}`, form, {
+		const res = await api.put(`/users/update_password/${userId}`, form, {
 			headers: headers,
 		});
 		return res;
@@ -118,7 +114,7 @@ export const createOrderAPI = async (
 		form.append("payment_method", payment_method);
 		form.append("shipment_method", shipping_method);
 
-		const res = await api.post(`/api/orders`, form);
+		const res = await api.post(`/orders`, form);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -127,7 +123,7 @@ export const createOrderAPI = async (
 
 export const createOrderDetailAPI = async (order_id, product_id, quantity) => {
 	try {
-		const res = await api.post(`/api/order_details`, {
+		const res = await api.post(`/order_details`, {
 			order_id: order_id,
 			product_id: product_id,
 			amount: quantity,
@@ -141,7 +137,7 @@ export const createOrderDetailAPI = async (order_id, product_id, quantity) => {
 export const getOrdersByCustomerAPI = async (user_id) => {
 	try {
 		const res = await api.get(
-			`/api/orders/by_customer/${user_id}`
+			`/orders/by_customer/${user_id}`
 		);
 		return res;
 	} catch (error) {

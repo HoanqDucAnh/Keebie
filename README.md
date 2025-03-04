@@ -26,13 +26,7 @@ MYSQL_SERVICE_PORT=3306
 MYSQL_DATABASE=keebie
 ```
 
-### III. Set up frontend:
-* Create a file named `.env.local` includes:
-```bash
-REACT_APP_BASE_URL=http://127.0.0.1:8000
-```
-
-### IV. Run project:
+### III. Run project:
 #### 1. Option 1:
 * Build frontend:
 ```bash
