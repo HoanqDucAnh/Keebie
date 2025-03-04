@@ -1,14 +1,10 @@
-import axios from "axios";
-
-const api = axios.create({
-	baseURL: process.env.REACT_APP_BASE_URL,
-});
+import api from "./api";
 
 export const getAllUsersAPI = async () => {
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
 	try {
-		const res = await api.get("/api/users", { headers });
+		const res = await api.get("/users", { headers });
 		return res;
 	} catch (error) {
 		return error.response;
@@ -23,7 +19,7 @@ export const updateUserAPI = async (
 	phone
 ) => {
 	try {
-		const res = await api.put(`/api/users/${user_id}`, {
+		const res = await api.put(`/users/${user_id}`, {
 			username: username,
 			password: password,
 			fullname: fullname,
@@ -60,7 +56,7 @@ export const createProductAPI = async (
 	formData.append("file", headerImage);
 
 	try {
-		const res = await api.post("/api/products", formData, { headers: headers });
+		const res = await api.post("/products", formData, { headers: headers });
 		return res;
 	} catch (error) {
 		return error.response;
@@ -71,7 +67,7 @@ export const deleteProductAPI = async (id) => {
 	const token = localStorage.getItem("token");
 	const headers = { Authorization: `Bearer ${token}` };
 	try {
-		const res = await api.delete(`/api/products/${id}`, { headers: headers });
+		const res = await api.delete(`/products/${id}`, { headers: headers });
 		return res;
 	} catch (error) {
 		return error.response;
@@ -80,7 +76,7 @@ export const deleteProductAPI = async (id) => {
 
 export const getAllProductsByCategoryAPI = async (catID) => {
 	try {
-		const res = await api.get(`/api/products/category/${catID}`);
+		const res = await api.get(`/products/category/${catID}`);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -108,7 +104,7 @@ export const editProductAPI = async (
 	const headers = { Authorization: `Bearer ${token}` };
 	try {
 		const res = await api.put(
-			`/api/products/${id}`,
+			`/products/${id}`,
 			{
 				id: id,
 				product_name: product_name,
@@ -135,7 +131,7 @@ export const getAllCategoriesAPI = async () => {
 		Authorization: `Bearer ${token}`,
 	};
 	try {
-		const res = await api.get("/api/categories", { headers: headers });
+		const res = await api.get("/categories", { headers: headers });
 		return res;
 	} catch (error) {
 		return error.response;
@@ -149,7 +145,7 @@ export const createCategoryAPI = async (cat_name, cat_detail) => {
 		if (cat_name.length === 0 || cat_detail.length === 0)
 			return new Error("Empty field");
 		const res = await api.post(
-			`/api/categories`,
+			`/categories`,
 			{
 				cat_name: cat_name,
 				cat_detail: cat_detail,
@@ -164,7 +160,7 @@ export const createCategoryAPI = async (cat_name, cat_detail) => {
 
 export const getCategoryByIdAPI = async (id) => {
 	try {
-		const res = await api.get(`/api/categories/${id}`);
+		const res = await api.get(`/categories/${id}`);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -177,7 +173,7 @@ export const deleteCategoryAPI = async (id) => {
 	const headers = { Authorization: `Bearer ${token}` };
 
 	try {
-		const res = await api.delete(`/api/categories/${id}`, headers);
+		const res = await api.delete(`/categories/${id}`, headers);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -196,7 +192,7 @@ export const createProdImageAPI = async (imageList, prodID) => {
 		Authorization: `Bearer ${token}`,
 	};
 	try {
-		const res = await api.post(`/api/product_images/`, formData, {
+		const res = await api.post(`/product_images/`, formData, {
 			headers: headers,
 		});
 		return res;
@@ -207,7 +203,7 @@ export const createProdImageAPI = async (imageList, prodID) => {
 
 export const getProdImgByIdAPI = async (id) => {
 	try {
-		const res = await api.get(`/api/product_images/${id}`);
+		const res = await api.get(`/product_images/${id}`);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -216,7 +212,7 @@ export const getProdImgByIdAPI = async (id) => {
 
 export const deleteProdImgAPI = async (id) => {
 	try {
-		const res = await api.delete(`/api/product_images/${id}`);
+		const res = await api.delete(`/product_images/${id}`);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -226,7 +222,7 @@ export const deleteProdImgAPI = async (id) => {
 export const getProdImgByProdIdAPI = async (product_id) => {
 	try {
 		const res = await api.get(
-			`/api/product_images/by_product_id/${product_id}`
+			`/product_images/by_product_id/${product_id}`
 		);
 		return res;
 	} catch (error) {
@@ -236,7 +232,7 @@ export const getProdImgByProdIdAPI = async (product_id) => {
 
 export const getAllOrderAPi = async () => {
 	try {
-		const res = await api.get(`/api/orders`);
+		const res = await api.get(`/orders`);
 		return res;
 	} catch (error) {
 		return error.response;
@@ -246,7 +242,7 @@ export const getAllOrderAPi = async () => {
 export const updateOrderStatusAPI = async (id, status_id) => {
 	try {
 		const res = await api.put(
-			`/api/orders/update_status/${id}?status_id=${status_id}`
+			`/orders/update_status/${id}?status_id=${status_id}`
 		);
 		return res;
 	} catch (error) {
