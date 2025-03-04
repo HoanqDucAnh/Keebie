@@ -1,0 +1,60 @@
+services:
+  frontend:
+    container_name: keebie-frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - keebie-network
+
+  backend:
+    container_name: keebie-backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MYSQL_SERVICE_HOST: db
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_DATABASE: keebie
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - keebie-network
+
+  db:
+    container_name: keebie-db
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: keebie
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - keebie-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
+
+networks:
+  keebie-network:
+    driver: bridge

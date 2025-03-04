@@ -21,7 +21,7 @@ const PaymentScreen = lazy(() => import("./screen/PaymentScreen"));
 
 function App() {
 	useEffect(() => {
-		document.title = "Keebi3.";
+		document.title = "Keebi3";
 	}, []);
 
 	return (

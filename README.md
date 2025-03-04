@@ -7,11 +7,11 @@
 
 ### I. Install dependencies:
 * Make sure that **Node.js** has been installed by running `npm -v`. If not successfully, please checkout https://nodejs.org/en/download to install **Node.js**.
-* Run `npm install -g yarn` to install `yarn`.
+* Install pnpm
 * Run in terminal:
 ```bash
 $ cd frontend
-$ yarn
+$ pnpm i
 $ cd ../backend
 $ pip install -r requirements.txt
 ```
@@ -26,12 +26,12 @@ MYSQL_SERVICE_PORT=3306
 MYSQL_DATABASE=keebie
 ```
 
-### III. Run project:
+### IV. Run project:
 #### 1. Option 1:
 * Build frontend:
 ```bash
 $ cd frontend
-$ yarn build
+$ pnpm build
 ```
 * Run backend:
 ```bash
@@ -49,9 +49,17 @@ $ python main.py
 * Run frontend:
 ```bash
 $ cd frontend
-$ yarn start
+$ pnpm start
 ```
 * When finished, open http://localhost:3000/ to view the website.
+
+#### 3. Option 3:
+* Use docker-compose to run the project:
+```bash
+$ docker-compose up -d
+```
+
+* When finished, open http://localhost/ to view the website.
 
 ## Build project on platform
 ### I. Build frontend
@@ -59,7 +67,7 @@ $ yarn start
 * Build frontend:
 ```bash
 $ cd frontend
-$ yarn build
+$ pnpm build
 ```
 * Upload `build/` to the `frontend/` directory on platform.
 
