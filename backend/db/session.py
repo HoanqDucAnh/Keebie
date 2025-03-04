@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+from urllib.parse import quote_plus
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -13,9 +14,9 @@ from models.order import Base as BaseOrder
 
 load_dotenv()
 
-username = os.getenv("MYSQL_USER")
+username = quote_plus(os.getenv("MYSQL_USER", ""))
 # username = "root"
-password = os.getenv("MYSQL_PASSWORD")
+password = quote_plus(os.getenv("MYSQL_PASSWORD", ""))
 # password = "QuanTnaq_4321"
 host = os.getenv("MYSQL_SERVICE_HOST")
 # host = "localhost"
